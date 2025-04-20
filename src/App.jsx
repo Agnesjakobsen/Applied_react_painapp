@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import Home from './components/home';
-import CreateEntry from './components/create_entry';
-import Reports from './components/reports';
-import Profile from './components/profile';
-import Login from './components/login';
-import NavBar from './components/navbar';
-import Calendar from './components/calendar';
+import Home from './components/Home';
+import CreateEntry from './components/Create_Entry';
+import Reports from './components/Reports';
+import Profile from './components/Profile';
+import Login from './components/Login';
+import NavBar from './components/NavBar';
 import './styles.css';
 
 function App() {

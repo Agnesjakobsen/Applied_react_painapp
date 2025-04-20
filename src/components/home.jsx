@@ -1,5 +1,5 @@
 import React from 'react';
-import Calendar from './calendar';
+import Calendar from './Calendar';
 
 function Home({ username, selectedDate, setSelectedDate }) {
   // Helper function to get greeting based on time of day
@@ -19,12 +19,10 @@ function Home({ username, selectedDate, setSelectedDate }) {
       <div className="greeting">
         <h3>{getGreeting()}, {username}!</h3>
       </div>
-      
       <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-      
       <div className="relevant-content">
-        <h3>Something relevant</h3>
-        {/* This would be populated with relevant information based on the selected date */}
+        <h3>Today's Summary</h3>
+        <p>No pain entries recorded for today. Tap + to add one.</p>
       </div>
     </div>
   );
