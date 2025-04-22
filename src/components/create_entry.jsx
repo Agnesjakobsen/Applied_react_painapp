@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { format } from 'date-fns';
+import React, { useState } from "react";
+import { format } from "date-fns";
+import { supabase } from "../utils/supabase";
 
 function CreateEntry({ selectedDate }) {
   // State for form fields
@@ -10,7 +11,7 @@ function CreateEntry({ selectedDate }) {
   const [averagePain, setAveragePain] = useState(null);
   const [currentPain, setCurrentPain] = useState(null);
   const [usingTreatment, setUsingTreatment] = useState(null);
-  const [treatment, setTreatment] = useState('');
+  const [treatment, setTreatment] = useState("");
   const [treatmentRelief, setTreatmentRelief] = useState(null);
   const [generalActivity, setGeneralActivity] = useState(null);
   const [mood, setMood] = useState(null);
@@ -33,7 +34,7 @@ function CreateEntry({ selectedDate }) {
     "🟠 7",
     "🔴 8",
     "🔴 9",
-    "🚫 10 - Worst imaginable pain"
+    "🚫 10 - Worst imaginable pain",
   ];
 
   const getReliefOptions = () => [
@@ -47,7 +48,7 @@ function CreateEntry({ selectedDate }) {
     "🟠 30 %",
     "🔴 20 %",
     "🔴 10 %",
-    "🚫 0 % - No relief"
+    "🚫 0 % - No relief",
   ];
 
   const getInterferenceOptions = () => [
@@ -61,12 +62,12 @@ function CreateEntry({ selectedDate }) {
     "🟠 7",
     "🔴 8",
     "🔴 9",
-    "🚫 10 - Has interfered completely"
+    "🚫 10 - Has interfered completely",
   ];
 
   // Extract number from string (e.g., "🟢 2" -> 2)
   const extractNumber = (value) => {
-    if (typeof value === 'string') {
+    if (typeof value === "string") {
       const match = value.match(/\d+/);
       if (match) {
         return parseInt(match[0], 10);
@@ -75,21 +76,24 @@ function CreateEntry({ selectedDate }) {
     return value;
   };
 
-  // Save the form data
-  const saveSubmission = (data) => {
-    // In a real app, this would send the data to a backend or store it locally
-    console.log("Saving pain log:", data);
-    
-    // For this example, we'll store it in localStorage
-    const existingData = JSON.parse(localStorage.getItem('painLog') || '[]');
-    existingData.push(data);
-    localStorage.setItem('painLog', JSON.stringify(existingData));
+  // Save the form data to Supabase
+  const saveSubmission = async (data) => {
+    console.log("Submitting to Supabase:", data);
+
+    const { error } = await supabase.from("pain_entries").insert(data);
+
+    if (error) {
+      console.error("Supabase insert error:", error);
+      alert("Something went wrong. Please try again.");
+    } else {
+      setSuccess(true);
+    }
   };
 
   // Handle form submission for "No Pain"
   const handleNoPainSubmit = () => {
     const data = {
-      date: format(selectedDate, 'yyyy-MM-dd'),
+      date: format(selectedDate, "yyyy-MM-dd"),
       bpi1: "No",
       bpi3: 0,
       bpi4: 0,
@@ -112,11 +116,11 @@ function CreateEntry({ selectedDate }) {
   // Handle form submission for pain data
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     const data = {
-      date: format(selectedDate, 'yyyy-MM-dd'),
+      date: format(selectedDate, "yyyy-MM-dd"),
       bpi1: "Yes",
-      bpi2: painAreas.join(', '),
+      bpi2: painAreas.join(", "),
       bpi3: extractNumber(worstPain),
       bpi4: extractNumber(leastPain),
       bpi5: extractNumber(averagePain),
@@ -131,7 +135,7 @@ function CreateEntry({ selectedDate }) {
       bpi9f: extractNumber(sleep),
       bpi9g: extractNumber(enjoyment),
     };
-    
+
     saveSubmission(data);
     setSuccess(true);
   };
@@ -142,10 +146,7 @@ function CreateEntry({ selectedDate }) {
         <div className="success-message">
           ✅ Your {hasPain === "No" ? "no-pain" : "pain"} report was submitted.
         </div>
-        <button 
-          onClick={() => setSuccess(false)}
-          className="btn btn-primary"
-        >
+        <button onClick={() => setSuccess(false)} className="btn btn-primary">
           Log Another Entry
         </button>
       </div>
@@ -157,29 +158,32 @@ function CreateEntry({ selectedDate }) {
       <h1>🩺 Log your pain</h1>
       <div className="date-selector">
         <label>Date</label>
-        <div>{format(selectedDate, 'EEEE, dd MMMM yyyy')}</div>
+        <div>{format(selectedDate, "EEEE, dd MMMM yyyy")}</div>
       </div>
-      
+
       <hr />
-      
+
       <div className="pain-question">
-        <h3>Have you had any pain today other than minor everyday aches (like headaches or toothaches)?</h3>
+        <h3>
+          Have you had any pain today other than minor everyday aches (like
+          headaches or toothaches)?
+        </h3>
         <div className="radio-group">
           <label>
-            <input 
-              type="radio" 
-              name="hasPain" 
-              value="No" 
+            <input
+              type="radio"
+              name="hasPain"
+              value="No"
               checked={hasPain === "No"}
               onChange={() => setHasPain("No")}
             />
             No
           </label>
           <label>
-            <input 
-              type="radio" 
-              name="hasPain" 
-              value="Yes" 
+            <input
+              type="radio"
+              name="hasPain"
+              value="Yes"
               checked={hasPain === "Yes"}
               onChange={() => setHasPain("Yes")}
             />
@@ -187,34 +191,45 @@ function CreateEntry({ selectedDate }) {
           </label>
         </div>
       </div>
-      
+
       {hasPain === "No" && (
         <div className="no-pain-section">
-          <button 
-            onClick={handleNoPainSubmit}
-            className="btn btn-primary"
-          >
+          <button onClick={handleNoPainSubmit} className="btn btn-primary">
             Submit no pain report
           </button>
         </div>
       )}
-      
+
       {hasPain === "Yes" && (
         <form onSubmit={handleSubmit}>
           <div className="pain-area-section">
-            <h3>Please select the area(s) of your body that hurt(s) the most</h3>
+            <h3>
+              Please select the area(s) of your body that hurt(s) the most
+            </h3>
             <div className="checkbox-group">
-              {["Head", "Neck", "Shoulder", "Arm", "Hand", "Back", "Chest", "Abdomen", "Hip", "Leg", "Foot"].map((area) => (
+              {[
+                "Head",
+                "Neck",
+                "Shoulder",
+                "Arm",
+                "Hand",
+                "Back",
+                "Chest",
+                "Abdomen",
+                "Hip",
+                "Leg",
+                "Foot",
+              ].map((area) => (
                 <label key={area}>
-                  <input 
-                    type="checkbox" 
+                  <input
+                    type="checkbox"
                     value={area}
                     checked={painAreas.includes(area)}
                     onChange={(e) => {
                       if (e.target.checked) {
                         setPainAreas([...painAreas, area]);
                       } else {
-                        setPainAreas(painAreas.filter(a => a !== area));
+                        setPainAreas(painAreas.filter((a) => a !== area));
                       }
                     }}
                   />
@@ -223,117 +238,130 @@ function CreateEntry({ selectedDate }) {
               ))}
             </div>
           </div>
-          
+
           <div className="pain-ratings-section">
             <h3>Please rate your pain in the past 24 hours</h3>
-            
+
             <div className="form-group">
               <label>Your pain at its worst</label>
-              <select 
-                value={worstPain || ''}
+              <select
+                value={worstPain || ""}
                 onChange={(e) => setWorstPain(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getPainOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getPainOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>Your pain at its least</label>
-              <select 
-                value={leastPain || ''}
+              <select
+                value={leastPain || ""}
                 onChange={(e) => setLeastPain(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getPainOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getPainOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>Your pain on average</label>
-              <select 
-                value={averagePain || ''}
+              <select
+                value={averagePain || ""}
                 onChange={(e) => setAveragePain(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getPainOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getPainOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>Your pain right now</label>
-              <select 
-                value={currentPain || ''}
+              <select
+                value={currentPain || ""}
                 onChange={(e) => setCurrentPain(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getPainOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getPainOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
-          
+
           <hr />
-          
+
           <div className="treatment-section">
             <h3>Are you using any treatments or meds for your pain?</h3>
             <div className="radio-group">
               <label>
-                <input 
-                  type="radio" 
-                  name="usingTreatment" 
-                  value="No" 
+                <input
+                  type="radio"
+                  name="usingTreatment"
+                  value="No"
                   checked={usingTreatment === "No"}
                   onChange={() => setUsingTreatment("No")}
                 />
                 No
               </label>
               <label>
-                <input 
-                  type="radio" 
-                  name="usingTreatment" 
-                  value="Yes" 
+                <input
+                  type="radio"
+                  name="usingTreatment"
+                  value="Yes"
                   checked={usingTreatment === "Yes"}
                   onChange={() => setUsingTreatment("Yes")}
                 />
                 Yes
               </label>
             </div>
-            
+
             {usingTreatment === "Yes" && (
               <>
                 <div className="form-group">
                   <label>What pain treatments or meds are you using?</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={treatment}
                     onChange={(e) => setTreatment(e.target.value)}
                     placeholder="e.g. paracetamol, physical therapy, meditation"
                     maxLength={100}
                   />
                 </div>
-                
+
                 {treatment && (
                   <div className="form-group">
-                    <label>How much relief have your pain treatments/meds given in the past 24 hours?</label>
-                    <select 
-                      value={treatmentRelief || ''}
+                    <label>
+                      How much relief have your pain treatments/meds given in
+                      the past 24 hours?
+                    </label>
+                    <select
+                      value={treatmentRelief || ""}
                       onChange={(e) => setTreatmentRelief(e.target.value)}
                     >
                       <option value="">Select...</option>
-                      {getReliefOptions().map(option => (
-                        <option key={option} value={option}>{option}</option>
+                      {getReliefOptions().map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
                       ))}
                     </select>
                   </div>
@@ -341,114 +369,132 @@ function CreateEntry({ selectedDate }) {
               </>
             )}
           </div>
-          
+
           <hr />
-          
+
           <div className="interference-section">
-            <h3>In the past 24 hours, how much has pain interfered with your...</h3>
-            
+            <h3>
+              In the past 24 hours, how much has pain interfered with your...
+            </h3>
+
             <div className="form-group">
               <label>general activity?</label>
-              <select 
-                value={generalActivity || ''}
+              <select
+                value={generalActivity || ""}
                 onChange={(e) => setGeneralActivity(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getInterferenceOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getInterferenceOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>mood?</label>
-              <select 
-                value={mood || ''}
+              <select
+                value={mood || ""}
                 onChange={(e) => setMood(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getInterferenceOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getInterferenceOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>walking?</label>
-              <select 
-                value={walking || ''}
+              <select
+                value={walking || ""}
                 onChange={(e) => setWalking(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getInterferenceOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getInterferenceOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>normal work (incl. housework)?</label>
-              <select 
-                value={normalWork || ''}
+              <select
+                value={normalWork || ""}
                 onChange={(e) => setNormalWork(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getInterferenceOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getInterferenceOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>relations with other people?</label>
-              <select 
-                value={relations || ''}
+              <select
+                value={relations || ""}
                 onChange={(e) => setRelations(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getInterferenceOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getInterferenceOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>sleep?</label>
-              <select 
-                value={sleep || ''}
+              <select
+                value={sleep || ""}
                 onChange={(e) => setSleep(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getInterferenceOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getInterferenceOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div className="form-group">
               <label>enjoyment of life?</label>
-              <select 
-                value={enjoyment || ''}
+              <select
+                value={enjoyment || ""}
                 onChange={(e) => setEnjoyment(e.target.value)}
                 required
               >
                 <option value="">Select...</option>
-                {getInterferenceOptions().map(option => (
-                  <option key={option} value={option}>{option}</option>
+                {getInterferenceOptions().map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
-          
+
           <hr />
-          
-          <button type="submit" className="btn btn-primary">Submit</button>
+
+          <button type="submit" className="btn btn-primary">
+            Submit
+          </button>
         </form>
       )}
     </div>
