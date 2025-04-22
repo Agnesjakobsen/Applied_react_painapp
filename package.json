@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Agnesjakobsen/Applied_react_painapp#readme",
   "dependencies": {
+    "@supabase/supabase-js": "^2.49.4",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.501.0",
     "react": "^19.1.0",
