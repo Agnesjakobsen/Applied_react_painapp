@@ -4,6 +4,7 @@ import {
   BarChart, Bar, CartesianGrid, Cell
 } from 'recharts';
 import { format, subDays, subMonths, subYears, parseISO } from 'date-fns';
+import { supabase } from "../utils/supabase";
 import {Pill, AlertCircle, BarChart3, LineChart as LineChartIcon} from 'lucide-react';
 
 function Reports() {
@@ -17,14 +18,24 @@ function Reports() {
   
   // Load data from localStorage
   useEffect(() => {
-    const loadedData = JSON.parse(localStorage.getItem('painLog') || '[]');
-    // Convert date strings to Date objects
-    const processedData = loadedData.map(entry => ({
-      ...entry,
-      date: parseISO(entry.date)
-    }));
-    
-    setPainData(processedData);
+    const fetchData = async () => {
+      const { data, error } = await supabase
+        .from("pain_entries")
+        .select("*")
+        .order("date", { ascending: true });
+
+      if (error) {
+        console.error("Error loading data from Supabase:", error);
+      } else {
+        const processedData = data.map((entry) => ({
+          ...entry,
+          date: parseISO(entry.date),
+        }));
+        setPainData(processedData);
+      }
+    };
+
+    fetchData();
   }, []);
   
   // Filter data based on selected range
@@ -48,18 +59,19 @@ function Reports() {
         cutoffDate = new Date(0); // earliest possible date
     }
     
-    const filtered = painData.filter(entry => entry.date >= cutoffDate);
+    const filtered = painData.filter((entry) => entry.date >= cutoffDate);
     setFilteredData(filtered);
     
     // Calculate metrics for current period
     if (filtered.length > 0) {
       // Average pain
-      const avgPain = filtered.reduce((sum, entry) => sum + entry.bpi5, 0) / filtered.length;
+      const avgPain =
+        filtered.reduce((sum, entry) => sum + entry.bpi5, 0) / filtered.length;
       setAveragePain(avgPain);
       
       // Most painful area
       const areaCounts = {};
-      filtered.forEach(entry => {
+      filtered.forEach((entry) => {
         if (entry.bpi2) {
           entry.bpi2.split(', ').forEach(area => {
             areaCounts[area] = (areaCounts[area] || 0) + 1;
@@ -96,19 +108,21 @@ function Reports() {
     
     if (previousCutoffStart) {
       const previousFiltered = painData.filter(
-        entry => entry.date >= previousCutoffStart && entry.date < cutoffDate
+        (entry) => entry.date >= previousCutoffStart && entry.date < cutoffDate
       );
       
       if (previousFiltered.length > 0) {
         // Previous average pain
-        const prevAvgPain = previousFiltered.reduce((sum, entry) => sum + entry.bpi5, 0) / previousFiltered.length;
+        const prevAvgPain =
+          previousFiltered.reduce((sum, entry) => sum + entry.bpi5, 0) /
+          previousFiltered.length;
         setPreviousAveragePain(prevAvgPain);
         
         // Previous most painful area
         const prevAreaCounts = {};
-        previousFiltered.forEach(entry => {
+        previousFiltered.forEach((entry) => {
           if (entry.bpi2) {
-            entry.bpi2.split(', ').forEach(area => {
+            entry.bpi2.split(', ').forEach((area) => {
               prevAreaCounts[area] = (prevAreaCounts[area] || 0) + 1;
             });
           }
@@ -134,7 +148,7 @@ function Reports() {
     // Group by day/week/month based on range
     const groupedData = {};
     
-    filteredData.forEach(entry => {
+    filteredData.forEach((entry) => {
       let periodKey;
       
       switch (rangeOption) {
@@ -184,7 +198,7 @@ function Reports() {
     
     // Calculate averages and format dates
     return Object.values(groupedData)
-      .map(group => ({
+    .map((group) => ({
         period: group.period,
         date: group.date,
         // Calculate averages, default to 0 if no data
@@ -199,7 +213,15 @@ function Reports() {
   const prepareInterferenceData = () => {
     if (filteredData.length === 0) return [];
     
-    const interferenceCols = ['bpi9a', 'bpi9b', 'bpi9c', 'bpi9d', 'bpi9e', 'bpi9f', 'bpi9g'];
+    const interferenceCols = [
+      "bpi9a",
+      "bpi9b",
+      "bpi9c",
+      "bpi9d",
+      "bpi9e",
+      "bpi9f",
+      "bpi9g",
+    ];
     const labels = {
       'bpi9a': 'General Activity',
       'bpi9b': 'Mood',
@@ -210,13 +232,14 @@ function Reports() {
       'bpi9g': 'Enjoyment of Life'
     };
     
-    const data = interferenceCols.map(col => {
+    const data = interferenceCols.map((col) => {
       const values = filteredData
-        .filter(entry => typeof entry[col] === 'number')
-        .map(entry => entry[col]);
-      
-      const average = values.length > 0 
-        ? values.reduce((sum, value) => sum + value, 0) / values.length 
+      .filter((entry) => typeof entry[col] === "number")
+      .map((entry) => entry[col]);
+
+    const average =
+      values.length > 0
+        ? values.reduce((sum, value) => sum + value, 0) / values.length
         : 0;
       
       return {
@@ -234,8 +257,8 @@ function Reports() {
     
     const treatmentGroups = {};
     
-    filteredData.forEach(entry => {
-      const treatment = entry.bpi7 || 'None';
+    filteredData.forEach((entry) => {
+      const treatment = entry.bpi7 || "None";
       
       if (!treatmentGroups[treatment]) {
         treatmentGroups[treatment] = {
@@ -250,11 +273,13 @@ function Reports() {
     });
     
     return Object.values(treatmentGroups)
-      .map(group => ({
+      .map((group) => ({
         treatment: group.treatment,
-        averagePain: group.painScores.length > 0 
-          ? group.painScores.reduce((sum, score) => sum + score, 0) / group.painScores.length
-          : 0
+        averagePain:
+          group.painScores.length > 0
+            ? group.painScores.reduce((sum, score) => sum + score, 0) /
+              group.painScores.length
+            : 0,
       }))
       .sort((a, b) => a.averagePain - b.averagePain); // Sort by pain score
   };
@@ -268,9 +293,11 @@ function Reports() {
   const painDeltaDisplay = isNaN(painDelta) ? 'N/A' : painDelta.toFixed(2);
   
   // Calculate area delta for display
-  const areaDelta = mostPainfulArea !== previousMostPainfulArea && previousMostPainfulArea !== 'None' 
-    ? `was ${previousMostPainfulArea}` 
-    : 'No change';
+  const areaDelta =
+    mostPainfulArea !== previousMostPainfulArea &&
+    previousMostPainfulArea !== "None"
+      ? `was ${previousMostPainfulArea}`
+      : "No change";
   
   // Choose period type for display
   const getPeriodType = () => {
