@@ -124,7 +124,7 @@
     max-width: 320px;
   }
   
-  /* Home page and Calendar styles */
+  /* Home page and Calendar styles and Profile */
   .home-container {
     display: flex;
     flex-direction: column;
@@ -135,11 +135,41 @@
     max-width: 100%;
     overflow-x: hidden;
   }
+
+    /* Header and profile */
+    .header {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      width: 100%;
+      padding: 10px 20px;
+      box-sizing: border-box;
+      position: relative;
+    }
+    
+    .profile-button {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .profile-button svg {
+      color: #333;
+      transition: color 0.2s ease;
+    }
   
   .greeting {
     width: 100%;
-    margin-bottom: 24px;
-    text-align: left;
+    margin: 24 0;
+    text-align: center;
+    flex: 1; /* Take up available space */
   }
   
   .greeting h3 {
@@ -410,4 +440,35 @@
     .nav-button {
         font-size: 1.2rem;
     }
+  }
+
+  /* Profile styles */
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  .profile-heading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .profile-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .profile-button:active {
+    transform: scale(0.98); /* Slightly shrink on press */
   }

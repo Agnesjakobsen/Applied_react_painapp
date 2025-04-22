@@ -1,7 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Calendar from './Calendar';
+import { User } from 'lucide-react'; // Import a user icon
 
 function Home({ username, selectedDate, setSelectedDate }) {
+  const navigate = useNavigate();
+
   // Helper function to get greeting based on time of day
   const getGreeting = () => {
     const currentHour = new Date().getHours();
@@ -16,8 +20,17 @@ function Home({ username, selectedDate, setSelectedDate }) {
 
   return (
     <div className="home-container">
-      <div className="greeting">
-        <h3>{getGreeting()}, {username}!</h3>
+      <div className="header">
+        <button 
+          className="profile-button" 
+          onClick={() => navigate('/profile')}
+          aria-label="Go to Profile"
+        >
+          <User size={24} />
+        </button>
+      </div>
+      <div className="greeting-container">
+        <h3 className="greeting">{getGreeting()}, {username}!</h3>
       </div>
       <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
       <div className="relevant-content">
