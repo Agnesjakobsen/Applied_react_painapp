@@ -72,7 +72,7 @@ function Home({ username, selectedDate, setSelectedDate }) {
           <p>Loading pain data...</p>
         ) : todayPainScore !== null ? (
           <p>
-            🩺 Average pain score for today:{" "}
+            Average pain score for today:{" "}
             <strong>{todayPainScore.toFixed(2)}</strong>
           </p>
         ) : (
