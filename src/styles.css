@@ -147,7 +147,7 @@
       position: relative;
     }
     
-    .profile-button-home {
+    .profile-button {
       position: absolute;
       top: 10px;
       right: 20px;
@@ -443,79 +443,256 @@
   }
 
   /* Profile styles */
-  /* Reset and update profile container styles */
-.profile-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  background-color: #f9f9f9;
-  min-height: 100vh;
-  width: 100%;
-  box-sizing: border-box;
-}
+  .profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  .profile-heading {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+  
+  .profile-options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .profile-button:active {
+    transform: scale(0.98); /* Slightly shrink on press */
+  }
 
-.profile-heading {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 30px;
-  text-align: center;
-  width: 100%;
-}
+  .profile-button-content {
+    display: flex;
+    align-items: center;
+  }
+  
+  .profile-button-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    stroke-width: 2;
+  }
+  
+  /* Create entry styles */
+  /* ---- Layout ---- */
+  .entry-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.75rem;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
 
-/* Fix the profile options container */
-.profile-options {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  width: 100%;
-  max-width: 400px;
-}
+  .entry-title {
+    text-align: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
 
-/* Fix the profile button styles */
-.profile-button {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  background-color: white;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: left;
-  font-size: 1rem;
-  font-weight: 500;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  width: 100%;
-  position: relative; /* Ensure proper stacking */
-  margin: 0; /* Reset any margin */
-}
+  .entry-date {
+    text-align: center;
+    color: gray;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
 
-/* Button content wrapper for icon and text */
-.profile-button-content {
-  display: flex;
-  align-items: center;
-  flex: 1;
-}
+  /* ---- Sections ---- */
+  .question-section {
+    width: 100%;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
 
-/* Icon styles */
-.profile-button-icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 12px;
-  stroke-width: 2;
-}
+  .question-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+  }
 
-/* Arrow indicator */
-.profile-button-arrow {
-  font-size: 1.2rem;
-  color: #b0b0b0;
-}
+  /* ---- Field Labels ---- */
+  .field-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+    text-align: center;
+    color: #555;
+  }
 
-.profile-button:active {
-  transform: scale(0.98);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
+  /* ---- Button Groups ---- */
+  .button-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+  }
+
+  .button-option {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-weight: bold;
+    color: #000;
+    min-width: 80px;
+    text-align: center;
+  }
+
+  .button-option.active {
+    background-color: #e0e0e0;
+    border: 2px solid #2563eb;
+  }
+
+  /* ---- Pain Areas ---- */
+  .button-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.25rem;
+    margin: 0.5rem 0;
+  }
+
+  .button-small {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.5rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+  }
+
+  .button-small.active {
+    background-color: #e0e0e0;
+    border: 2px solid #2563eb;
+  }
+
+  /* ---- Scrolling Scale Buttons ---- */
+  .button-scroll {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    gap: 1px;
+    margin: 0.25rem 0;
+  }
+
+  /* Pain Scale Buttons */
+  .button-scale, .button-circle, .pain-scale-button {
+    flex: 1;
+    min-width: 28px;
+    max-width: 32px;
+    height: 32px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  .button-circle {
+    border-radius: 50%;
+  }
+
+  .button-scale.active, 
+  .button-circle.active, 
+  .pain-scale-button.active {
+    border: 2px solid black;
+    z-index: 1;
+    transform: scale(1.1);
+  }
+
+  /* Hover effect */
+  .pain-scale-button:hover {
+    transform: scale(1.1);
+  }
+
+  /* ---- Pain Scale Section ---- */
+  .pain-scale-container {
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .pain-scale {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .pain-scale-button {
+    flex: 1;
+    height: 30px;
+    font-size: 0.8rem;
+    background-color: inherit;
+    transition: all 0.2s ease;
+  }
+
+  /* ---- Pain Level Colors ---- */
+  .pain-0 { background-color: #DFF5E1; } /* Pale Mint */
+  .pain-1, .pain-2 { background-color: #A3E4A3; } /* Cool Green */
+  .pain-3, .pain-4 { background-color: #F5E6A6; } /* Soft Yellow */
+  .pain-5, .pain-6 { background-color: #F5C16C; } /* Warm Orange */
+  .pain-7, .pain-8 { background-color: #E37B7B; } /* Muted Red */
+  .pain-9, .pain-10 {background-color: #B33A3A; } /* Deep Burgundy */
+
+  /* ---- Save Section ---- */
+  .save-section {
+    margin-top: 1.5rem;
+  }
+
+  /* ---- Success Message ---- */
+  .success-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+  }
+
+  .success-message {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    color: green;
+  }
+
+  .button-primary {
+    background-color: #2563eb;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+  }
+
+  /* ---- Input Field ---- */
+  .input-field {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+  }
