@@ -536,7 +536,7 @@
   }
 
   /* ---- Button Groups ---- */
-  .button-group {
+  .button-group-centered {
     display: flex;
     justify-content: center;
     align-items: center;
