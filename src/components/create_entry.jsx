@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
 import { supabase } from "../utils/supabase";
+import { useNavigate } from "react-router-dom";
 
 export default function CreateEntry({ selectedDate }) {
   const [form, setForm] = useState({
@@ -27,25 +28,34 @@ export default function CreateEntry({ selectedDate }) {
   const painScale = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const reliefScale = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
+  // Use the useNavigate hook to navigate
+  const navigate = useNavigate();
+
   // Save the form data to Supabase
   const handleSave = async () => {
+    const noPain = form.hasPain === "No";
+
     const data = {
       date: format(selectedDate, "yyyy-MM-dd"),
       bpi1: form.hasPain || null,
-      bpi2: form.painAreas.length > 0 ? form.painAreas.join(", ") : null,
-      bpi3: form.worstPain,
-      bpi4: form.leastPain,
-      bpi5: form.averagePain,
-      bpi6: form.currentPain,
-      bpi7: form.treatment || null,
-      bpi8: form.treatmentRelief,
-      bpi9a: form.generalActivity,
-      bpi9b: form.mood,
-      bpi9c: form.walking,
-      bpi9d: form.normalWork,
-      bpi9e: form.relations,
-      bpi9f: form.sleep,
-      bpi9g: form.enjoyment,
+      bpi2: noPain
+        ? ""
+        : form.painAreas.length > 0
+        ? form.painAreas.join(", ")
+        : null,
+      bpi3: noPain ? 0 : form.worstPain,
+      bpi4: noPain ? 0 : form.leastPain,
+      bpi5: noPain ? 0 : form.averagePain,
+      bpi6: noPain ? 0 : form.currentPain,
+      bpi7: noPain ? "" : form.treatment || null,
+      bpi8: noPain ? 0 : form.treatmentRelief,
+      bpi9a: noPain ? 0 : form.generalActivity,
+      bpi9b: noPain ? 0 : form.mood,
+      bpi9c: noPain ? 0 : form.walking,
+      bpi9d: noPain ? 0 : form.normalWork,
+      bpi9e: noPain ? 0 : form.relations,
+      bpi9f: noPain ? 0 : form.sleep,
+      bpi9g: noPain ? 0 : form.enjoyment,
     };
 
     const { error } = await supabase.from("pain_entries").insert(data);
@@ -54,6 +64,9 @@ export default function CreateEntry({ selectedDate }) {
       alert("Error saving. Please try again.");
     } else {
       setSuccess(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 5000);
     }
   };
 
@@ -65,9 +78,7 @@ export default function CreateEntry({ selectedDate }) {
     return (
       <div className="success-container">
         <p className="success-message">✅ Entry saved!</p>
-        <button onClick={() => setSuccess(false)} className="button-primary">
-          Log Another
-        </button>
+        <p className="success-submessage">Going back to the home page...</p>
       </div>
     );
   }
@@ -81,7 +92,7 @@ export default function CreateEntry({ selectedDate }) {
           Have you had any pain today other than minor everyday aches (like
           headaches or toothaches)?
         </h2>
-        <div className="button-group">
+        <div className="button-group-centered">
           <button
             onClick={() => updateField("hasPain", "No")}
             className={`button-option ${form.hasPain === "No" ? "active" : ""}`}
@@ -170,7 +181,7 @@ export default function CreateEntry({ selectedDate }) {
             <h2 className="question-title">
               Are you using any treatments or meds for your pain?
             </h2>
-            <div className="button-group">
+            <div className="button-group-centered">
               <button
                 onClick={() => updateField("usingTreatment", "No")}
                 className={`button-option ${
