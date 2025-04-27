@@ -24,8 +24,8 @@ export default function CreateEntry({ selectedDate }) {
 
   const [success, setSuccess] = useState(false);
 
-  const painScale = [0,1,2,3,4,5,6,7,8,9,10];
-  const reliefScale = [0,10,20,30,40,50,60,70,80,90,100];
+  const painScale = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const reliefScale = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
   // Save the form data to Supabase
   const handleSave = async () => {
@@ -77,28 +77,59 @@ export default function CreateEntry({ selectedDate }) {
       <h1 className="entry-title">Create entry</h1>
 
       <div className="question-section">
-        <h2 className="question-title">Did you have any pain today?</h2>
+        <h2 className="question-title">
+          Have you had any pain today other than minor everyday aches (like
+          headaches or toothaches)?
+        </h2>
         <div className="button-group">
-          <button onClick={() => updateField("hasPain", "No")} className={`button-option ${form.hasPain === "No" ? "active" : ""}`}>No</button>
-          <button onClick={() => updateField("hasPain", "Yes")} className={`button-option ${form.hasPain === "Yes" ? "active" : ""}`}>Yes</button>
+          <button
+            onClick={() => updateField("hasPain", "No")}
+            className={`button-option ${form.hasPain === "No" ? "active" : ""}`}
+          >
+            No
+          </button>
+          <button
+            onClick={() => updateField("hasPain", "Yes")}
+            className={`button-option ${
+              form.hasPain === "Yes" ? "active" : ""
+            }`}
+          >
+            Yes
+          </button>
         </div>
       </div>
 
       {form.hasPain === "Yes" && (
         <>
           <div className="question-section">
-            <h2 className="question-title">Where did it hurt?</h2>
+            <h2 className="question-title">Which area(s) hurt(s) the most?</h2>
             <div className="button-grid">
-              {["Head", "Neck", "Shoulder", "Arm", "Hand", "Back", "Chest", "Abdomen", "Hip", "Leg", "Foot"].map((area) => (
+              {[
+                "Head",
+                "Neck",
+                "Shoulder",
+                "Arm",
+                "Hand",
+                "Back",
+                "Chest",
+                "Abdomen",
+                "Hip",
+                "Leg",
+                "Foot",
+              ].map((area) => (
                 <button
                   key={area}
                   onClick={() =>
-                    updateField("painAreas", form.painAreas.includes(area)
-                      ? form.painAreas.filter(a => a !== area)
-                      : [...form.painAreas, area]
+                    updateField(
+                      "painAreas",
+                      form.painAreas.includes(area)
+                        ? form.painAreas.filter((a) => a !== area)
+                        : [...form.painAreas, area]
                     )
                   }
-                  className={`button-small ${form.painAreas.includes(area) ? "active" : ""}`}
+                  className={`button-small ${
+                    form.painAreas.includes(area) ? "active" : ""
+                  }`}
                 >
                   {area}
                 </button>
@@ -107,32 +138,55 @@ export default function CreateEntry({ selectedDate }) {
           </div>
 
           <div className="question-section">
-            <h2 className="question-title">Rate your pain (0-10)</h2>
-            
-            {["worstPain", "leastPain", "averagePain", "currentPain"].map((field) => (
-              <div key={field} className="pain-scale-container">
-                <div className="field-label">{field.replace(/([A-Z])/g, ' $1')}</div>
-                <div className="pain-scale">
-                  {painScale.map((n) => (
-                    <button
-                      key={n}
-                      onClick={() => updateField(field, n)}
-                      className={`pain-scale-button pain-${n} ${form[field] === n ? "active" : ""}`}
-                    >
-                      {n}
-                    </button>
-                  ))}
+            <h2 className="question-title">
+              Rate your pain in the past 24 hours
+            </h2>
+
+            {["worstPain", "leastPain", "averagePain", "currentPain"].map(
+              (field) => (
+                <div key={field} className="pain-scale-container">
+                  <div className="field-label">
+                    {field.replace(/([A-Z])/g, " $1")}
+                  </div>
+                  <div className="pain-scale">
+                    {painScale.map((n) => (
+                      <button
+                        key={n}
+                        onClick={() => updateField(field, n)}
+                        className={`pain-scale-button pain-${n} ${
+                          form[field] === n ? "active" : ""
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
 
-
           <div className="question-section">
-            <h2 className="question-title">Are you using any treatment?</h2>
+            <h2 className="question-title">
+              Are you using any treatments or meds for your pain?
+            </h2>
             <div className="button-group">
-              <button onClick={() => updateField("usingTreatment", "No")} className={`button-option ${form.usingTreatment === "No" ? "active" : ""}`}>No</button>
-              <button onClick={() => updateField("usingTreatment", "Yes")} className={`button-option ${form.usingTreatment === "Yes" ? "active" : ""}`}>Yes</button>
+              <button
+                onClick={() => updateField("usingTreatment", "No")}
+                className={`button-option ${
+                  form.usingTreatment === "No" ? "active" : ""
+                }`}
+              >
+                No
+              </button>
+              <button
+                onClick={() => updateField("usingTreatment", "Yes")}
+                className={`button-option ${
+                  form.usingTreatment === "Yes" ? "active" : ""
+                }`}
+              >
+                Yes
+              </button>
             </div>
 
             {form.usingTreatment === "Yes" && (
@@ -141,17 +195,21 @@ export default function CreateEntry({ selectedDate }) {
                   type="text"
                   value={form.treatment}
                   onChange={(e) => updateField("treatment", e.target.value)}
-                  placeholder="E.g., paracetamol"
+                  placeholder="E.g., paracetamol, yoga"
                   className="input-field"
                 />
                 <div>
-                  <div className="field-label">Relief (%)</div>
+                  <div className="field-label">
+                    How much relief has this given you in the past 24 hours?
+                  </div>
                   <div className="button-scroll">
                     {reliefScale.map((n) => (
                       <button
                         key={n}
                         onClick={() => updateField("treatmentRelief", n)}
-                        className={`pain-scale-button pain-${Math.floor(n / 10)} ${form.treatmentRelief === n ? "active" : ""}`}
+                        className={`pain-scale-button pain-${Math.floor(
+                          n / 10
+                        )} ${form.treatmentRelief === n ? "active" : ""}`}
                       >
                         {n}%
                       </button>
@@ -163,16 +221,30 @@ export default function CreateEntry({ selectedDate }) {
           </div>
 
           <div className="question-section">
-            <h2 className="question-title">Pain interfering with...</h2>
-            {["generalActivity", "mood", "walking", "normalWork", "relations", "sleep", "enjoyment"].map((field) => (
+            <h2 className="question-title">
+              In the past 24 hours, how much has pain interfered with your . . .
+            </h2>
+            {[
+              "generalActivity",
+              "mood",
+              "walking",
+              "normalWork",
+              "relations",
+              "sleep",
+              "enjoyment",
+            ].map((field) => (
               <div key={field} className="pain-scale-container">
-                <div className="field-label">{field.replace(/([A-Z])/g, ' $1')}</div>
+                <div className="field-label">
+                  {field.replace(/([A-Z])/g, " $1")}
+                </div>
                 <div className="pain-scale">
                   {painScale.map((n) => (
                     <button
                       key={n}
                       onClick={() => updateField(field, n)}
-                      className={`pain-scale-button pain-${n} ${form[field] === n ? "active" : ""}`}
+                      className={`pain-scale-button pain-${n} ${
+                        form[field] === n ? "active" : ""
+                      }`}
                     >
                       {n}
                     </button>
@@ -185,10 +257,7 @@ export default function CreateEntry({ selectedDate }) {
       )}
 
       <div className="save-section">
-        <button
-          onClick={handleSave}
-          className="button-primary"
-        >
+        <button onClick={handleSave} className="button-primary">
           Save Entry
         </button>
       </div>
