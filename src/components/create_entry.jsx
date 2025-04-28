@@ -267,11 +267,13 @@ export default function CreateEntry({ selectedDate }) {
         </>
       )}
 
-      <div className="save-section">
-        <button onClick={handleSave} className="button-primary">
-          Save Entry
-        </button>
-      </div>
+      {form.hasPain && (
+        <div className="save-section-fixed">
+          <button onClick={handleSave} className="button-primary">
+            Save Entry
+          </button>
+        </div>
+      )}
     </div>
   );
 }

@@ -53,7 +53,7 @@ function Home({ username, selectedDate, setSelectedDate }) {
     <div className="home-container">
       <div className="header">
         <button
-          className="profile-button-home"
+          className="header-profile-button"
           onClick={() => navigate("/profile")}
           aria-label="Go to Profile"
         >

@@ -14,12 +14,7 @@ import {
 } from "recharts";
 import { format, subDays, subMonths, subYears, parseISO } from "date-fns";
 import { supabase } from "../utils/supabase";
-import {
-  Pill,
-  AlertCircle,
-  BarChart3,
-  LineChart as LineChartIcon,
-} from "lucide-react";
+import { AlertCircle } from "lucide-react";
 
 function Reports() {
   const [painData, setPainData] = useState([]);
@@ -376,10 +371,7 @@ function Reports() {
           <hr />
 
           <section className="metrics-section">
-            <h2>
-              <BarChart3 size={20} className="icon section-icon" />
-              {periodType} Comparison
-            </h2>
+            <h2>{periodType} Comparison</h2>
 
             <div className="metrics-container">
               <div className="metric-card">
@@ -411,10 +403,7 @@ function Reports() {
           <hr />
 
           <section className="trends-section">
-            <h2>
-              <LineChartIcon size={20} className="icon section-icon" />
-              {periodType} Trends
-            </h2>
+            <h2>{periodType} Trends</h2>
 
             {chartData.length === 0 ? (
               <div className="no-data">No data available for this range</div>
@@ -422,7 +411,7 @@ function Reports() {
               <ResponsiveContainer width="100%" height={400}>
                 <LineChart
                   data={chartData}
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                  margin={{ top: 5, right: 10, left: 10, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis
@@ -432,14 +421,7 @@ function Reports() {
                   />
                   <YAxis domain={[0, 10]} />
                   <Tooltip
-                    formatter={(value, name) => [
-                      value.toFixed(2),
-                      name === "bpi3"
-                        ? "Worst"
-                        : name === "bpi4"
-                        ? "Least"
-                        : "Average",
-                    ]}
+                    formatter={(value) => value.toFixed(2)}
                     labelFormatter={(label) =>
                       format(new Date(label), "MMM dd, yyyy")
                     }
@@ -513,10 +495,7 @@ function Reports() {
           <hr />
 
           <section>
-            <h2>
-              <Pill size={20} className="icon section-icon" />
-              Treatment Comparison
-            </h2>
+            <h2>Treatment Comparison</h2>
 
             {treatmentData.length === 0 ? (
               <div className="no-data">No data available for this range</div>
