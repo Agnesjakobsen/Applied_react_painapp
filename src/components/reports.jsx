@@ -14,6 +14,12 @@ import {
 } from "recharts";
 import { format, subDays, subMonths, subYears, parseISO } from "date-fns";
 import { supabase } from "../utils/supabase";
+import {
+  Pill,
+  AlertCircle,
+  BarChart3,
+  LineChart as LineChartIcon,
+} from "lucide-react";
 
 function Reports() {
   const [painData, setPainData] = useState([]);
@@ -345,7 +351,8 @@ function Reports() {
 
       {painData.length === 0 ? (
         <div className="warning">
-          ⚠️ No data found. Please create an entry first.
+          <AlertCircle size={20} className="icon warning-icon" />
+          No data found. Please create an entry first.
         </div>
       ) : (
         <>
@@ -369,7 +376,10 @@ function Reports() {
           <hr />
 
           <section className="metrics-section">
-            <h2>📊 {periodType} Comparison</h2>
+            <h2>
+              <BarChart3 size={20} className="icon section-icon" />
+              {periodType} Comparison
+            </h2>
 
             <div className="metrics-container">
               <div className="metric-card">
@@ -401,7 +411,10 @@ function Reports() {
           <hr />
 
           <section className="trends-section">
-            <h2>📈 {periodType} Trends</h2>
+            <h2>
+              <LineChartIcon size={20} className="icon section-icon" />
+              {periodType} Trends
+            </h2>
 
             {chartData.length === 0 ? (
               <div className="no-data">No data available for this range</div>
@@ -481,30 +494,17 @@ function Reports() {
                 <BarChart
                   data={interferenceData}
                   layout="vertical"
-                  margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
+                  margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis type="number" domain={[0, 10]} />
-                  <YAxis dataKey="factor" type="category" width={100} />
+                  <YAxis dataKey="factor" type="category" />
                   <Tooltip formatter={(value) => [value.toFixed(2), "Score"]} />
                   <Bar dataKey="score" fill="#8884d8">
                     {interferenceData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill="#8884d8" />
                     ))}
                   </Bar>
-                  {/* Text labels on bars */}
-                  {interferenceData.map((entry, index) => (
-                    <text
-                      key={`text-${index}`}
-                      x={entry.score + 0.5}
-                      y={index * 40 + 20} // Adjust based on bar height
-                      fill="white"
-                      textAnchor="start"
-                      dominantBaseline="middle"
-                    >
-                      {entry.score.toFixed(2)}
-                    </text>
-                  ))}
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -512,8 +512,11 @@ function Reports() {
 
           <hr />
 
-          <section className="treatment-section">
-            <h2>💊 {periodType} Treatment Comparisons</h2>
+          <section>
+            <h2>
+              <Pill size={20} className="icon section-icon" />
+              Treatment Comparison
+            </h2>
 
             {treatmentData.length === 0 ? (
               <div className="no-data">No data available for this range</div>
@@ -522,11 +525,11 @@ function Reports() {
                 <BarChart
                   data={treatmentData}
                   layout="vertical"
-                  margin={{ top: 5, right: 30, left: 120, bottom: 5 }}
+                  margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis type="number" domain={[0, 10]} />
-                  <YAxis dataKey="treatment" type="category" width={100} />
+                  <YAxis dataKey="treatment" type="category" />
                   <Tooltip
                     formatter={(value) => [
                       value.toFixed(2),
@@ -538,19 +541,6 @@ function Reports() {
                       <Cell key={`cell-${index}`} fill="#82ca9d" />
                     ))}
                   </Bar>
-                  {/* Text labels on bars */}
-                  {treatmentData.map((entry, index) => (
-                    <text
-                      key={`text-${index}`}
-                      x={entry.averagePain + 0.5}
-                      y={index * 40 + 20} // Adjust based on bar height
-                      fill="white"
-                      textAnchor="start"
-                      dominantBaseline="middle"
-                    >
-                      {entry.averagePain.toFixed(2)}
-                    </text>
-                  ))}
                 </BarChart>
               </ResponsiveContainer>
             )}
@@ -610,6 +600,21 @@ function Reports() {
           background-color: #ff8c42;
           color: white;
           border-color: #ff8c42;
+        }
+
+        .main-content h1,
+        .main-content h2,
+        .main-content h3 {
+          padding-left: 16px;
+          text-align: left;
+        }
+
+        @media (max-width: 768px) {
+          .main-content h1,
+          .main-content h2,
+          .main-content h3 {
+            padding-left: 12px;
+          }
         }
 
         hr {

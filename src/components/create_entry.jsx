@@ -1,212 +1,120 @@
 import React, { useState } from "react";
 import { format } from "date-fns";
 import { supabase } from "../utils/supabase";
+import { useNavigate } from "react-router-dom";
 
-function CreateEntry({ selectedDate }) {
-  // State for form fields
-  const [hasPain, setHasPain] = useState(null);
-  const [painAreas, setPainAreas] = useState([]);
-  const [worstPain, setWorstPain] = useState(null);
-  const [leastPain, setLeastPain] = useState(null);
-  const [averagePain, setAveragePain] = useState(null);
-  const [currentPain, setCurrentPain] = useState(null);
-  const [usingTreatment, setUsingTreatment] = useState(null);
-  const [treatment, setTreatment] = useState("");
-  const [treatmentRelief, setTreatmentRelief] = useState(null);
-  const [generalActivity, setGeneralActivity] = useState(null);
-  const [mood, setMood] = useState(null);
-  const [walking, setWalking] = useState(null);
-  const [normalWork, setNormalWork] = useState(null);
-  const [relations, setRelations] = useState(null);
-  const [sleep, setSleep] = useState(null);
-  const [enjoyment, setEnjoyment] = useState(null);
+export default function CreateEntry({ selectedDate }) {
+  const [form, setForm] = useState({
+    hasPain: null,
+    painAreas: [],
+    worstPain: null,
+    leastPain: null,
+    averagePain: null,
+    currentPain: null,
+    usingTreatment: null,
+    treatment: "",
+    treatmentRelief: null,
+    generalActivity: null,
+    mood: null,
+    walking: null,
+    normalWork: null,
+    relations: null,
+    sleep: null,
+    enjoyment: null,
+  });
+
   const [success, setSuccess] = useState(false);
 
-  // Helper functions for options
-  const getPainOptions = () => [
-    "✅ 0 - No pain",
-    "🟢 1",
-    "🟢 2",
-    "🟡 3",
-    "🟡 4",
-    "🟠 5",
-    "🟠 6",
-    "🟠 7",
-    "🔴 8",
-    "🔴 9",
-    "🚫 10 - Worst imaginable pain",
-  ];
+  const painScale = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const reliefScale = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
-  const getReliefOptions = () => [
-    "✅ 100 % - Complete relief",
-    "🟢 90 %",
-    "🟢 80 %",
-    "🟡 70 %",
-    "🟡 60 %",
-    "🟠 50 %",
-    "🟠 40 %",
-    "🟠 30 %",
-    "🔴 20 %",
-    "🔴 10 %",
-    "🚫 0 % - No relief",
-  ];
-
-  const getInterferenceOptions = () => [
-    "✅ 0 - Has not interfered",
-    "🟢 1",
-    "🟢 2",
-    "🟡 3",
-    "🟡 4",
-    "🟠 5",
-    "🟠 6",
-    "🟠 7",
-    "🔴 8",
-    "🔴 9",
-    "🚫 10 - Has interfered completely",
-  ];
-
-  // Extract number from string (e.g., "🟢 2" -> 2)
-  const extractNumber = (value) => {
-    if (typeof value === "string") {
-      const match = value.match(/\d+/);
-      if (match) {
-        return parseInt(match[0], 10);
-      }
-    }
-    return value;
-  };
+  // Use the useNavigate hook to navigate
+  const navigate = useNavigate();
 
   // Save the form data to Supabase
-  const saveSubmission = async (data) => {
-    console.log("Submitting to Supabase:", data);
+  const handleSave = async () => {
+    const noPain = form.hasPain === "No";
+
+    const data = {
+      date: format(selectedDate, "yyyy-MM-dd"),
+      bpi1: form.hasPain || null,
+      bpi2: noPain
+        ? ""
+        : form.painAreas.length > 0
+        ? form.painAreas.join(", ")
+        : null,
+      bpi3: noPain ? 0 : form.worstPain,
+      bpi4: noPain ? 0 : form.leastPain,
+      bpi5: noPain ? 0 : form.averagePain,
+      bpi6: noPain ? 0 : form.currentPain,
+      bpi7: noPain ? "" : form.treatment || null,
+      bpi8: noPain ? 0 : form.treatmentRelief,
+      bpi9a: noPain ? 0 : form.generalActivity,
+      bpi9b: noPain ? 0 : form.mood,
+      bpi9c: noPain ? 0 : form.walking,
+      bpi9d: noPain ? 0 : form.normalWork,
+      bpi9e: noPain ? 0 : form.relations,
+      bpi9f: noPain ? 0 : form.sleep,
+      bpi9g: noPain ? 0 : form.enjoyment,
+    };
 
     const { error } = await supabase.from("pain_entries").insert(data);
-
     if (error) {
-      console.error("Supabase insert error:", error);
-      alert("Something went wrong. Please try again.");
+      console.error(error);
+      alert("Error saving. Please try again.");
     } else {
       setSuccess(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 5000);
     }
   };
 
-  // Handle form submission for "No Pain"
-  const handleNoPainSubmit = () => {
-    const data = {
-      date: format(selectedDate, "yyyy-MM-dd"),
-      bpi1: "No",
-      bpi3: 0,
-      bpi4: 0,
-      bpi5: 0,
-      bpi6: 0,
-      bpi7: "",
-      bpi8: "0 %",
-      bpi9a: 0,
-      bpi9b: 0,
-      bpi9c: 0,
-      bpi9d: 0,
-      bpi9e: 0,
-      bpi9f: 0,
-      bpi9g: 0,
-    };
-    saveSubmission(data);
-    setSuccess(true);
-  };
-
-  // Handle form submission for pain data
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const data = {
-      date: format(selectedDate, "yyyy-MM-dd"),
-      bpi1: "Yes",
-      bpi2: painAreas.join(", "),
-      bpi3: extractNumber(worstPain),
-      bpi4: extractNumber(leastPain),
-      bpi5: extractNumber(averagePain),
-      bpi6: extractNumber(currentPain),
-      bpi7: treatment,
-      bpi8: extractNumber(treatmentRelief),
-      bpi9a: extractNumber(generalActivity),
-      bpi9b: extractNumber(mood),
-      bpi9c: extractNumber(walking),
-      bpi9d: extractNumber(normalWork),
-      bpi9e: extractNumber(relations),
-      bpi9f: extractNumber(sleep),
-      bpi9g: extractNumber(enjoyment),
-    };
-
-    saveSubmission(data);
-    setSuccess(true);
+  const updateField = (field, value) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   if (success) {
     return (
       <div className="success-container">
-        <div className="success-message">
-          ✅ Your {hasPain === "No" ? "no-pain" : "pain"} report was submitted.
-        </div>
-        <button onClick={() => setSuccess(false)} className="btn btn-primary">
-          Log Another Entry
-        </button>
+        <p className="success-message">✅ Entry saved!</p>
+        <p className="success-submessage">Going back to the home page...</p>
       </div>
     );
   }
 
   return (
-    <div className="create-entry-container">
-      <h1>🩺 Log your pain</h1>
-      <div className="date-selector">
-        <label>Date</label>
-        <div>{format(selectedDate, "EEEE, dd MMMM yyyy")}</div>
-      </div>
+    <div className="entry-container">
+      <h1 className="entry-title">Create entry</h1>
 
-      <hr />
-
-      <div className="pain-question">
-        <h3>
+      <div className="question-section">
+        <h2 className="question-title">
           Have you had any pain today other than minor everyday aches (like
           headaches or toothaches)?
-        </h3>
-        <div className="radio-group">
-          <label>
-            <input
-              type="radio"
-              name="hasPain"
-              value="No"
-              checked={hasPain === "No"}
-              onChange={() => setHasPain("No")}
-            />
+        </h2>
+        <div className="button-group-centered">
+          <button
+            onClick={() => updateField("hasPain", "No")}
+            className={`button-option ${form.hasPain === "No" ? "active" : ""}`}
+          >
             No
-          </label>
-          <label>
-            <input
-              type="radio"
-              name="hasPain"
-              value="Yes"
-              checked={hasPain === "Yes"}
-              onChange={() => setHasPain("Yes")}
-            />
+          </button>
+          <button
+            onClick={() => updateField("hasPain", "Yes")}
+            className={`button-option ${
+              form.hasPain === "Yes" ? "active" : ""
+            }`}
+          >
             Yes
-          </label>
+          </button>
         </div>
       </div>
 
-      {hasPain === "No" && (
-        <div className="no-pain-section">
-          <button onClick={handleNoPainSubmit} className="btn btn-primary">
-            Submit no pain report
-          </button>
-        </div>
-      )}
-
-      {hasPain === "Yes" && (
-        <form onSubmit={handleSubmit}>
-          <div className="pain-area-section">
-            <h3>
-              Please select the area(s) of your body that hurt(s) the most
-            </h3>
-            <div className="checkbox-group">
+      {form.hasPain === "Yes" && (
+        <>
+          <div className="question-section">
+            <h2 className="question-title">Which area(s) hurt(s) the most?</h2>
+            <div className="button-grid">
               {[
                 "Head",
                 "Neck",
@@ -220,285 +128,150 @@ function CreateEntry({ selectedDate }) {
                 "Leg",
                 "Foot",
               ].map((area) => (
-                <label key={area}>
-                  <input
-                    type="checkbox"
-                    value={area}
-                    checked={painAreas.includes(area)}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setPainAreas([...painAreas, area]);
-                      } else {
-                        setPainAreas(painAreas.filter((a) => a !== area));
-                      }
-                    }}
-                  />
+                <button
+                  key={area}
+                  onClick={() =>
+                    updateField(
+                      "painAreas",
+                      form.painAreas.includes(area)
+                        ? form.painAreas.filter((a) => a !== area)
+                        : [...form.painAreas, area]
+                    )
+                  }
+                  className={`button-small ${
+                    form.painAreas.includes(area) ? "active" : ""
+                  }`}
+                >
                   {area}
-                </label>
+                </button>
               ))}
             </div>
           </div>
 
-          <div className="pain-ratings-section">
-            <h3>Please rate your pain in the past 24 hours</h3>
+          <div className="question-section">
+            <h2 className="question-title">
+              Rate your pain in the past 24 hours
+            </h2>
 
-            <div className="form-group">
-              <label>Your pain at its worst</label>
-              <select
-                value={worstPain || ""}
-                onChange={(e) => setWorstPain(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getPainOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>Your pain at its least</label>
-              <select
-                value={leastPain || ""}
-                onChange={(e) => setLeastPain(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getPainOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>Your pain on average</label>
-              <select
-                value={averagePain || ""}
-                onChange={(e) => setAveragePain(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getPainOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>Your pain right now</label>
-              <select
-                value={currentPain || ""}
-                onChange={(e) => setCurrentPain(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getPainOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
+            {["worstPain", "leastPain", "averagePain", "currentPain"].map(
+              (field) => (
+                <div key={field} className="pain-scale-container">
+                  <div className="field-label">
+                    {field.replace(/([A-Z])/g, " $1")}
+                  </div>
+                  <div className="pain-scale">
+                    {painScale.map((n) => (
+                      <button
+                        key={n}
+                        onClick={() => updateField(field, n)}
+                        className={`pain-scale-button pain-${n} ${
+                          form[field] === n ? "active" : ""
+                        }`}
+                      >
+                        {n}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )
+            )}
           </div>
 
-          <hr />
-
-          <div className="treatment-section">
-            <h3>Are you using any treatments or meds for your pain?</h3>
-            <div className="radio-group">
-              <label>
-                <input
-                  type="radio"
-                  name="usingTreatment"
-                  value="No"
-                  checked={usingTreatment === "No"}
-                  onChange={() => setUsingTreatment("No")}
-                />
+          <div className="question-section">
+            <h2 className="question-title">
+              Are you using any treatments or meds for your pain?
+            </h2>
+            <div className="button-group-centered">
+              <button
+                onClick={() => updateField("usingTreatment", "No")}
+                className={`button-option ${
+                  form.usingTreatment === "No" ? "active" : ""
+                }`}
+              >
                 No
-              </label>
-              <label>
-                <input
-                  type="radio"
-                  name="usingTreatment"
-                  value="Yes"
-                  checked={usingTreatment === "Yes"}
-                  onChange={() => setUsingTreatment("Yes")}
-                />
+              </button>
+              <button
+                onClick={() => updateField("usingTreatment", "Yes")}
+                className={`button-option ${
+                  form.usingTreatment === "Yes" ? "active" : ""
+                }`}
+              >
                 Yes
-              </label>
+              </button>
             </div>
 
-            {usingTreatment === "Yes" && (
+            {form.usingTreatment === "Yes" && (
               <>
-                <div className="form-group">
-                  <label>What pain treatments or meds are you using?</label>
-                  <input
-                    type="text"
-                    value={treatment}
-                    onChange={(e) => setTreatment(e.target.value)}
-                    placeholder="e.g. paracetamol, physical therapy, meditation"
-                    maxLength={100}
-                  />
-                </div>
-
-                {treatment && (
-                  <div className="form-group">
-                    <label>
-                      How much relief have your pain treatments/meds given in
-                      the past 24 hours?
-                    </label>
-                    <select
-                      value={treatmentRelief || ""}
-                      onChange={(e) => setTreatmentRelief(e.target.value)}
-                    >
-                      <option value="">Select...</option>
-                      {getReliefOptions().map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
+                <input
+                  type="text"
+                  value={form.treatment}
+                  onChange={(e) => updateField("treatment", e.target.value)}
+                  placeholder="E.g., paracetamol, yoga"
+                  className="input-field"
+                />
+                <div>
+                  <div className="field-label">
+                    How much relief has this given you in the past 24 hours?
                   </div>
-                )}
+                  <div className="button-scroll">
+                    {reliefScale.map((n) => (
+                      <button
+                        key={n}
+                        onClick={() => updateField("treatmentRelief", n)}
+                        className={`pain-scale-button pain-${Math.floor(
+                          n / 10
+                        )} ${form.treatmentRelief === n ? "active" : ""}`}
+                      >
+                        {n}%
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </>
             )}
           </div>
 
-          <hr />
-
-          <div className="interference-section">
-            <h3>
-              In the past 24 hours, how much has pain interfered with your...
-            </h3>
-
-            <div className="form-group">
-              <label>general activity?</label>
-              <select
-                value={generalActivity || ""}
-                onChange={(e) => setGeneralActivity(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getInterferenceOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>mood?</label>
-              <select
-                value={mood || ""}
-                onChange={(e) => setMood(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getInterferenceOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>walking?</label>
-              <select
-                value={walking || ""}
-                onChange={(e) => setWalking(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getInterferenceOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>normal work (incl. housework)?</label>
-              <select
-                value={normalWork || ""}
-                onChange={(e) => setNormalWork(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getInterferenceOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>relations with other people?</label>
-              <select
-                value={relations || ""}
-                onChange={(e) => setRelations(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getInterferenceOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>sleep?</label>
-              <select
-                value={sleep || ""}
-                onChange={(e) => setSleep(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getInterferenceOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="form-group">
-              <label>enjoyment of life?</label>
-              <select
-                value={enjoyment || ""}
-                onChange={(e) => setEnjoyment(e.target.value)}
-                required
-              >
-                <option value="">Select...</option>
-                {getInterferenceOptions().map((option) => (
-                  <option key={option} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="question-section">
+            <h2 className="question-title">
+              In the past 24 hours, how much has pain interfered with your . . .
+            </h2>
+            {[
+              "generalActivity",
+              "mood",
+              "walking",
+              "normalWork",
+              "relations",
+              "sleep",
+              "enjoyment",
+            ].map((field) => (
+              <div key={field} className="pain-scale-container">
+                <div className="field-label">
+                  {field.replace(/([A-Z])/g, " $1")}
+                </div>
+                <div className="pain-scale">
+                  {painScale.map((n) => (
+                    <button
+                      key={n}
+                      onClick={() => updateField(field, n)}
+                      className={`pain-scale-button pain-${n} ${
+                        form[field] === n ? "active" : ""
+                      }`}
+                    >
+                      {n}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
-
-          <hr />
-
-          <button type="submit" className="btn btn-primary">
-            Submit
-          </button>
-        </form>
+        </>
       )}
+
+      <div className="save-section">
+        <button onClick={handleSave} className="button-primary">
+          Save Entry
+        </button>
+      </div>
     </div>
   );
 }
-
-export default CreateEntry;
