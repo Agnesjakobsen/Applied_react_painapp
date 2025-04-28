@@ -29,7 +29,7 @@
   
   /* Main content - add bottom padding for fixed navbar */
   .main-content {
-    padding-bottom: 70px;
+    padding-bottom: 120px;
     width: 100%;
     overflow-x: hidden;
   }
@@ -147,7 +147,7 @@
       position: relative;
     }
     
-    .profile-button {
+    .header-profile-button {
       position: absolute;
       top: 10px;
       right: 20px;
@@ -160,7 +160,7 @@
       justify-content: center;
     }
     
-    .profile-button svg {
+    .header-profile-button svg {
       color: #333;
       transition: color 0.2s ease;
     }
@@ -449,7 +449,8 @@
     align-items: center;
     padding: 20px;
     background-color: #f9f9f9;
-    height: 100vh;
+    min-height: 100vh;
+    width: 100%;
     box-sizing: border-box;
   }
   
@@ -459,30 +460,64 @@
     color: #333;
     margin-bottom: 30px;
     text-align: center;
+    width: 100%;
   }
   
+  /* Fix the profile options container */
   .profile-options {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    width: 100%;
+    gap:20px;
+    width: 90%;
     max-width: 400px;
   }
   
-  .profile-button:active {
-    transform: scale(0.98); /* Slightly shrink on press */
+  /* Fix the profile button styles */
+  .profile-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background-color: white;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    min-width: 300px; /* Ensure a minimum width */
+    position: relative; /* Ensure proper stacking */
+    margin: 0; /* Reset any margin */
   }
-
+  
+  /* Button content wrapper for icon and text */
   .profile-button-content {
     display: flex;
     align-items: center;
+    flex: 1;
   }
   
+  /* Icon styles */
   .profile-button-icon {
     width: 20px;
     height: 20px;
     margin-right: 12px;
     stroke-width: 2;
+  }
+  
+  /* Arrow indicator */
+  .profile-button-arrow {
+    font-size: 1.2rem;
+    color: #b0b0b0;
+  }
+  
+  .profile-button:active {
+    transform: scale(0.98);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   }
   
   /* Create entry styles */
@@ -664,6 +699,37 @@
     margin-top: 1.5rem;
   }
 
+  .save-section-fixed {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    justify-content: center;
+    animation: fadeInUp 0.5s ease;
+    z-index: 200;
+  }
+
+  .save-section-fixed .button-primary {
+    padding: 0.75rem 2rem;
+    border-radius: 2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    font-size: 1.1rem;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 30px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0px);
+    }
+  }  
+
   /* ---- Success Message ---- */
   .success-container {
     display: flex;
@@ -696,3 +762,5 @@
     border-radius: 0.5rem;
     margin-top: 0.5rem;
   }
+
+  
