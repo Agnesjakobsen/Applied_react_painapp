@@ -273,7 +273,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 60px;
+    height: 75px;
     padding: 10px 0;
   }
   
@@ -687,12 +687,17 @@
   }
 
   /* ---- Pain Level Colors ---- */
-  .pain-0 { background-color: #DFF5E1; } /* Pale Mint */
-  .pain-1, .pain-2 { background-color: #A3E4A3; } /* Cool Green */
-  .pain-3, .pain-4 { background-color: #F5E6A6; } /* Soft Yellow */
-  .pain-5, .pain-6 { background-color: #F5C16C; } /* Warm Orange */
-  .pain-7, .pain-8 { background-color: #E37B7B; } /* Muted Red */
-  .pain-9, .pain-10 {background-color: #B33A3A; } /* Deep Burgundy */
+  .pain-0  { background-color: #DFF5E1; } /* Pale Mint */
+  .pain-1  { background-color: #C9EFC2; }
+  .pain-2  { background-color: #B1E1A2; }
+  .pain-3  { background-color: #F5E6A6; } /* Soft Yellow */
+  .pain-4  { background-color: #F5D88B; }
+  .pain-5  { background-color: #F5C16C; } /* Warm Orange */
+  .pain-6  { background-color: #EEA963; }
+  .pain-7  { background-color: #E6905A; }
+  .pain-8  { background-color: #DC7150; }
+  .pain-9  { background-color: #C85249; }
+  .pain-10 { background-color: #B33A3A; } /* Deep Burgundy */
 
   /* ---- Save Section ---- */
   .save-section {

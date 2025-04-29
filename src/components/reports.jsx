@@ -482,9 +482,9 @@ function Reports() {
                   <XAxis type="number" domain={[0, 10]} />
                   <YAxis dataKey="factor" type="category" />
                   <Tooltip formatter={(value) => [value.toFixed(2), "Score"]} />
-                  <Bar dataKey="score" fill="#8884d8">
+                  <Bar dataKey="score" fill="#007bff">
                     {interferenceData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill="#8884d8" />
+                      <Cell key={`cell-${index}`} fill="#007bff" />
                     ))}
                   </Bar>
                 </BarChart>
@@ -515,9 +515,9 @@ function Reports() {
                       "Average Pain Score",
                     ]}
                   />
-                  <Bar dataKey="averagePain" fill="#82ca9d">
+                  <Bar dataKey="averagePain" fill="#007bff">
                     {treatmentData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill="#82ca9d" />
+                      <Cell key={`cell-${index}`} fill="#007bff" />
                     ))}
                   </Bar>
                 </BarChart>
@@ -525,17 +525,17 @@ function Reports() {
             )}
 
             <details className="treatment-explanation">
-              <summary>How to interpret treatment comparisons</summary>
+              <summary>How do I compare treatments?</summary>
               <p>
-                This chart shows the average pain on days you used a treatment.
-                It does <em>not</em> mean that the treatment causes more or less
-                pain.
-              </p>
-              <p>
+                This chart shows the <strong>average pain</strong> on days you
+                used a treatment. It does <em>not</em> mean that the treatment{" "}
+                <em>causes</em> more or less pain!
+                <br />
+                <br />
                 For example, if you only take painkillers when your pain is
                 high, the chart may show high pain on those days. This just
-                means that you take painkillers only on bad days, not that they
-                cause more pain.
+                means that you tend to take painkillers <em>only</em> on bad
+                days. It does <em>not</em> that they cause more pain.
               </p>
             </details>
           </section>

@@ -1,6 +1,6 @@
-import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { Home, PlusCircle, BarChart2 } from 'lucide-react';
+import React from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { Home, PlusCircle, BarChart2 } from "lucide-react";
 
 function NavBar() {
   const location = useLocation();
@@ -11,19 +11,21 @@ function NavBar() {
       <nav className="bottom-nav">
         <NavLink
           to="/"
-          className={`nav-button ${currentPath === '/' ? 'active' : ''}`}
+          className={`nav-button ${currentPath === "/" ? "active" : ""}`}
         >
           <Home size={22} />
         </NavLink>
         <NavLink
           to="/create-entry"
-          className={`nav-button ${currentPath === '/create-entry' ? 'active' : ''}`}
+          className={`nav-button ${
+            currentPath === "/create-entry" ? "active" : ""
+          }`}
         >
           <PlusCircle size={22} />
         </NavLink>
         <NavLink
           to="/reports"
-          className={`nav-button ${currentPath === '/reports' ? 'active' : ''}`}
+          className={`nav-button ${currentPath === "/reports" ? "active" : ""}`}
         >
           <BarChart2 size={22} />
         </NavLink>
