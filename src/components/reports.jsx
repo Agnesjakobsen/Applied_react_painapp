@@ -375,7 +375,7 @@ function Reports() {
 
             <div className="metrics-container">
               <div className="metric-card">
-                <h3>Average Pain Score ({rangeOption})</h3>
+                <h3>Average Pain Score</h3>
                 <div className="metric-value">
                   {!isNaN(averagePain) ? averagePain.toFixed(2) : "No data"}
                 </div>
@@ -391,7 +391,7 @@ function Reports() {
               </div>
 
               <div className="metric-card">
-                <h3>Most Painful Area ({rangeOption})</h3>
+                <h3>Most Painful Area</h3>
                 <div className="metric-value">
                   {mostPainfulArea || "No data"}
                 </div>
