@@ -1,4 +1,28 @@
 /* Base styles */
+:root {
+  --primary-color: #007bff;
+  --light-primary-color: #ddeeff;
+  --secondary-color: #6c757d;
+  --primary-button-color: #007bff;
+  --secondary-button-color: #f1f1f1;
+  --primary-button-text-color: #ffffff;
+  --secondary-button-text-color: #333333;
+  --primary-container-color: #ffffff;
+  --background-color: #f8f9fa;
+  --primary-text-color: #343a40;
+  --secondary-text-color: #6c757d; /* Should be darker */
+  --border-color: #dee2e6; /* Should be darker */
+  --border-color-active: #007bff;
+  --form-color: #ffffff;
+  --divider-color: #e9ecef; /* Could be darker */
+  --border-radius: 8px;
+  --metric-color-neutral: #666;
+  --metric-color-positive: #28a745;
+  --metric-color-negative: #dc3545;
+  --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  --box-shadow-color: rgba(0, 0, 0, 0.1);
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -15,8 +39,8 @@
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-    color: #333;
+    background-color: var(--background-color);
+    color: var(--text-color);
     -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%; /* Prevent text size adjustment on orientation change */
   }
@@ -27,7 +51,8 @@
     overflow-x: hidden;
   }
   
-  /* Main content - add bottom padding for fixed navbar */
+  /* Main content */
+
   .main-content {
     padding-bottom: 120px;
     width: 100%;
@@ -43,7 +68,7 @@
     min-height: 100vh;
     width: 100%;
     padding: 20px;
-    background-color: #f5f5f5;
+    background-color: var(--background-color);
   }
   
   .login-header {
@@ -56,13 +81,13 @@
     font-size: 2rem;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #333;
+    color: var(--text-color);
   }
   
   .login-header h3 {
     font-size: 1.2rem;
     font-weight: normal;
-    color: #666;
+    color: var(--secondary-text-color);
   }
   
   .form-group {
@@ -76,16 +101,16 @@
     font-weight: 500;
     margin-bottom: 6px;
     display: block;
-    color: #555;
+    color: var(--secondary-text-color)
   }
   
   .form-group input {
     width: 100%;
     padding: 12px;
-    font-size: 16px; /* Critical size to prevent iOS zoom */
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: white;
+    font-size: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--form-color);
   }
   
   .button-group {
@@ -100,20 +125,20 @@
   .button-group .btn {
     padding: 14px;
     font-size: 1rem;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     border: none;
     font-weight: 500;
   }
   
   .btn-primary {
-    background-color: #007bff;
-    color: white;
+    background-color: var(--primary-button-color);
+    color: var(--primary-button-text-color);
   }
   
   .btn-secondary {
-    background-color: #f1f1f1;
-    color: #333;
+    background-color: var(--secondary-button-color);
+    color: var(--secondary-button-text-color);
   }
   
   .error-message {
@@ -159,31 +184,39 @@
       align-items: center;
       justify-content: center;
     }
-    
+
+/*     
     .header-profile-button svg {
       color: #333;
       transition: color 0.2s ease;
     }
   
-  .greeting {
+ */  
+ 
+ .greeting {
     width: 100%;
     margin: 24 0;
     text-align: center;
-    flex: 1; /* Take up available space */
+    flex: 1; 
+    color: var(--primary-text-color)
   }
-  
+
+  /* 
   .greeting h3 {
-    font-size: 1.5rem; /* Larger greeting text */
+    font-size: 1.5rem;
     font-weight: 600;
     color: #333;
     margin-bottom: 20px;
   }
+   */
   
+/*    
   .calendar-container {
     width: 100%;
     margin-bottom: 20px;
   }
-  
+ */  
+ 
   .scrollable-calendar {
     display: flex;
     justify-content: center;
@@ -204,9 +237,9 @@
     flex: 0 0 auto;
     padding: 10px 15px;
     font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: white;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--primary-container-color);
     cursor: pointer;
     transition: background-color 0.2s;
     display: flex;
@@ -217,17 +250,19 @@
   
   .calendar-day.today {
     font-weight: bold;
-    border-color: #007bff;
-    background-color: #e7f3ff;
+    border-color: var(--primary-button-color);
+    background-color: var(--light-primary-color);
   }
   
   .calendar-day.selected {
-    background-color: #007bff;
-    color: white;
-    border-color: #007bff;
-    box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+    background-color: var(--primary-button-color);
+    color: var(--primary-button-text-color);
+    border-color: var(--primary-button-color);
+    box-shadow: var(--box-shadow);
   }
   
+
+/*   
   .date-display {
     font-size: 0.9rem;
     font-weight: 500;
@@ -236,13 +271,15 @@
     text-align: center;
   }
   
-  .relevant-content {
+ */  
+ 
+ .relevant-content {
     margin-top: 20px;
     padding: 20px;
     width: 100%;
-    background-color: white;
-    border-radius: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    background-color: var(--primary-container-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
     min-height: 100px;
     font-size: 1.2rem;
   }
@@ -250,11 +287,11 @@
   .relevant-content h3 {
     font-size: 1.2rem;
     margin-bottom: 12px;
-    color: #333;
+    color: var(--primary-text-color);
   }
   
   .relevant-content p {
-    color: #666;
+    color: var(--secondary-text-color);
     font-size: 0.95rem;
     line-height: 1.5;
   }
@@ -264,8 +301,8 @@
     position: fixed;
     bottom: 0;
     width: 100%;
-    background-color: white;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    background-color: var(--primary-container-color);
+    box-shadow: 0 -2px 5px var(--box-shadow-color);
     z-index: 100;
   }
   
@@ -282,7 +319,7 @@
     justify-content: center;
     align-items: center;
     font-size: 1.5rem;
-    color: #666;
+    color: var(--primary-text-color);
     text-decoration: none;
     height: 100%;
     flex: 1;
@@ -290,8 +327,8 @@
   }
   
   .nav-button.active {
-    color: #007bff;
-    background-color: rgba(0, 123, 255, 0.1);
+    color: var(--primary-button-color);
+    background-color: var(--light-primary-color);
   }
   
   /* Warning styles */
@@ -304,102 +341,119 @@
   }
   
   /* Range selector styles */
-  .range-selector {
-    margin: 20px 0;
-  }
-  
-  .range-options {
-    display: flex;
-    gap: 10px;
-    overflow-x: auto;
-    padding-bottom: 8px;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  
-  .range-options::-webkit-scrollbar {
-    display: none;
-  }
-  
-  .range-options button {
-    padding: 8px 16px;
-    border-radius: 20px;
-    border: 1px solid #ccc;
-    background-color: white;
-    cursor: pointer;
-    transition: all 0.2s;
-    flex: 0 0 auto;
-  }
-  
-  .range-options button.selected {
-    background-color: #ff8c42;
-    color: white;
-    border-color: #ff8c42;
-  }
-  
-  /* Metrics container */
-  .metrics-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-    margin-top: 20px;
-  }
-  
-  .metric-card {
-    padding: 16px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  }
-  
-  .metric-value {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin: 8px 0;
-  }
-  
-  .metric-delta {
-    color: #666;
-    font-size: 0.85rem;
-  }
-  
-  .metric-delta.positive {
-    color: green;
-  }
-  
-  .metric-delta.negative {
-    color: red;
-  }
-  
-  /* No data placeholder */
-  .no-data {
-    text-align: center;
-    padding: 30px 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    color: #666;
-    margin: 20px 0;
-  }
-  
-  /* Section and treatment */
-  section {
-    margin-bottom: 30px;
-    width: 100%;
-  }
-  
-  .treatment-explanation {
-    margin-top: 16px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-  }
-  
-  summary {
-    cursor: pointer;
-    font-weight: bold;
-    margin-bottom: 10px;
-    user-select: none;
-  }
+        .range-selector {
+          margin: 20px 0;
+        }
+
+        .range-options {
+          display: flex;
+          margin: 10px 0;
+          width: 100%;
+          justify-content: center;
+          gap: 5px;
+          flex-wrap: wrap;
+        }
+
+        .range-options button {
+          padding: 8px 16px;
+          border-radius: 20px;
+          border: 1px solid #ccc;
+          background-color: white;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .range-options button.selected {
+          background-color: var(--primary-button-color);
+          color: var(--primary-button-text-color);
+          border-color:var(--primary-button-color);
+        }
+/* 
+        .main-content h1,
+        .main-content h2,
+        .main-content h3 {
+          padding-left: 16px;
+          text-align: left;
+        }
+
+ */
+         @media (max-width: 768px) {
+          .main-content h1,
+          .main-content h2,
+          .main-content h3 {
+            padding-left: 12px;
+          }
+        }
+
+        hr {
+          border: none;
+          border-top: 1px solid var(--divider-color);
+          margin: 30px 0;
+        }
+
+        .metrics-container {
+          display: flex;
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+
+        .metric-card {
+          flex: 1;
+          min-width: 250px; /* Make smaller so metric cards can be next to each other? */
+          padding: 20px;
+          margin: 10px;
+          background-color: var(--primary-container-color);
+          border: 1px solid var(--border-color);
+          border-radius: 8px;
+          box-shadow: var(--box-shadow-color);
+          text-align: center;
+          color: var(--primary-text-color);
+        }
+
+        .metric-value {
+          font-size: 24px;
+          font-weight: bold;
+          margin: 10px 0;
+          color: var(--primary-text-color);
+        }
+
+        .metric-delta {
+          color: var(--metric-color-neutral);
+        }
+
+        .metric-delta.positive {
+          color: var(--metric-color-positive);
+        }
+
+        .metric-delta.negative {
+          color: var(--metric-color-negative);
+        }
+
+        .no-data {
+          text-align: center;
+          padding: 40px;
+          background-color: #f9f9f9; /* XXX What is this color doing? */
+          border-radius: 8px;
+          color: var(--secondary-text-color);
+        }
+
+        section {
+          margin-bottom: 40px;
+        }
+
+        .treatment-explanation {
+          margin: 20px;
+          padding: 20px;
+          background-color: var(--primary-container-color);
+          border-radius: var(--border-radius);
+          box-shadow: var(--box-shadow);
+          color: var(--primary-text-color);
+        }
+
+        summary {
+          cursor: pointer;
+          font-weight: bold;
+        }
   
   /* Media queries for responsiveness */
   @media (max-width: 360px) {
@@ -416,7 +470,7 @@
     .relevant-content {
       padding: 16px;
     }
-    
+
     .nav-button svg {
       width: 20px;
       height: 20px;
@@ -448,7 +502,7 @@
     flex-direction: column;
     align-items: center;
     padding: 20px;
-    background-color: #f9f9f9;
+    background-color: var(--background-color);
     min-height: 100vh;
     width: 100%;
     box-sizing: border-box;
@@ -457,7 +511,7 @@
   .profile-heading {
     font-size: 2rem;
     font-weight: bold;
-    color: #333;
+    color: var(--primary-text-color);
     margin-bottom: 30px;
     text-align: center;
     width: 100%;
@@ -467,7 +521,7 @@
   .profile-options {
     display: flex;
     flex-direction: column;
-    gap:20px;
+    gap: 20px;
     width: 90%;
     max-width: 400px;
   }
@@ -478,14 +532,14 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px;
-    background-color: white;
+    background-color: var(--primary-container-color);
     border: none;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
     text-align: left;
     font-size: 1rem;
     font-weight: 500;
-    color: #333;
+    color: var(--primary-text-color);
     cursor: pointer;
     transition: all 0.2s ease;
     width: 100%;
@@ -512,12 +566,12 @@
   /* Arrow indicator */
   .profile-button-arrow {
     font-size: 1.2rem;
-    color: #b0b0b0;
+    color: var(--primary-text-color);
   }
   
   .profile-button:active {
     transform: scale(0.98);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--box-shadow);
   }
   
   /* Create entry styles */
@@ -538,38 +592,42 @@
     margin-bottom: 0.5rem;
   }
 
+/* 
   .entry-date {
     text-align: center;
     color: gray;
     margin-bottom: 1rem;
     font-size: 0.9rem;
   }
-
-  /* ---- Sections ---- */
+ */  
+ 
+ /* ---- Sections ---- */
   .question-section {
     width: 100%;
     text-align: center;
     align-items: center;
     justify-content: center;
     margin-bottom: 1.25rem;
+    background-color: var(--primary-background-color);
   }
 
   .question-title {
     font-weight: bold;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
+    color: var(--primary-text-color);
   }
 
   /* ---- Field Labels ---- */
   .field-label {
-    font-size: 0.9rem;
     font-weight: bold;
     margin-bottom: 10px;
     text-transform: capitalize;
     text-align: center;
-    color: #555;
+    color: var(--secondary-text-color);
   }
 
+  /* NÅET HERTIL */
   /* ---- Button Groups ---- */
   .button-group-centered {
     display: flex;
@@ -580,20 +638,21 @@
   }
 
   .button-option {
-    background: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
+    background: var(--secondary-button-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
     padding: 0.5rem 1rem;
     cursor: pointer;
     font-weight: bold;
-    color: #000;
+    color: var(--secondary-button-text-color);
     min-width: 80px;
     text-align: center;
   }
 
   .button-option.active {
-    background-color: #e0e0e0;
-    border: 2px solid #2563eb;
+    background-color: var(--primary-button-color);
+    border: 2px solid var(--border-color-active);
+    color: var(--primary-button-text-color);
   }
 
   /* ---- Pain Areas ---- */
@@ -606,17 +665,18 @@
   }
 
   .button-small {
-    background: #f0f0f0;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
+    background: var(--secondary-button-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
     padding: 0.3rem 0.5rem;
     font-size: 0.85rem;
     cursor: pointer;
   }
 
   .button-small.active {
-    background-color: #e0e0e0;
-    border: 2px solid #2563eb;
+    background-color: var(--primary-button-color);
+    border: 2px solid var(--border-color-active);
+    color: var(--primary-button-text-color);
   }
 
   /* ---- Scrolling Scale Buttons ---- */
@@ -634,8 +694,8 @@
     min-width: 28px;
     max-width: 32px;
     height: 32px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
     font-size: 0.85rem;
     font-weight: bold;
     cursor: pointer;
@@ -652,7 +712,7 @@
   .button-scale.active, 
   .button-circle.active, 
   .pain-scale-button.active {
-    border: 2px solid black;
+    border: 2px solid var(--border-color-active);
     z-index: 1;
     transform: scale(1.1);
   }
@@ -700,10 +760,6 @@
   .pain-10 { background-color: #B33A3A; } /* Deep Burgundy */
 
   /* ---- Save Section ---- */
-  .save-section {
-    margin-top: 1.5rem;
-  }
-
   .save-section-fixed {
     position: fixed;
     bottom: 80px;
@@ -720,7 +776,7 @@
   .save-section-fixed .button-primary {
     padding: 0.75rem 2rem;
     border-radius: 2rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--box-shadow);
     font-size: 1.1rem;
   }
   
@@ -746,14 +802,14 @@
   .success-message {
     font-size: 1.1rem;
     margin-bottom: 1rem;
-    color: green;
+    color: var(--metric-color-positive);
   }
 
   .button-primary {
-    background-color: #2563eb;
-    color: white;
+    background-color: var(--primary-button-color);
+    color: var(--primary-button-text-color);
     padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius);
     font-weight: bold;
     cursor: pointer;
     border: none;
@@ -763,9 +819,8 @@
   .input-field {
     width: 100%;
     padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    background-color: var(--form-color);
     margin-top: 0.5rem;
   }
-
-  
