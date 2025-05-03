@@ -82,6 +82,7 @@ ORIGINAL COLOR SCHEME:
   /* Main content */
 
   .main-content {
+    padding-top: 20px;
     padding-bottom: 120px;
     width: 100%;
     overflow-x: hidden;
@@ -316,6 +317,11 @@ ORIGINAL COLOR SCHEME:
     font-size: 1.2rem;
     margin-bottom: 12px;
     color: var(--primary-text-color);
+    text-align: center;
+  }
+
+  .home-container .relevant-content h3 {
+    text-align: center !important;
   }
   
   .relevant-content p {
@@ -401,8 +407,8 @@ ORIGINAL COLOR SCHEME:
         .main-content h1,
         .main-content h2,
         .main-content h3 {
-          padding-left: 16px;
-          text-align: left;
+          padding: 2px;
+          text-align: center;
           color: var(--primary-text-color);
         }
 
@@ -411,7 +417,7 @@ ORIGINAL COLOR SCHEME:
           .main-content h1,
           .main-content h2,
           .main-content h3 {
-            padding-left: 12px;
+            padding: 2px;
           }
         }
 
@@ -423,17 +429,19 @@ ORIGINAL COLOR SCHEME:
 
         .metrics-container {
           display: flex;
-          gap: 20px;
           flex-wrap: wrap;
+          gap: 12px;
+          justify-content: space-between;
+          padding: 0 12px;
         }
 
         .metric-card {
-          flex: 1;
-          min-width: 250px; /* Make smaller so metric cards can be next to each other? */
+          flex: 1 1 calc(50% - 12px); /* two per row with 20px gap */
+          box-sizing: border-box;
           padding: 20px;
-          margin: 10px;
+          margin: 0;
           background-color: var(--primary-container-color);
-          border: 1px solid var(--border-color);
+          border: var(--border-thickness) solid var(--border-color);
           border-radius: var(--border-radius);
           box-shadow: var(--box-shadow-color);
           text-align: center;
@@ -644,6 +652,7 @@ ORIGINAL COLOR SCHEME:
 
   .question-title {
     font-weight: bold;
+    text-align: center !important;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
     color: var(--primary-text-color);
