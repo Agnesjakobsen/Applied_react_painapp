@@ -1,4 +1,5 @@
-/* Base styles */
+/*
+ORIGINAL COLOR SCHEME:
 :root {
   --primary-color: #007bff;
   --light-primary-color: #ddeeff;
@@ -10,17 +11,44 @@
   --primary-container-color: #ffffff;
   --background-color: #f8f9fa;
   --primary-text-color: #343a40;
-  --secondary-text-color: #6c757d; /* Should be darker */
-  --border-color: #dee2e6; /* Should be darker */
+  --secondary-text-color: #6c757d;
+  --border-color: #dee2e6; 
   --border-color-active: #007bff;
   --form-color: #ffffff;
-  --divider-color: #e9ecef; /* Could be darker */
+  --divider-color: #e9ecef; 
   --border-radius: 8px;
   --metric-color-neutral: #666;
   --metric-color-positive: #28a745;
   --metric-color-negative: #dc3545;
   --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   --box-shadow-color: rgba(0, 0, 0, 0.1);
+}
+*/
+
+/* Base styles */
+:root {
+  --primary-color: #699494; /* Original: #007bff */
+  --light-primary-color: #cfdede; /* Original: #ddeeff */
+  --secondary-color: #6f7171; /* Not in use */
+  --primary-button-color: var(--primary-color);
+  --secondary-button-color: #fbf8ee; /* Original: #f1f1f1 */
+  --primary-button-text-color: #fefefe; /* Original: #ffffff */
+  --secondary-button-text-color: #6b6b6c; /* Original: #333333 */
+  --primary-container-color: #fbf8ee; /* Original: #ffffff */
+  --background-color: #f0ece1;
+  --primary-text-color: #3b3c3c; /* Original: #343a40 */
+  --secondary-text-color: #525454; 
+  --border-color: #d8e4e2; /* Original: #dee2e6 */
+  --border-color-active: var(--primary-color);
+  --form-color: #fbf8ee; /* Original: #ffffff */
+  --divider-color: var(--border-color); /* Original: #e9ecef */
+  --border-thickness: 2px;
+  --border-radius: 8px;
+  --metric-color-neutral: var(--secondary-text-color); /* Original: #666 */
+  --metric-color-positive: #28a745;
+  --metric-color-negative: #dc3545;
+  --box-shadow-color: rgba(0, 0, 0, 0.1);
+  --box-shadow: 0 2px 5px var(--box-shadow-color);
 }
 
 * {
@@ -108,7 +136,7 @@
     width: 100%;
     padding: 12px;
     font-size: 16px;
-    border: 1px solid var(--border-color);
+    border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     background-color: var(--form-color);
   }
@@ -237,7 +265,7 @@
     flex: 0 0 auto;
     padding: 10px 15px;
     font-size: 1rem;
-    border: 1px solid var(--border-color);
+    border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     background-color: var(--primary-container-color);
     cursor: pointer;
@@ -323,12 +351,13 @@
     text-decoration: none;
     height: 100%;
     flex: 1;
-    transition: color 0.2s;
+    transition: background-color 0.2s ease, border-radius 0.2s ease;
   }
   
   .nav-button.active {
     color: var(--primary-button-color);
     background-color: var(--light-primary-color);
+    border-radius: var(--border-radius);
   }
   
   /* Warning styles */
@@ -336,7 +365,7 @@
     background-color: #fff3cd;
     color: #856404;
     padding: 15px;
-    border-radius: 8px;
+    border-radius: var(--border-radius);
     margin: 20px 0;
   }
   
@@ -356,9 +385,9 @@
 
         .range-options button {
           padding: 8px 16px;
-          border-radius: 20px;
-          border: 1px solid #ccc;
-          background-color: white;
+          border-radius: var(--border-radius);
+          border: var(--border-thickness) solid var(--border-color);
+          background-color: var(--primary-container-color);
           cursor: pointer;
           transition: all 0.2s;
         }
@@ -366,17 +395,18 @@
         .range-options button.selected {
           background-color: var(--primary-button-color);
           color: var(--primary-button-text-color);
-          border-color:var(--primary-button-color);
+          border-color: var(--primary-button-color);
         }
-/* 
+
         .main-content h1,
         .main-content h2,
         .main-content h3 {
           padding-left: 16px;
           text-align: left;
+          color: var(--primary-text-color);
         }
 
- */
+
          @media (max-width: 768px) {
           .main-content h1,
           .main-content h2,
@@ -387,7 +417,7 @@
 
         hr {
           border: none;
-          border-top: 1px solid var(--divider-color);
+          border-top: var(--border-thickness) solid var(--divider-color);
           margin: 30px 0;
         }
 
@@ -404,7 +434,7 @@
           margin: 10px;
           background-color: var(--primary-container-color);
           border: 1px solid var(--border-color);
-          border-radius: 8px;
+          border-radius: var(--border-radius);
           box-shadow: var(--box-shadow-color);
           text-align: center;
           color: var(--primary-text-color);
@@ -432,8 +462,8 @@
         .no-data {
           text-align: center;
           padding: 40px;
-          background-color: #f9f9f9; /* XXX What is this color doing? */
-          border-radius: 8px;
+          background-color: var(--primary-container-color); /* XXX What is this color doing? */
+          border-radius: var(--border-radius);
           color: var(--secondary-text-color);
         }
 
@@ -590,6 +620,7 @@
     font-size: 1.4rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
+    color: var(--primary-text-color);
   }
 
 /* 
@@ -622,7 +653,6 @@
   .field-label {
     font-weight: bold;
     margin-bottom: 10px;
-    text-transform: capitalize;
     text-align: center;
     color: var(--secondary-text-color);
   }
@@ -639,7 +669,7 @@
 
   .button-option {
     background: var(--secondary-button-color);
-    border: 1px solid var(--border-color);
+    border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     padding: 0.5rem 1rem;
     cursor: pointer;
@@ -651,7 +681,7 @@
 
   .button-option.active {
     background-color: var(--primary-button-color);
-    border: 2px solid var(--border-color-active);
+    border: var(--border-thickness) solid var(--border-color-active);
     color: var(--primary-button-text-color);
   }
 
@@ -666,7 +696,7 @@
 
   .button-small {
     background: var(--secondary-button-color);
-    border: 1px solid var(--border-color);
+    border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     padding: 0.3rem 0.5rem;
     font-size: 0.85rem;
@@ -675,7 +705,7 @@
 
   .button-small.active {
     background-color: var(--primary-button-color);
-    border: 2px solid var(--border-color-active);
+    border: var(--border-thickness) solid var(--border-color-active);
     color: var(--primary-button-text-color);
   }
 
@@ -688,13 +718,17 @@
     margin: 0.25rem 0;
   }
 
+  .button-scroll .pain-scale-button {
+    font-size: 0.55rem; /* or 14px, etc. */
+  }  
+
   /* Pain Scale Buttons */
   .button-scale, .button-circle, .pain-scale-button {
     flex: 1;
     min-width: 28px;
     max-width: 32px;
     height: 32px;
-    border: 1px solid var(--border-color);
+    border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     font-size: 0.85rem;
     font-weight: bold;
@@ -712,7 +746,7 @@
   .button-scale.active, 
   .button-circle.active, 
   .pain-scale-button.active {
-    border: 2px solid var(--border-color-active);
+    border: var(--border-thickness) solid var(--border-color-active);
     z-index: 1;
     transform: scale(1.1);
   }
@@ -819,8 +853,9 @@
   .input-field {
     width: 100%;
     padding: 0.5rem;
-    border: 1px solid var(--border-color);
+    border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     background-color: var(--form-color);
     margin-top: 0.5rem;
+    margin-bottom: 1.25rem;
   }

@@ -85,7 +85,7 @@ export default function CreateEntry({ selectedDate }) {
 
   return (
     <div className="entry-container">
-      <h1 className="entry-title">Create entry</h1>
+      <h1 className="entry-title">Create Entry</h1>
 
       <div className="question-section">
         <h2 className="question-title">
@@ -157,7 +157,9 @@ export default function CreateEntry({ selectedDate }) {
               (field) => (
                 <div key={field} className="pain-scale-container">
                   <div className="field-label">
-                    {field.replace(/([A-Z])/g, " $1")}
+                    {field
+                      .replace(/([A-Z])/g, " $1")
+                      .replace(/\b\w/g, (char) => char.toUpperCase())}
                   </div>
                   <div className="pain-scale">
                     {painScale.map((n) => (
@@ -236,13 +238,13 @@ export default function CreateEntry({ selectedDate }) {
               In the past 24 hours, how much has pain interfered with your . . .
             </h2>
             {[
-              "generalActivity",
-              "mood",
-              "walking",
-              "normalWork",
-              "relations",
-              "sleep",
-              "enjoyment",
+              "GeneralActivity",
+              "Mood",
+              "Walking",
+              "Normal Work",
+              "Relations",
+              "Sleep",
+              "Enjoyment",
             ].map((field) => (
               <div key={field} className="pain-scale-container">
                 <div className="field-label">

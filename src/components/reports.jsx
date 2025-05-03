@@ -425,20 +425,29 @@ function Reports() {
                     labelFormatter={(label) =>
                       format(new Date(label), "MMM dd, yyyy")
                     }
+                    contentStyle={{
+                      backgroundColor: "var(--primary-container-color)",
+                      color: "var(--text-color)",
+                      border:
+                        "var(--border-thickness) solid var(--border-color)",
+                      borderRadius: "var(--border-radius)",
+                      padding: "10px",
+                    }}
                   />
                   <Legend
                     payload={[
-                      { value: "Worst", type: "line", color: "red" },
-                      { value: "Least", type: "line", color: "green" },
-                      { value: "Average", type: "line", color: "#1f77b4" },
+                      { value: "Worst", type: "line", color: "#dc3545" },
+                      { value: "Least", type: "line", color: "#28a745" },
+                      { value: "Average", type: "line", color: "#699494" },
                     ]}
                   />
                   <Line
                     type="monotone"
                     dataKey="bpi3"
                     name="Worst"
-                    stroke="red"
+                    stroke="#dc3545"
                     strokeDasharray="4 4"
+                    strokeWidth={2}
                     dot={rangeOption === "Last 7 days"}
                     opacity={0.8}
                   />
@@ -446,8 +455,9 @@ function Reports() {
                     type="monotone"
                     dataKey="bpi4"
                     name="Least"
-                    stroke="green"
+                    stroke="#28a745"
                     strokeDasharray="4 4"
+                    strokeWidth={2}
                     dot={rangeOption === "Last 7 days"}
                     opacity={0.8}
                   />
@@ -455,7 +465,7 @@ function Reports() {
                     type="monotone"
                     dataKey="bpi5"
                     name="Average"
-                    stroke="#1f77b4"
+                    stroke="#699494"
                     strokeWidth={2}
                     dot={rangeOption === "Last 7 days"}
                   />
@@ -481,10 +491,20 @@ function Reports() {
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis type="number" domain={[0, 10]} />
                   <YAxis dataKey="factor" type="category" />
-                  <Tooltip formatter={(value) => [value.toFixed(2), "Score"]} />
-                  <Bar dataKey="score" fill="#007bff">
+                  <Tooltip
+                    formatter={(value) => [value.toFixed(2), "Score"]}
+                    contentStyle={{
+                      backgroundColor: "var(--primary-container-color)",
+                      color: "var(--text-color)",
+                      border:
+                        "var(--border-thickness) solid var(--border-color)",
+                      borderRadius: "var(--border-radius)",
+                      padding: "10px",
+                    }}
+                  />
+                  <Bar dataKey="score" fill="#699494" radius={[0, 4, 4, 0]}>
                     {interferenceData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill="#007bff" />
+                      <Cell key={`cell-${index}`} fill="#699494" />
                     ))}
                   </Bar>
                 </BarChart>
@@ -514,10 +534,22 @@ function Reports() {
                       value.toFixed(2),
                       "Average Pain Score",
                     ]}
-                  />
-                  <Bar dataKey="averagePain" fill="#007bff">
+                    contentStyle={{
+                      backgroundColor: "var(--primary-container-color)",
+                      color: "var(--text-color)",
+                      border:
+                        "var(--border-thickness) solid var(--border-color)",
+                      borderRadius: "var(--border-radius)",
+                      padding: "10px",
+                    }}
+                  />{" "}
+                  <Bar
+                    dataKey="averagePain"
+                    fill="#699494"
+                    radius={[0, 4, 4, 0]}
+                  >
                     {treatmentData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill="#007bff" />
+                      <Cell key={`cell-${index}`} fill="#699494" />
                     ))}
                   </Bar>
                 </BarChart>
@@ -527,6 +559,7 @@ function Reports() {
             <details className="treatment-explanation">
               <summary>How do I compare treatments?</summary>
               <p>
+                <br />
                 This chart shows the <strong>average pain</strong> on days you
                 used a treatment. It does <em>not</em> mean that the treatment{" "}
                 <em>causes</em> more or less pain!
