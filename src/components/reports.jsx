@@ -14,12 +14,7 @@ import {
 } from "recharts";
 import { format, subDays, subMonths, subYears, parseISO } from "date-fns";
 import { supabase } from "../utils/supabase";
-import {
-  Pill,
-  AlertCircle,
-  BarChart3,
-  LineChart as LineChartIcon,
-} from "lucide-react";
+import {AlertCircle} from "lucide-react";
 
 function Reports() {
   const [painData, setPainData] = useState([]);
@@ -378,7 +373,6 @@ function Reports() {
 
             <section className="metrics-section">
               <h2>
-                <BarChart3 size={20} className="icon section-icon" />
                 {periodType} Comparison
               </h2>
 
@@ -413,7 +407,6 @@ function Reports() {
 
             <section className="trends-section">
               <h2>
-                <LineChartIcon size={20} className="icon section-icon" />
                 {periodType} Trends
               </h2>
 
@@ -517,7 +510,6 @@ function Reports() {
 
             <section>
               <h2>
-                <Pill size={20} className="icon section-icon" />
                 Treatment Comparison
               </h2>
 
