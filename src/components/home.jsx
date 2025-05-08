@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import Calendar from "./Calendar";
+import Calendar from "./calendar";
 import { User } from "lucide-react"; // Import a user icon
 import { useEffect, useState } from "react";
 import { supabase } from "../utils/supabase"; // Adjust path if needed
@@ -66,7 +66,7 @@ function Home({ username, selectedDate, setSelectedDate }) {
         </h3>
       </div>
       <Calendar selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-      <div className="relevant-content">
+      <div className="summary-container">
         <h3>Today's Summary</h3>
         {loading ? (
           <p>Loading pain data...</p>

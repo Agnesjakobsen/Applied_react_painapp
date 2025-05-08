@@ -77,7 +77,7 @@ export default function CreateEntry({ selectedDate }) {
   if (success) {
     return (
       <div className="success-container">
-        <p className="success-message">✅ Entry saved!</p>
+        <p className="success-message">Entry saved!</p>
         <p className="success-submessage">Going back to the home page...</p>
       </div>
     );
@@ -215,7 +215,7 @@ export default function CreateEntry({ selectedDate }) {
                   <div className="field-label">
                     How much relief has this given you in the past 24 hours?
                   </div>
-                  <div className="button-scroll">
+                  <div className="treatment-button">
                     {reliefScale.map((n) => (
                       <button
                         key={n}

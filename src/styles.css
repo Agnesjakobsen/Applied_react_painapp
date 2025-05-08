@@ -27,26 +27,27 @@ ORIGINAL COLOR SCHEME:
 
 /* Base styles */
 :root {
-  --primary-color: #699494; /* Original: #007bff */
-  --light-primary-color: #cfdede; /* Original: #ddeeff */
-  --secondary-color: #6f7171; /* Not in use */
+
+  --primary-color: #56A0D3; /* Original: #007bff */
+  --light-primary-color: #D7E3EC; /* Original: #ddeeff */
+  --secondary-color: #F2D492; /* Not in use */
   --primary-button-color: var(--primary-color);
-  --secondary-button-color: #fbf8ee; /* Original: #f1f1f1 */
-  --primary-button-text-color: #fefefe; /* Original: #ffffff */
-  --secondary-button-text-color: #6b6b6c; /* Original: #333333 */
-  --primary-container-color: #fbf8ee; /* Original: #ffffff */
-  --background-color: #f0ece1;
-  --primary-text-color: #3b3c3c; /* Original: #343a40 */
-  --secondary-text-color: #525454; 
-  --border-color: #d8e4e2; /* Original: #dee2e6 */
+  --secondary-button-color: #FBF9F2; /* Original: #f1f1f1 */
+  --primary-button-text-color: #FBF9F2; /* Original: #ffffff */
+  --secondary-button-text-color: #3E3E3E; /* Original: #333333 */
+  --primary-container-color: #FBF9F2; /* Original: #ffffff */
+  --background-color: #F6F4ED;
+  --primary-text-color: #3E3E3E; /* Original: #343a40 */
+  --secondary-text-color: #595959; 
+  --border-color: #D8D8D0; /* Original: #dee2e6 */
   --border-color-active: var(--primary-color);
-  --form-color: #fbf8ee; /* Original: #ffffff */
+  --form-color: #FBF9F2; /* Original: #ffffff */
   --divider-color: var(--border-color); /* Original: #e9ecef */
   --border-thickness: 2px;
   --border-radius: 8px;
   --metric-color-neutral: var(--secondary-text-color); /* Original: #666 */
-  --metric-color-positive: #28a745;
-  --metric-color-negative: #dc3545;
+  --metric-color-positive: #6B8E23;
+  --metric-color-negative: #B33A3A;
   --box-shadow-color: rgba(0, 0, 0, 0.1);
   --box-shadow: 0 2px 5px var(--box-shadow-color);
 }
@@ -177,7 +178,7 @@ ORIGINAL COLOR SCHEME:
     text-align: center;
     max-width: 320px;
   }
-  
+
   /* Home page and Calendar styles and Profile */
   .home-container {
     display: flex;
@@ -189,8 +190,7 @@ ORIGINAL COLOR SCHEME:
     max-width: 100%;
     overflow-x: hidden;
   }
-
-    /* Header and profile */
+    /* ---- Header and profile ---- */
     .header {
       display: flex;
       justify-content: flex-end;
@@ -212,6 +212,7 @@ ORIGINAL COLOR SCHEME:
       display: flex;
       align-items: center;
       justify-content: center;
+      color: var(--primary-text-color);
     }
 
 /*     
@@ -221,32 +222,23 @@ ORIGINAL COLOR SCHEME:
     }
   
  */  
- 
+
+ /* ---- Greeting ---- */
  .greeting {
     width: 100%;
+    margin-top: 40px;
+    margin-bottom: 20px;
     margin: 24 0;
     text-align: center;
     flex: 1; 
-    color: var(--primary-text-color)
-  }
-
-  /* 
-  .greeting h3 {
+    color: var(--primary-text-color);
     font-size: 1.5rem;
     font-weight: 600;
-    color: #333;
-    margin-bottom: 20px;
   }
-   */
   
-/*    
-  .calendar-container {
-    width: 100%;
-    margin-bottom: 20px;
-  }
- */  
- 
+ /* ---- Calendar ---- */
   .scrollable-calendar {
+    margin-bottom: 30px;
     display: flex;
     justify-content: center;
     gap: 10px;
@@ -275,11 +267,13 @@ ORIGINAL COLOR SCHEME:
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: var(--secondary-button-text-color)
   }
   
   .calendar-day.today {
     font-weight: bold;
-    border-color: var(--primary-button-color);
+
+    border-color: #90B8D4;
     background-color: var(--light-primary-color);
   }
   
@@ -290,7 +284,6 @@ ORIGINAL COLOR SCHEME:
     box-shadow: var(--box-shadow);
   }
   
-
 /*   
   .date-display {
     font-size: 0.9rem;
@@ -299,10 +292,11 @@ ORIGINAL COLOR SCHEME:
     margin: 10px 0 20px;
     text-align: center;
   }
-  
  */  
  
- .relevant-content {
+
+ /* ---- Home box ---- */
+ .summary-container {
     margin-top: 20px;
     padding: 20px;
     width: 100%;
@@ -313,18 +307,18 @@ ORIGINAL COLOR SCHEME:
     font-size: 1.2rem;
   }
   
-  .relevant-content h3 {
+  .summary-container h3 {
     font-size: 1.2rem;
     margin-bottom: 12px;
     color: var(--primary-text-color);
     text-align: center;
   }
 
-  .home-container .relevant-content h3 {
+  .home-container .summary-container h3 {
     text-align: center !important;
   }
   
-  .relevant-content p {
+  .summary-container p {
     color: var(--secondary-text-color);
     font-size: 0.95rem;
     line-height: 1.5;
@@ -505,7 +499,7 @@ ORIGINAL COLOR SCHEME:
       font-size: 1.2rem;
     }
     
-    .relevant-content {
+    .summary-container {
       padding: 16px;
     }
 
@@ -525,7 +519,7 @@ ORIGINAL COLOR SCHEME:
         padding: 8px 12px;
     }
 
-    .relevant-content {
+    .summary-container {
         font-size: 1rem;
     }
 
@@ -710,6 +704,7 @@ ORIGINAL COLOR SCHEME:
     padding: 0.3rem 0.5rem;
     font-size: 0.85rem;
     cursor: pointer;
+    color: var(--secondary-button-text-color)
   }
 
   .button-small.active {
@@ -719,24 +714,31 @@ ORIGINAL COLOR SCHEME:
   }
 
   /* ---- Scrolling Scale Buttons ---- */
-  .button-scroll {
+  .treatment-button {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
     gap: 1px;
-    margin: 0.25rem 0;
+    margin: 0 auto;
+    max-width: 400px;
+    height: 36px;
   }
 
-  .button-scroll .pain-scale-button {
-    font-size: 0.55rem; /* or 14px, etc. */
+
+  .treatment-button .pain-scale-button {
+    font-size: 0.6rem; 
+    width: 32px;
+    height: 32px;
   }  
 
-  /* Pain Scale Buttons */
+  /* ---- Pain Scale Buttons ---- */
   .button-scale, .button-circle, .pain-scale-button {
     flex: 1;
     min-width: 28px;
-    max-width: 32px;
-    height: 32px;
+    max-width: 36px;
+    height: 36px;
+
     border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     font-size: 0.85rem;
@@ -746,6 +748,8 @@ ORIGINAL COLOR SCHEME:
     justify-content: center;
     align-items: center;
     padding: 0;
+    background-color: var(--secondary-button-color);
+    color: var(--secondary-button-text-color);
   }
 
   .button-circle {
@@ -757,11 +761,6 @@ ORIGINAL COLOR SCHEME:
   .pain-scale-button.active {
     border: var(--border-thickness) solid var(--border-color-active);
     z-index: 1;
-    transform: scale(1.1);
-  }
-
-  /* Hover effect */
-  .pain-scale-button:hover {
     transform: scale(1.1);
   }
 
@@ -782,10 +781,8 @@ ORIGINAL COLOR SCHEME:
   }
 
   .pain-scale-button {
-    flex: 1;
     height: 30px;
     font-size: 0.8rem;
-    background-color: inherit;
     transition: all 0.2s ease;
   }
 
@@ -817,6 +814,9 @@ ORIGINAL COLOR SCHEME:
   }
 
   .save-section-fixed .button-primary {
+    background-color: var(--secondary-color) !important;
+    color: var(--secondary-button-text-color) !important;
+
     padding: 0.75rem 2rem;
     border-radius: 2rem;
     box-shadow: var(--box-shadow);
@@ -845,7 +845,6 @@ ORIGINAL COLOR SCHEME:
   .success-message {
     font-size: 1.1rem;
     margin-bottom: 1rem;
-    color: var(--metric-color-positive);
   }
 
   .button-primary {
@@ -868,3 +867,109 @@ ORIGINAL COLOR SCHEME:
     margin-top: 0.5rem;
     margin-bottom: 1.25rem;
   }
+
+/*Reports section*/
+.reports-section {
+  padding-bottom: 80px;
+}
+
+.reports-section .warning {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.reports-section .range-options {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.reports-section hr {
+  border: none;
+  border-top: 1px solid #eee;
+  margin: 30px 0;
+}
+
+.reports-section .range-options button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  background-color: var(--secondary-button-color);
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--secondary-button-text-color);
+}
+
+.reports-section .range-options button.selected {
+  background-color: var(--secondary-color);
+  color: var(--secondary-button-text-color);
+  border-color: var(--secondary-color);
+}
+
+.reports-section .main-content h1,
+.reports-section .main-content h2,
+.reports-section .main-content h3 {
+  padding-left: 16px;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .reports-section .main-content h1,
+  .reports-section .main-content h2,
+  .reports-section .main-content h3 {
+    padding-left: 12px;
+  }
+}
+
+.reports-section .metrics-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+.reports-section .metric-card {
+  flex: 1 1 calc(50% - 12px); /* two per row with 20px gap */
+  box-sizing: border-box;
+  padding: 20px;
+  margin: 0;
+  background-color: var(--primary-container-color);
+  border: var(--border-thickness) solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-color);
+  text-align: center;
+  color: var(--primary-text-color);
+}
+
+.reports-section .metric-value {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 10px 0;
+  color: var(--primary-text-color);
+}
+
+.reports-section .no-data {
+  text-align: center;
+  padding: 40px;
+  background-color: var(--primary-container-color);
+  border-radius: 8px;
+  color: #666;
+}
+
+.reports-section .treatment-explanation {
+  margin-top: 20px;
+  padding: 15px;
+  background-color: var(--primary-container-color);
+  border-radius: 8px;
+}
+
+.reports-section summary {
+  cursor: pointer;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+

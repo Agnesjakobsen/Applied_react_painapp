@@ -341,32 +341,33 @@ function Reports() {
   };
 
   return (
-    <div className="main-content">
-      <h1>Your Pain Report</h1>
+    <div className="reports-section">
+      <div className="main-content">
+        <h1>Your Pain Report</h1>
 
-      {painData.length === 0 ? (
-        <div className="warning">
-          <AlertCircle size={20} className="icon warning-icon" />
-          No data found. Please create an entry first.
-        </div>
-      ) : (
-        <>
-          <div className="range-selector">
-            <h3>Select time range</h3>
-            <div className="range-options">
-              {["Last 7 days", "Last month", "Last year", "All time"].map(
-                (option) => (
-                  <button
-                    key={option}
-                    className={rangeOption === option ? "selected" : ""}
-                    onClick={() => setRangeOption(option)}
-                  >
-                    {option}
-                  </button>
-                )
-              )}
-            </div>
+        {painData.length === 0 ? (
+          <div className="warning">
+            <AlertCircle size={20} className="icon warning-icon" />
+            No data found. Please create an entry first.
           </div>
+        ) : (
+          <>
+            <div className="range-selector">
+              <h3>Select time range</h3>
+              <div className="range-options">
+                {["Last 7 days", "Last month", "Last year", "All time"].map(
+                  (option) => (
+                    <button
+                      key={option}
+                      className={rangeOption === option ? "selected" : ""}
+                      onClick={() => setRangeOption(option)}
+                    >
+                      {option}
+                    </button>
+                  )
+                )}
+              </div>
+            </div>
 
           <hr />
 
@@ -388,192 +389,173 @@ function Reports() {
                     ? (painDelta > 0 ? "+" : "") + painDeltaDisplay
                     : "N/A"}
                 </div>
-              </div>
 
               <div className="metric-card">
                 <h3>Most Painful Area</h3>
                 <div className="metric-value">
                   {mostPainfulArea || "No data"}
+
                 </div>
-                <div className="metric-delta">{areaDelta}</div>
               </div>
-            </div>
-          </section>
+            </section>
 
-          <hr />
+            <hr />
 
-          <section className="trends-section">
-            <h2>{periodType} Trends</h2>
+            <section className="trends-section">
+              <h2>
+                <LineChartIcon size={20} className="icon section-icon" />
+                {periodType} Trends
+              </h2>
 
-            {chartData.length === 0 ? (
-              <div className="no-data">No data available for this range</div>
-            ) : (
-              <ResponsiveContainer width="100%" height={400}>
-                <LineChart
-                  data={chartData}
-                  margin={{ top: 5, right: 10, left: 10, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis
-                    dataKey="date"
-                    tickFormatter={getDateTickFormat()}
-                    type="category"
-                  />
-                  <YAxis domain={[0, 10]} />
-                  <Tooltip
-                    formatter={(value) => value.toFixed(2)}
-                    labelFormatter={(label) =>
-                      format(new Date(label), "MMM dd, yyyy")
-                    }
-                    contentStyle={{
-                      backgroundColor: "var(--primary-container-color)",
-                      color: "var(--text-color)",
-                      border:
-                        "var(--border-thickness) solid var(--border-color)",
-                      borderRadius: "var(--border-radius)",
-                      padding: "10px",
-                    }}
-                  />
-                  <Legend
-                    payload={[
-                      { value: "Worst", type: "line", color: "#dc3545" },
-                      { value: "Least", type: "line", color: "#28a745" },
-                      { value: "Average", type: "line", color: "#699494" },
-                    ]}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="bpi3"
-                    name="Worst"
-                    stroke="#dc3545"
-                    strokeDasharray="4 4"
-                    strokeWidth={2}
-                    dot={rangeOption === "Last 7 days"}
-                    opacity={0.8}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="bpi4"
-                    name="Least"
-                    stroke="#28a745"
-                    strokeDasharray="4 4"
-                    strokeWidth={2}
-                    dot={rangeOption === "Last 7 days"}
-                    opacity={0.8}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="bpi5"
-                    name="Average"
-                    stroke="#699494"
-                    strokeWidth={2}
-                    dot={rangeOption === "Last 7 days"}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            )}
-          </section>
-
-          <hr />
-
-          <section className="interference-section">
-            <h2>{periodType} Pain Interference</h2>
-
-            {interferenceData.length === 0 ? (
-              <div className="no-data">No data available for this range</div>
-            ) : (
-              <ResponsiveContainer width="100%" height={400}>
-                <BarChart
-                  data={interferenceData}
-                  layout="vertical"
-                  margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" domain={[0, 10]} />
-                  <YAxis dataKey="factor" type="category" />
-                  <Tooltip
-                    formatter={(value) => [value.toFixed(2), "Score"]}
-                    contentStyle={{
-                      backgroundColor: "var(--primary-container-color)",
-                      color: "var(--text-color)",
-                      border:
-                        "var(--border-thickness) solid var(--border-color)",
-                      borderRadius: "var(--border-radius)",
-                      padding: "10px",
-                    }}
-                  />
-                  <Bar dataKey="score" fill="#699494" radius={[0, 4, 4, 0]}>
-                    {interferenceData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill="#699494" />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            )}
-          </section>
-
-          <hr />
-
-          <section>
-            <h2>Treatment Comparison</h2>
-
-            {treatmentData.length === 0 ? (
-              <div className="no-data">No data available for this range</div>
-            ) : (
-              <ResponsiveContainer width="100%" height={400}>
-                <BarChart
-                  data={treatmentData}
-                  layout="vertical"
-                  margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis type="number" domain={[0, 10]} />
-                  <YAxis dataKey="treatment" type="category" />
-                  <Tooltip
-                    formatter={(value) => [
-                      value.toFixed(2),
-                      "Average Pain Score",
-                    ]}
-                    contentStyle={{
-                      backgroundColor: "var(--primary-container-color)",
-                      color: "var(--text-color)",
-                      border:
-                        "var(--border-thickness) solid var(--border-color)",
-                      borderRadius: "var(--border-radius)",
-                      padding: "10px",
-                    }}
-                  />{" "}
-                  <Bar
-                    dataKey="averagePain"
-                    fill="#699494"
-                    radius={[0, 4, 4, 0]}
+              {chartData.length === 0 ? (
+                <div className="no-data">No data available for this range</div>
+              ) : (
+                <ResponsiveContainer width="100%" height={400}>
+                  <LineChart
+                    data={chartData}
+                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                   >
-                    {treatmentData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill="#699494" />
-                    ))}
-                  </Bar>
-                </BarChart>
-              </ResponsiveContainer>
-            )}
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis
+                      dataKey="date"
+                      tickFormatter={getDateTickFormat()}
+                      type="category"
+                    />
+                    <YAxis domain={[0, 10]} />
+                    <Tooltip
+                      formatter={(value, name) => [
+                        value.toFixed(2),
+                        name === "bpi3"
+                          ? "Worst"
+                          : name === "bpi4"
+                          ? "Least"
+                          : "Average",
+                      ]}
+                      labelFormatter={(label) =>
+                        format(new Date(label), "MMM dd, yyyy")
+                      }
+                    />
+                    <Legend
+                      payload={[
+                        { value: "Worst", type: "line", color: "var(--metric-color-negative)" },
+                        { value: "Least", type: "line", color: "var(--metric-color-positive)" },
+                        { value: "Average", type: "line", color: "#5A7D9A" },
+                      ]}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="bpi3"
+                      name="Worst"
+                      stroke="var(--metric-color-negative)"
+                      strokeDasharray="6 6"
+                      strokeWidth={1.5}
+                      dot={rangeOption === "Last 7 days"}
+                      opacity={0.8}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="bpi4"
+                      name="Least"
+                      stroke="var(--metric-color-positive)"
+                      strokeDasharray="6 6"
+                      strokeWidth={1.5}
+                      dot={rangeOption === "Last 7 days"}
+                      opacity={0.8}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="bpi5"
+                      name="Average"
+                      stroke="#5A7D9A"
+                      strokeWidth={2}
+                      dot={rangeOption === "Last 7 days"}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              )}
+            </section>
 
-            <details className="treatment-explanation">
-              <summary>How do I compare treatments?</summary>
-              <p>
-                <br />
-                This chart shows the <strong>average pain</strong> on days you
-                used a treatment. It does <em>not</em> mean that the treatment{" "}
-                <em>causes</em> more or less pain!
-                <br />
-                <br />
-                For example, if you only take painkillers when your pain is
-                high, the chart may show high pain on those days. This just
-                means that you tend to take painkillers <em>only</em> on bad
-                days. It does <em>not</em> that they cause more pain.
-              </p>
-            </details>
-          </section>
-        </>
-      )}
+            <hr />
+
+            <section className="interference-section">
+              <h2>{periodType} Pain Interference</h2>
+
+              {interferenceData.length === 0 ? (
+                <div className="no-data">No data available for this range</div>
+              ) : (
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart
+                    data={interferenceData}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" domain={[0, 10]} />
+                    <YAxis dataKey="factor" type="category" />
+                    <Tooltip formatter={(value) => [value.toFixed(2), "Score"]} />
+                    <Bar dataKey="score" fill="#5A7D9A">
+                      {interferenceData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill="var(--primary-color)" />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
+            </section>
+
+            <hr />
+
+            <section>
+              <h2>
+                <Pill size={20} className="icon section-icon" />
+                Treatment Comparison
+              </h2>
+
+              {treatmentData.length === 0 ? (
+                <div className="no-data">No data available for this range</div>
+              ) : (
+                <ResponsiveContainer width="100%" height={200}>
+                  <BarChart
+                    data={treatmentData}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" domain={[0, 10]} />
+                    <YAxis dataKey="treatment" type="category" />
+                    <Tooltip
+                      formatter={(value) => [
+                        value.toFixed(2),
+                        "Average Pain Score",
+                      ]}
+                    />
+                    <Bar dataKey="averagePain" fill="#5A7D9A">
+                      {treatmentData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill="var(--primary-color)" />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
+
+              <details className="treatment-explanation">
+                <summary>How to interpret treatment comparisons</summary>
+                <p>
+                  This chart shows the average pain on days you used a
+                  treatment. It does <em>not</em> mean that the treatment causes
+                  more or less pain.
+                </p>
+                <p>
+                  For example, if you only take painkillers when your pain is
+                  high, the chart may show high pain on those days. This just
+                  means that you take painkillers only on bad days, not that
+                  they cause more pain.
+                </p>
+              </details>
+            </section>
+          </>
+        )}
+      </div>
     </div>
   );
 }
