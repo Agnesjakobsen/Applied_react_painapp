@@ -16,6 +16,7 @@ import { format, subDays, subMonths, subYears, parseISO } from "date-fns";
 import { supabase } from "../utils/supabase";
 import { AlertCircle } from "lucide-react";
 
+
 function Reports() {
   const [painData, setPainData] = useState([]);
   const [rangeOption, setRangeOption] = useState("Last 7 days");
@@ -403,7 +404,6 @@ function Reports() {
 
             <section className="trends-section">
               <h2>
-                <LineChartIcon size={20} className="icon section-icon" />
                 {periodType} Trends
               </h2>
 
@@ -507,7 +507,6 @@ function Reports() {
 
             <section>
               <h2>
-                <Pill size={20} className="icon section-icon" />
                 Treatment Comparison
               </h2>
 
