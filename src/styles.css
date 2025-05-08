@@ -27,6 +27,7 @@ ORIGINAL COLOR SCHEME:
 
 /* Base styles */
 :root {
+
   --primary-color: #56A0D3; /* Original: #007bff */
   --light-primary-color: #D7E3EC; /* Original: #ddeeff */
   --secondary-color: #F2D492; /* Not in use */
@@ -221,6 +222,7 @@ ORIGINAL COLOR SCHEME:
     }
   
  */  
+
  /* ---- Greeting ---- */
  .greeting {
     width: 100%;
@@ -270,6 +272,7 @@ ORIGINAL COLOR SCHEME:
   
   .calendar-day.today {
     font-weight: bold;
+
     border-color: #90B8D4;
     background-color: var(--light-primary-color);
   }
@@ -281,7 +284,6 @@ ORIGINAL COLOR SCHEME:
     box-shadow: var(--box-shadow);
   }
   
-
 /*   
   .date-display {
     font-size: 0.9rem;
@@ -290,9 +292,9 @@ ORIGINAL COLOR SCHEME:
     margin: 10px 0 20px;
     text-align: center;
   }
-  
  */  
  
+
  /* ---- Home box ---- */
  .summary-container {
     margin-top: 20px;
@@ -723,6 +725,7 @@ ORIGINAL COLOR SCHEME:
     height: 36px;
   }
 
+
   .treatment-button .pain-scale-button {
     font-size: 0.6rem; 
     width: 32px;
@@ -735,6 +738,7 @@ ORIGINAL COLOR SCHEME:
     min-width: 28px;
     max-width: 36px;
     height: 36px;
+
     border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     font-size: 0.85rem;
@@ -812,6 +816,7 @@ ORIGINAL COLOR SCHEME:
   .save-section-fixed .button-primary {
     background-color: var(--secondary-color) !important;
     color: var(--secondary-button-text-color) !important;
+
     padding: 0.75rem 2rem;
     border-radius: 2rem;
     box-shadow: var(--box-shadow);
@@ -967,3 +972,4 @@ ORIGINAL COLOR SCHEME:
   font-weight: bold;
   margin-bottom: 10px;
 }
+
