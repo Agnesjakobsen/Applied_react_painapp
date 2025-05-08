@@ -14,7 +14,8 @@ import {
 } from "recharts";
 import { format, subDays, subMonths, subYears, parseISO } from "date-fns";
 import { supabase } from "../utils/supabase";
-import {AlertCircle} from "lucide-react";
+import { AlertCircle } from "lucide-react";
+
 
 function Reports() {
   const [painData, setPainData] = useState([]);
@@ -369,36 +370,32 @@ function Reports() {
               </div>
             </div>
 
-            <hr />
+          <hr />
 
-            <section className="metrics-section">
-              <h2>
-                {periodType} Comparison
-              </h2>
+          <section className="metrics-section">
+            <h2>{periodType} Comparison</h2>
 
-              <div className="metrics-container">
-                <div className="metric-card">
-                  <h3>Average Pain Score ({rangeOption})</h3>
-                  <div className="metric-value">
-                    {!isNaN(averagePain) ? averagePain.toFixed(2) : "No data"}
-                  </div>
-                  <div
-                    className={`metric-delta ${
-                      painDelta < 0 ? "positive" : painDelta > 0 ? "negative" : ""
-                    }`}
-                  >
-                    {painDeltaDisplay !== "N/A"
-                      ? (painDelta > 0 ? "+" : "") + painDeltaDisplay
-                      : "N/A"}
-                  </div>
+            <div className="metrics-container">
+              <div className="metric-card">
+                <h3>Average Pain Score</h3>
+                <div className="metric-value">
+                  {!isNaN(averagePain) ? averagePain.toFixed(2) : "No data"}
+                </div>
+                <div
+                  className={`metric-delta ${
+                    painDelta < 0 ? "positive" : painDelta > 0 ? "negative" : ""
+                  }`}
+                >
+                  {painDeltaDisplay !== "N/A"
+                    ? (painDelta > 0 ? "+" : "") + painDeltaDisplay
+                    : "N/A"}
                 </div>
 
-                <div className="metric-card">
-                  <h3>Most Painful Area ({rangeOption})</h3>
-                  <div className="metric-value">
-                    {mostPainfulArea || "No data"}
-                  </div>
-                  <div className="metric-delta">{areaDelta}</div>
+              <div className="metric-card">
+                <h3>Most Painful Area</h3>
+                <div className="metric-value">
+                  {mostPainfulArea || "No data"}
+
                 </div>
               </div>
             </section>
