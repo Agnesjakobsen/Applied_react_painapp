@@ -442,7 +442,7 @@ function Reports() {
                       payload={[
                         { value: "Worst", type: "line", color: "var(--metric-color-negative)" },
                         { value: "Least", type: "line", color: "var(--metric-color-positive)" },
-                        { value: "Average", type: "line", color: "#5A7D9A" },
+                        { value: "Average", type: "line", color: "#4D6D89" },
                       ]}
                     />
                     <Line
@@ -469,7 +469,7 @@ function Reports() {
                       type="monotone"
                       dataKey="bpi5"
                       name="Average"
-                      stroke="#5A7D9A"
+                      stroke="#4D6D89"
                       strokeWidth={2}
                       dot={rangeOption === "Last 7 days"}
                     />
@@ -496,7 +496,7 @@ function Reports() {
                     <XAxis type="number" domain={[0, 10]} />
                     <YAxis dataKey="factor" type="category" />
                     <Tooltip formatter={(value) => [value.toFixed(2), "Score"]} />
-                    <Bar dataKey="score" fill="#5A7D9A">
+                    <Bar dataKey="score" fill="#4D6D89">
                       {interferenceData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill="var(--primary-color)" />
                       ))}
