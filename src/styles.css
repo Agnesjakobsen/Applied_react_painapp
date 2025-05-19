@@ -303,7 +303,7 @@ ORIGINAL COLOR SCHEME:
     background-color: var(--primary-container-color);
     border-radius: var(--border-radius);
     box-shadow: var(--box-shadow);
-    min-height: 100px;
+    min-height: 180px;
     font-size: 1.2rem;
   }
   
@@ -868,6 +868,20 @@ ORIGINAL COLOR SCHEME:
     margin-bottom: 1.25rem;
   }
 
+  /* ---- Bodymap ---- */
+  .bodymap-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .bodymap-svg {
+    width: 275px;
+    height: auto;
+    cursor: pointer;
+  }
+  
 /*Reports section*/
 .reports-section {
   padding-bottom: 80px;
