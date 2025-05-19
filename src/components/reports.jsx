@@ -113,7 +113,6 @@ function Reports() {
     const isAllTime = rangeOption === "All time";
     const duration = isAllTime ? null : periodEnd - periodStart;
     const prevPeriodEnd = periodStart;
-    const prevPeriodStart = new Date(prevPeriodEnd - duration);
 
     let previousFiltered = [];
     if (!isAllTime && duration !== null) {
@@ -328,9 +327,9 @@ function Reports() {
         return "All Time";
     }
   };
-  
+
   const periodType = getPeriodType();
-  
+
   const getPeriodType_summary = () => {
     switch (rangeOption) {
       case "Last 7 days":
@@ -394,7 +393,6 @@ function Reports() {
 
             <section className="metrics-section">
               <h2>{periodType} Comparison</h2>
-
               <div className="metrics-container">
                 <div className="metric-card">
                   <h3>
@@ -404,12 +402,15 @@ function Reports() {
                       title="The average reported pain level during the selected period."
                     ></span>
                   </h3>
+
                   <div className="metric-value">
-                    {averagePain.toFixed(2)}
+                    {averagePain.toFixed(2)} out of 10
                   </div>
+
                   <div className="metric-subtext">
-                    Last {periodType_summary}:
+                    Compared to previous {periodType.toLowerCase()} score:
                   </div>
+
                   <div
                     className={`metric-delta ${
                       previousAveragePain == null
@@ -430,7 +431,7 @@ function Reports() {
 
                 <div className={`metric-card`}>
                   <h3>
-                    Worst Pain Area
+                    Most Painful Area
                     <span
                       className="tooltip"
                       title="The body area with the highest reported pain during the selected period."
@@ -440,13 +441,13 @@ function Reports() {
                     {mostPainfulArea || "No data"}
                   </div>
                   <div className="metric-subtext">
-                    Last {periodType_summary}:
+                    Compared to previous {periodType.toLowerCase()} score:
                   </div>
                   {previousMostPainfulArea &&
                   previousMostPainfulArea !== "None" ? (
                     <div className={`metric-delta ${"neutral"}`}>
                       {mostPainfulArea !== previousMostPainfulArea
-                        ? `${previousMostPainfulArea}`
+                        ? `Changed from ${previousMostPainfulArea.toLowerCase()}`
                         : "No change"}
                     </div>
                   ) : (
@@ -490,11 +491,17 @@ function Reports() {
                     />
                     <Legend
                       payload={[
-
-                        { value: "Worst", type: "line", color: "var(--metric-color-negative)" },
-                        { value: "Least", type: "line", color: "var(--metric-color-positive)" },
+                        {
+                          value: "Worst",
+                          type: "line",
+                          color: "var(--metric-color-negative)",
+                        },
+                        {
+                          value: "Least",
+                          type: "line",
+                          color: "var(--metric-color-positive)",
+                        },
                         { value: "Average", type: "line", color: "#4D6D89" },
-
                       ]}
                     />
                     <Line
@@ -548,9 +555,10 @@ function Reports() {
                     <XAxis type="number" domain={[0, 10]} />
                     <YAxis dataKey="factor" type="category" />
 
-                    <Tooltip formatter={(value) => [value.toFixed(2), "Score"]} />
+                    <Tooltip
+                      formatter={(value) => [value.toFixed(2), "Score"]}
+                    />
                     <Bar dataKey="score" fill="#4D6D89">
-
                       {interferenceData.map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
@@ -615,8 +623,8 @@ function Reports() {
                 <p>
                   For example, if you only take painkillers when your pain is
                   high, the chart may show high pain on those days. This just
-                  means that you take painkillers only on bad days, not that
-                  they cause more pain.
+                  means that you tend to take painkillers only on bad days, not
+                  that they cause more pain.
                 </p>
               </details>
             </section>
