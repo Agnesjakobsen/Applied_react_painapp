@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { format } from "date-fns";
 import { supabase } from "../utils/supabase";
 import { useNavigate } from "react-router-dom";
+import BodyMap from "../assets/bodymap.svg";
 
 export default function CreateEntry({ selectedDate }) {
   const [form, setForm] = useState({
@@ -114,6 +115,15 @@ export default function CreateEntry({ selectedDate }) {
         <>
           <div className="question-section">
             <h2 className="question-title">Which area(s) hurt(s) the most?</h2>
+            <div className="bodymap-container">
+              <BodyMap
+                className="bodymap-svg"
+                onClick={(e) => {
+                  const id = e.target.id;
+                  if (id) {handleBodyPartClick(id);}
+                }}
+                />
+            </div>
             <div className="button-grid">
               {[
                 "Head",
