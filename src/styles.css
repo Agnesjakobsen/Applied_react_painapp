@@ -1,32 +1,15 @@
-/*
-ORIGINAL COLOR SCHEME:
-:root {
-  --primary-color: #007bff;
-  --light-primary-color: #ddeeff;
-  --secondary-color: #6c757d;
-  --primary-button-color: #007bff;
-  --secondary-button-color: #f1f1f1;
-  --primary-button-text-color: #ffffff;
-  --secondary-button-text-color: #333333;
-  --primary-container-color: #ffffff;
-  --background-color: #f8f9fa;
-  --primary-text-color: #343a40;
-  --secondary-text-color: #6c757d;
-  --border-color: #dee2e6; 
-  --border-color-active: #007bff;
-  --form-color: #ffffff;
-  --divider-color: #e9ecef; 
-  --border-radius: 8px;
-  --metric-color-neutral: #666;
-  --metric-color-positive: #28a745;
-  --metric-color-negative: #dc3545;
-  --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  --box-shadow-color: rgba(0, 0, 0, 0.1);
-}
-*/
 
 /* Base styles */
+html {
+  font-size: 17px;
+}
+
+body {
+  font-size: 1rem;
+}
+
 :root {
+
   --primary-color: #2C82BE; /* Original: #007bff */
   --light-primary-color: #D7E3EC; /* Original: #ddeeff */
   --secondary-color: #F2D492;
@@ -136,7 +119,6 @@ ORIGINAL COLOR SCHEME:
   .form-group input {
     width: 100%;
     padding: 12px;
-    font-size: 16px;
     border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     background-color: var(--form-color);
@@ -223,6 +205,7 @@ ORIGINAL COLOR SCHEME:
     }
   
  */  
+
  /* ---- Greeting ---- */
  .greeting {
     width: 100%;
@@ -272,6 +255,7 @@ ORIGINAL COLOR SCHEME:
   
   .calendar-day.today {
     font-weight: bold;
+
     border-color: #90B8D4;
     background-color: var(--light-primary-color);
   }
@@ -283,7 +267,6 @@ ORIGINAL COLOR SCHEME:
     box-shadow: var(--box-shadow);
   }
   
-
 /*   
   .date-display {
     font-size: 0.9rem;
@@ -292,9 +275,9 @@ ORIGINAL COLOR SCHEME:
     margin: 10px 0 20px;
     text-align: center;
   }
-  
  */  
  
+
  /* ---- Home box ---- */
  .summary-container {
     margin-top: 20px;
@@ -441,10 +424,16 @@ ORIGINAL COLOR SCHEME:
           text-align: center;
           color: var(--primary-text-color);
         }
+        
+        .metric-card h3 {
+          font-size: 1.2rem !important;
+          text-align: center !important;
+          margin-bottom: 12px;
+          color: var(--primary-text-color);
+        }
 
         .metric-value {
-          font-size: 24px;
-          font-weight: bold;
+          font-size: 1.1rem !important;
           margin: 10px 0;
           color: var(--primary-text-color);
         }
@@ -725,6 +714,7 @@ ORIGINAL COLOR SCHEME:
     height: 36px;
   }
 
+
   .treatment-button .pain-scale-button {
     font-size: 0.6rem; 
     width: 32px;
@@ -737,6 +727,7 @@ ORIGINAL COLOR SCHEME:
     min-width: 28px;
     max-width: 36px;
     height: 36px;
+
     border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     font-size: 0.875rem;
@@ -814,6 +805,7 @@ ORIGINAL COLOR SCHEME:
   .save-section-fixed .button-primary {
     background-color: var(--secondary-color) !important;
     color: var(--secondary-button-text-color) !important;
+
     padding: 0.75rem 2rem;
     border-radius: 2rem;
     box-shadow: var(--box-shadow);
@@ -957,7 +949,7 @@ ORIGINAL COLOR SCHEME:
 }
 
 .reports-section .metric-value {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   margin: 10px 0;
   color: var(--primary-text-color);
@@ -983,3 +975,4 @@ ORIGINAL COLOR SCHEME:
   font-weight: bold;
   margin-bottom: 10px;
 }
+

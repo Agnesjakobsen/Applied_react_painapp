@@ -5,10 +5,10 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import Home from "./components/home";
-import CreateEntry from "./components/create_entry";
+import Home from "./components/Home";
+import CreateEntry from "./components/Create_Entry";
 import Reports from "./components/reports";
-import Profile from "./components/Profile";
+import Profile from "./components/profile";
 import Login from "./components/login";
 import NavBar from "./components/navbar";
 import "./styles.css";

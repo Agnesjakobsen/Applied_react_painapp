@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import { format, subDays, subMonths, subYears, parseISO } from "date-fns";
 import { supabase } from "../utils/supabase";
-import {AlertCircle} from "lucide-react";
+import { AlertCircle } from "lucide-react";
 
 function Reports() {
   const [painData, setPainData] = useState([]);
@@ -52,24 +52,31 @@ function Reports() {
   useEffect(() => {
     if (painData.length === 0) return;
 
+    let periodStart, periodEnd;
     const today = new Date();
-    let cutoffDate;
 
     switch (rangeOption) {
       case "Last 7 days":
-        cutoffDate = subDays(today, 7);
+        periodEnd = today;
+        periodStart = subDays(today, 7);
         break;
       case "Last month":
-        cutoffDate = subMonths(today, 1);
+        periodEnd = today;
+        periodStart = subMonths(today, 1);
         break;
       case "Last year":
-        cutoffDate = subYears(today, 1);
+        periodEnd = today;
+        periodStart = subYears(today, 1);
         break;
       default: // All time
-        cutoffDate = new Date(0); // earliest possible date
+        periodEnd = today;
+        periodStart = new Date(0);
     }
 
-    const filtered = painData.filter((entry) => entry.date >= cutoffDate);
+    // Filter current period
+    const filtered = painData.filter(
+      (entry) => entry.date >= periodStart && entry.date < periodEnd
+    );
     setFilteredData(filtered);
 
     // Calculate metrics for current period
@@ -103,53 +110,52 @@ function Reports() {
     }
 
     // Calculate metrics for previous period
-    const previousCutoffStart = (() => {
-      switch (rangeOption) {
-        case "Last 7 days":
-          return subDays(cutoffDate, 7);
-        case "Last month":
-          return subMonths(cutoffDate, 1);
-        case "Last year":
-          return subYears(cutoffDate, 1);
-        default:
-          return null;
-      }
-    })();
+    const isAllTime = rangeOption === "All time";
+    const duration = isAllTime ? null : periodEnd - periodStart;
+    const prevPeriodEnd = periodStart;
+    const prevPeriodStart = new Date(prevPeriodEnd - duration);
 
-    if (previousCutoffStart) {
-      const previousFiltered = painData.filter(
-        (entry) => entry.date >= previousCutoffStart && entry.date < cutoffDate
+    let previousFiltered = [];
+    if (!isAllTime && duration !== null) {
+      const prevPeriodEnd = periodStart;
+      const prevPeriodStart = new Date(prevPeriodEnd - duration);
+
+      previousFiltered = painData.filter(
+        (entry) => entry.date >= prevPeriodStart && entry.date < prevPeriodEnd
       );
+    }
 
-      if (previousFiltered.length > 0) {
-        // Previous average pain
-        const prevAvgPain =
-          previousFiltered.reduce((sum, entry) => sum + entry.bpi5, 0) /
-          previousFiltered.length;
-        setPreviousAveragePain(prevAvgPain);
+    if (previousFiltered.length > 0) {
+      // Previous average pain
+      const prevAvgPain =
+        previousFiltered.reduce((sum, entry) => sum + entry.bpi5, 0) /
+        previousFiltered.length;
+      setPreviousAveragePain(prevAvgPain);
 
-        // Previous most painful area
-        const prevAreaCounts = {};
-        previousFiltered.forEach((entry) => {
-          if (entry.bpi2) {
-            entry.bpi2.split(", ").forEach((area) => {
-              prevAreaCounts[area] = (prevAreaCounts[area] || 0) + 1;
-            });
-          }
-        });
+      // Previous most painful area
+      const prevAreaCounts = {};
+      previousFiltered.forEach((entry) => {
+        if (entry.bpi2) {
+          entry.bpi2.split(", ").forEach((area) => {
+            prevAreaCounts[area] = (prevAreaCounts[area] || 0) + 1;
+          });
+        }
+      });
 
-        let prevMaxCount = 0;
-        let prevMaxArea = "None";
+      let prevMaxCount = 0;
+      let prevMaxArea = "None";
 
-        Object.entries(prevAreaCounts).forEach(([area, count]) => {
-          if (count > prevMaxCount) {
-            prevMaxCount = count;
-            prevMaxArea = area;
-          }
-        });
+      Object.entries(prevAreaCounts).forEach(([area, count]) => {
+        if (count > prevMaxCount) {
+          prevMaxCount = count;
+          prevMaxArea = area;
+        }
+      });
 
-        setPreviousMostPainfulArea(prevMaxArea);
-      }
+      setPreviousMostPainfulArea(prevMaxArea);
+    } else if (isAllTime) {
+      setPreviousAveragePain(null);
+      setPreviousMostPainfulArea("None");
     }
   }, [painData, rangeOption]);
 
@@ -372,33 +378,65 @@ function Reports() {
             <hr />
 
             <section className="metrics-section">
-              <h2>
-                {periodType} Comparison
-              </h2>
+              <h2>{periodType} Comparison</h2>
 
               <div className="metrics-container">
                 <div className="metric-card">
-                  <h3>Average Pain Score ({rangeOption})</h3>
+                  <h3>
+                    Average Pain Score
+                    <span
+                      className="tooltip"
+                      title="The average reported pain level during the selected period."
+                    ></span>
+                  </h3>
                   <div className="metric-value">
-                    {!isNaN(averagePain) ? averagePain.toFixed(2) : "No data"}
+                    {averagePain.toFixed(2)} out of 10
+                  </div>
+                  <div className="metric-subtext">
+                    Compared to previous {periodType.toLowerCase()} score:
                   </div>
                   <div
                     className={`metric-delta ${
-                      painDelta < 0 ? "positive" : painDelta > 0 ? "negative" : ""
+                      previousAveragePain == null
+                        ? "neutral"
+                        : painDelta < 0
+                        ? "positive"
+                        : painDelta > 0
+                        ? "negative"
+                        : ""
                     }`}
                   >
-                    {painDeltaDisplay !== "N/A"
-                      ? (painDelta > 0 ? "+" : "") + painDeltaDisplay
-                      : "N/A"}
+                    {previousAveragePain != null
+                      ? (painDelta > 0 ? "▲" : painDelta < 0 ? "▼" : "") +
+                        Math.abs(painDeltaDisplay)
+                      : "No comparison available"}
                   </div>
                 </div>
 
-                <div className="metric-card">
-                  <h3>Most Painful Area ({rangeOption})</h3>
+                <div className={`metric-card`}>
+                  <h3>
+                    Most Painful Area
+                    <span
+                      className="tooltip"
+                      title="The body area with the highest reported pain during the selected period."
+                    ></span>
+                  </h3>
                   <div className="metric-value">
                     {mostPainfulArea || "No data"}
                   </div>
-                  <div className="metric-delta">{areaDelta}</div>
+                  <div className="metric-subtext">
+                    Compared to previous {periodType.toLowerCase()} score:
+                  </div>
+                  {previousMostPainfulArea &&
+                  previousMostPainfulArea !== "None" ? (
+                    <div className={`metric-delta ${"neutral"}`}>
+                      {mostPainfulArea !== previousMostPainfulArea
+                        ? `Changed from ${previousMostPainfulArea.toLowerCase()}`
+                        : "No change"}
+                    </div>
+                  ) : (
+                    <div className="metric-delta neutral">No previous data</div>
+                  )}
                 </div>
               </div>
             </section>
@@ -406,10 +444,7 @@ function Reports() {
             <hr />
 
             <section className="trends-section">
-              <h2>
-                {periodType} Trends
-              </h2>
-
+              <h2>{periodType} Trends</h2>
               {chartData.length === 0 ? (
                 <div className="no-data">No data available for this range</div>
               ) : (
@@ -440,9 +475,11 @@ function Reports() {
                     />
                     <Legend
                       payload={[
+
                         { value: "Worst", type: "line", color: "var(--metric-color-negative)" },
                         { value: "Least", type: "line", color: "var(--metric-color-positive)" },
                         { value: "Average", type: "line", color: "#4D6D89" },
+
                       ]}
                     />
                     <Line
@@ -495,10 +532,15 @@ function Reports() {
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis type="number" domain={[0, 10]} />
                     <YAxis dataKey="factor" type="category" />
+
                     <Tooltip formatter={(value) => [value.toFixed(2), "Score"]} />
                     <Bar dataKey="score" fill="#4D6D89">
+
                       {interferenceData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill="var(--primary-color)" />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill="var(--primary-color)"
+                        />
                       ))}
                     </Bar>
                   </BarChart>
@@ -509,22 +551,27 @@ function Reports() {
             <hr />
 
             <section>
-              <h2>
-                Treatment Comparison
-              </h2>
+              <h2>Treatment Comparison</h2>
 
               {treatmentData.length === 0 ? (
                 <div className="no-data">No data available for this range</div>
               ) : (
-                <ResponsiveContainer width="100%" height={200}>
+                <ResponsiveContainer
+                  width="100%"
+                  height={Math.max(200, treatmentData.length * 35)}
+                >
                   <BarChart
                     data={treatmentData}
                     layout="vertical"
-                    margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
+                    margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis type="number" domain={[0, 10]} />
-                    <YAxis dataKey="treatment" type="category" />
+                    <YAxis
+                      dataKey="treatment"
+                      type="category"
+                      interval={0} // <-- Ensures all labels are shown
+                    />
                     <Tooltip
                       formatter={(value) => [
                         value.toFixed(2),
@@ -533,7 +580,10 @@ function Reports() {
                     />
                     <Bar dataKey="averagePain" fill="#5A7D9A">
                       {treatmentData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill="var(--primary-color)" />
+                        <Cell
+                          key={`cell-${index}`}
+                          fill="var(--primary-color)"
+                        />
                       ))}
                     </Bar>
                   </BarChart>
