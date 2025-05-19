@@ -26,6 +26,14 @@ ORIGINAL COLOR SCHEME:
 */
 
 /* Base styles */
+html {
+  font-size: 17px;
+}
+
+body {
+  font-size: 1rem;
+}
+
 :root {
 
   --primary-color: #56A0D3; /* Original: #007bff */
@@ -137,7 +145,6 @@ ORIGINAL COLOR SCHEME:
   .form-group input {
     width: 100%;
     padding: 12px;
-    font-size: 16px;
     border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     background-color: var(--form-color);
@@ -441,10 +448,16 @@ ORIGINAL COLOR SCHEME:
           text-align: center;
           color: var(--primary-text-color);
         }
+        
+        .metric-card h3 {
+          font-size: 1.2rem !important;
+          text-align: center !important;
+          margin-bottom: 12px;
+          color: var(--primary-text-color);
+        }
 
         .metric-value {
-          font-size: 24px;
-          font-weight: bold;
+          font-size: 1.1rem !important;
           margin: 10px 0;
           color: var(--primary-text-color);
         }
@@ -960,7 +973,7 @@ ORIGINAL COLOR SCHEME:
 }
 
 .reports-section .metric-value {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
   margin: 10px 0;
   color: var(--primary-text-color);
