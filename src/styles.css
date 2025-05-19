@@ -1,29 +1,3 @@
-/*
-ORIGINAL COLOR SCHEME:
-:root {
-  --primary-color: #007bff;
-  --light-primary-color: #ddeeff;
-  --secondary-color: #6c757d;
-  --primary-button-color: #007bff;
-  --secondary-button-color: #f1f1f1;
-  --primary-button-text-color: #ffffff;
-  --secondary-button-text-color: #333333;
-  --primary-container-color: #ffffff;
-  --background-color: #f8f9fa;
-  --primary-text-color: #343a40;
-  --secondary-text-color: #6c757d;
-  --border-color: #dee2e6; 
-  --border-color-active: #007bff;
-  --form-color: #ffffff;
-  --divider-color: #e9ecef; 
-  --border-radius: 8px;
-  --metric-color-neutral: #666;
-  --metric-color-positive: #28a745;
-  --metric-color-negative: #dc3545;
-  --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  --box-shadow-color: rgba(0, 0, 0, 0.1);
-}
-*/
 
 /* Base styles */
 html {
@@ -36,9 +10,9 @@ body {
 
 :root {
 
-  --primary-color: #56A0D3; /* Original: #007bff */
+  --primary-color: #2C82BE; /* Original: #007bff */
   --light-primary-color: #D7E3EC; /* Original: #ddeeff */
-  --secondary-color: #F2D492; /* Not in use */
+  --secondary-color: #F2D492;
   --primary-button-color: var(--primary-color);
   --secondary-button-color: #FBF9F2; /* Original: #f1f1f1 */
   --primary-button-text-color: #FBF9F2; /* Original: #ffffff */
@@ -54,7 +28,7 @@ body {
   --border-thickness: 2px;
   --border-radius: 8px;
   --metric-color-neutral: var(--secondary-text-color); /* Original: #666 */
-  --metric-color-positive: #6B8E23;
+  --metric-color-positive: #5E7E1F;
   --metric-color-negative: #B33A3A;
   --box-shadow-color: rgba(0, 0, 0, 0.1);
   --box-shadow: 0 2px 5px var(--box-shadow-color);
@@ -215,11 +189,13 @@ body {
       background: none;
       border: none;
       cursor: pointer;
-      padding: 5px;
+      padding: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--primary-text-color);
+      min-width: 40px;
+      min-height: 40px;
     }
 
 /*     
@@ -715,7 +691,7 @@ body {
     border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
     padding: 0.3rem 0.5rem;
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     cursor: pointer;
     color: var(--secondary-button-text-color)
   }
@@ -754,7 +730,7 @@ body {
 
     border: var(--border-thickness) solid var(--border-color);
     border-radius: var(--border-radius);
-    font-size: 0.85rem;
+    font-size: 0.875rem;
     font-weight: bold;
     cursor: pointer;
     display: flex;
@@ -795,22 +771,22 @@ body {
 
   .pain-scale-button {
     height: 30px;
-    font-size: 0.8rem;
+    font-size: 0.875rem;
     transition: all 0.2s ease;
   }
 
   /* ---- Pain Level Colors ---- */
-  .pain-0  { background-color: #DFF5E1; } /* Pale Mint */
+  .pain-0  { background-color: #DFF5E1; } 
   .pain-1  { background-color: #C9EFC2; }
   .pain-2  { background-color: #B1E1A2; }
-  .pain-3  { background-color: #F5E6A6; } /* Soft Yellow */
+  .pain-3  { background-color: #F5E6A6; } 
   .pain-4  { background-color: #F5D88B; }
-  .pain-5  { background-color: #F5C16C; } /* Warm Orange */
+  .pain-5  { background-color: #F5C16C; } 
   .pain-6  { background-color: #EEA963; }
   .pain-7  { background-color: #E6905A; }
   .pain-8  { background-color: #DC7150; }
   .pain-9  { background-color: #C85249; }
-  .pain-10 { background-color: #B33A3A; } /* Deep Burgundy */
+  .pain-10 { background-color: #B33A3A; } 
 
   /* ---- Save Section ---- */
   .save-section-fixed {
@@ -894,7 +870,7 @@ body {
     height: auto;
     cursor: pointer;
   }
-  
+
 /*Reports section*/
 .reports-section {
   padding-bottom: 80px;
