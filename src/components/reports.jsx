@@ -328,8 +328,23 @@ function Reports() {
         return "All Time";
     }
   };
-
+  
   const periodType = getPeriodType();
+  
+  const getPeriodType_summary = () => {
+    switch (rangeOption) {
+      case "Last 7 days":
+        return "week";
+      case "Last month":
+        return "month";
+      case "Last year":
+        return "year";
+      default:
+        return "All Time";
+    }
+  };
+
+  const periodType_summary = getPeriodType_summary();
 
   // Date format for x-axis based on range
   const getDateTickFormat = () => {
@@ -390,10 +405,10 @@ function Reports() {
                     ></span>
                   </h3>
                   <div className="metric-value">
-                    {averagePain.toFixed(2)} out of 10
+                    {averagePain.toFixed(2)}
                   </div>
                   <div className="metric-subtext">
-                    Compared to previous {periodType.toLowerCase()} score:
+                    Last {periodType_summary}:
                   </div>
                   <div
                     className={`metric-delta ${
@@ -415,7 +430,7 @@ function Reports() {
 
                 <div className={`metric-card`}>
                   <h3>
-                    Most Painful Area
+                    Worst Pain Area
                     <span
                       className="tooltip"
                       title="The body area with the highest reported pain during the selected period."
@@ -425,13 +440,13 @@ function Reports() {
                     {mostPainfulArea || "No data"}
                   </div>
                   <div className="metric-subtext">
-                    Compared to previous {periodType.toLowerCase()} score:
+                    Last {periodType_summary}:
                   </div>
                   {previousMostPainfulArea &&
                   previousMostPainfulArea !== "None" ? (
                     <div className={`metric-delta ${"neutral"}`}>
                       {mostPainfulArea !== previousMostPainfulArea
-                        ? `Changed from ${previousMostPainfulArea.toLowerCase()}`
+                        ? `${previousMostPainfulArea}`
                         : "No change"}
                     </div>
                   ) : (
