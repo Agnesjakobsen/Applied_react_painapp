@@ -4,61 +4,35 @@ import {
   Route,
   Routes,
   Navigate,
+  useLocation,
 } from "react-router-dom";
-import Home from "./components/Home";
-import CreateEntry from "./components/Create_Entry";
+import { AnimatePresence } from "framer-motion";
+import Home from "./components/home";
+import CreateEntry from "./components/create_entry";
 import Reports from "./components/reports";
-import Profile from "./components/profile";
+import Profile from "./components/Profile";
 import Login from "./components/login";
 import NavBar from "./components/navbar";
 import "./styles.css";
+import PageTransition from "./components/PageTransition";
 
-function App() {
-  // Initialize state
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [username, setUsername] = useState("");
-  const [selectedDate, setSelectedDate] = useState(new Date());
-
-  // Check if user was previously logged in
-  useEffect(() => {
-    const savedUsername = localStorage.getItem("username");
-    if (savedUsername) {
-      setLoggedIn(true);
-      setUsername(savedUsername);
-    }
-  }, []);
-
-  // Authentication function
-  const authenticate = (username, password) => {
-    // Simple auth for prototype
-    if (username && password) {
-      setUsername(username);
-      setLoggedIn(true);
-      localStorage.setItem("username", username);
-      return true;
-    }
-    return false;
-  };
-
-  // Logout function
-  const logout = () => {
-    setLoggedIn(false);
-    setUsername("");
-    localStorage.removeItem("username");
-  };
+function AppContent({ loggedIn, username, selectedDate, setSelectedDate, authenticate, logout }) {
+  const location = useLocation();
 
   return (
-    <Router>
-      <div className="app">
-        <div className="main-content">
-          <Routes>
+    <div className="app">
+      <div className="main-content">
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
             <Route
               path="/login"
               element={
                 loggedIn ? (
                   <Navigate to="/" replace />
                 ) : (
-                  <Login authenticate={authenticate} />
+                  <PageTransition>
+                    <Login authenticate={authenticate} />
+                  </PageTransition>
                 )
               }
             />
@@ -66,11 +40,13 @@ function App() {
               path="/"
               element={
                 loggedIn ? (
-                  <Home
-                    username={username}
-                    selectedDate={selectedDate}
-                    setSelectedDate={setSelectedDate}
-                  />
+                  <PageTransition>
+                    <Home
+                      username={username}
+                      selectedDate={selectedDate}
+                      setSelectedDate={setSelectedDate}
+                    />
+                  </PageTransition>
                 ) : (
                   <Navigate to="/login" replace />
                 )
@@ -80,7 +56,9 @@ function App() {
               path="/create-entry"
               element={
                 loggedIn ? (
-                  <CreateEntry selectedDate={selectedDate} />
+                  <PageTransition>
+                    <CreateEntry selectedDate={selectedDate} />
+                  </PageTransition>
                 ) : (
                   <Navigate to="/login" replace />
                 )
@@ -89,23 +67,74 @@ function App() {
             <Route
               path="/reports"
               element={
-                loggedIn ? <Reports /> : <Navigate to="/login" replace />
+                loggedIn ? (
+                  <PageTransition>
+                    <Reports />
+                  </PageTransition>
+                ) : (
+                  <Navigate to="/login" replace />
+                )
               }
             />
             <Route
               path="/profile"
               element={
                 loggedIn ? (
-                  <Profile username={username} logout={logout} />
+                  <PageTransition>
+                    <Profile username={username} logout={logout} />
+                  </PageTransition>
                 ) : (
                   <Navigate to="/login" replace />
                 )
               }
             />
           </Routes>
-        </div>
-        {loggedIn && <NavBar />}
+        </AnimatePresence>
       </div>
+      {loggedIn && <NavBar />}
+    </div>
+  );
+}
+
+function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [username, setUsername] = useState("");
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  useEffect(() => {
+    const savedUsername = localStorage.getItem("username");
+    if (savedUsername) {
+      setLoggedIn(true);
+      setUsername(savedUsername);
+    }
+  }, []);
+
+  const authenticate = (username, password) => {
+    if (username && password) {
+      setUsername(username);
+      setLoggedIn(true);
+      localStorage.setItem("username", username);
+      return true;
+    }
+    return false;
+  };
+
+  const logout = () => {
+    setLoggedIn(false);
+    setUsername("");
+    localStorage.removeItem("username");
+  };
+
+  return (
+    <Router>
+      <AppContent
+        loggedIn={loggedIn}
+        username={username}
+        selectedDate={selectedDate}
+        setSelectedDate={setSelectedDate}
+        authenticate={authenticate}
+        logout={logout}
+      />
     </Router>
   );
 }

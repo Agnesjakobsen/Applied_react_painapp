@@ -27,7 +27,6 @@ export default function CreateEntry({ selectedDate }) {
   const [success, setSuccess] = useState(false);
 
   const painScale = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  const reliefScale = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
   // Use the useNavigate hook to navigate
   const navigate = useNavigate();
@@ -75,24 +74,15 @@ export default function CreateEntry({ selectedDate }) {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  if (success) {
-    return (
-      <div className="success-container">
-        <p className="success-message">Entry saved!</p>
-        <p className="success-submessage">Going back to the home page...</p>
-      </div>
-    );
-  }
-
   return (
     <div className="entry-container">
       <h1 className="entry-title">Create Entry</h1>
 
       <div className="question-section">
         <h2 className="question-title">
-          Have you had any pain today other than minor everyday aches (like
-          headaches or toothaches)?
+          Have you had any pain today other than minor everyday aches?
         </h2>
+        <p >(like headaches or toothaches)</p>
         <div className="button-group-centered">
           <button
             onClick={() => updateField("hasPain", "No")}
@@ -114,7 +104,7 @@ export default function CreateEntry({ selectedDate }) {
       {form.hasPain === "Yes" && (
         <>
           <div className="question-section">
-            <h2 className="question-title">Which area(s) hurt(s) the most?</h2>
+            <h2 className="question-title">Mark where it hurts most</h2>
             <div className="bodymap-container">
               <BodyMap
                 className="bodymap-svg"
@@ -160,7 +150,7 @@ export default function CreateEntry({ selectedDate }) {
 
           <div className="question-section">
             <h2 className="question-title">
-              Rate your pain in the past 24 hours
+              Rate your pain today
             </h2>
 
             {["worstPain", "leastPain", "averagePain", "currentPain"].map(
@@ -191,7 +181,7 @@ export default function CreateEntry({ selectedDate }) {
 
           <div className="question-section">
             <h2 className="question-title">
-              Are you using any treatments or meds for your pain?
+              Any pain treatments or medications used today?
             </h2>
             <div className="button-group-centered">
               <button
@@ -214,27 +204,39 @@ export default function CreateEntry({ selectedDate }) {
 
             {form.usingTreatment === "Yes" && (
               <>
+                <div className="treatment-options">
+                  {["Paracetamol", "Ibuprofen", "Stretching", "Heat Pad", "Yoga"].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      className={`button-small${form.treatment === option ? " active" : ""}`}
+                      onClick={() => updateField("treatment", option)}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
                 <input
                   type="text"
-                  value={form.treatment}
-                  onChange={(e) => updateField("treatment", e.target.value)}
-                  placeholder="E.g., paracetamol, yoga"
+                  value={form.treatmentOther || ""}
+                  onChange={(e) => updateField("treatmentOther", e.target.value)}
+                  placeholder="Other (optional)"
                   className="input-field"
                 />
-                <div>
+                <div className="pain-scale-container">
                   <div className="field-label">
-                    How much relief has this given you in the past 24 hours?
+                    How much relief has this given you today?
                   </div>
-                  <div className="treatment-button">
-                    {reliefScale.map((n) => (
+                  <div className="pain-scale">
+                    {painScale.map((n) => (
                       <button
                         key={n}
                         onClick={() => updateField("treatmentRelief", n)}
-                        className={`pain-scale-button pain-${Math.floor(
-                          n / 10
-                        )} ${form.treatmentRelief === n ? "active" : ""}`}
+                        className={`pain-scale-button pain-${n} ${
+                          form.treatmentRelief === n ? "active" : ""
+                        }`}
                       >
-                        {n}%
+                        {n}
                       </button>
                     ))}
                   </div>
@@ -245,7 +247,7 @@ export default function CreateEntry({ selectedDate }) {
 
           <div className="question-section">
             <h2 className="question-title">
-              In the past 24 hours, how much has pain interfered with your . . .
+              How much did pain interfere today with ...
             </h2>
             {[
               "GeneralActivity",
@@ -281,7 +283,7 @@ export default function CreateEntry({ selectedDate }) {
 
       {form.hasPain && (
         <div className="save-section-fixed">
-          <button onClick={handleSave} className="button-primary">
+          <button onClick={handleSave} className="save-button">
             Save Entry
           </button>
         </div>
