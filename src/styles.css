@@ -89,21 +89,38 @@ body {
 }
 
 /* Range Selector Styles */
+.reports-section .range-selector {
+  background-color: transparent !important;
+}
+
 .range-selector {
-  margin: 20px 0;
+  background-color: transparent !important;
+}
+
+.sticky-buttons-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: var(--background-color);
+  border-bottom: var(--border-thickness) solid var(--border-color);
+  box-shadow: var(--box-shadow);
+  padding: 8px 0; /* Slightly smaller */
+  display: flex;
+  align-items: center; /* ✅ Centers buttons vertically */
+  justify-content: center;
 }
 
 .range-options {
+  margin: 0;
+  padding: 0;
   display: flex;
-  margin: 10px 0;
-  width: 100%;
-  justify-content: center;
   gap: 5px;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .range-options button {
-  padding: 8px 16px;
+  padding: 8px 8px;
   border-radius: var(--border-radius);
   border: var(--border-thickness) solid var(--border-color);
   background-color: var(--primary-container-color);
@@ -118,6 +135,10 @@ body {
 }
 
 /* ---- Headings ---- */
+.main-content {
+  overflow-y: visible;
+}
+
 .main-content h1,
 .main-content h2,
 .main-content h3 {
@@ -812,6 +833,9 @@ hr {
 
 .reports-section {
   padding-bottom: 80px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 /* ---- Warning Elements ---- */
