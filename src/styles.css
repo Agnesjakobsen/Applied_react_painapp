@@ -1,5 +1,8 @@
 
-/* Base styles */
+/* ========================= */
+/* Base and Global Variables */
+/* ========================= */
+
 html {
   font-size: 17px; /*13pt*/
 }
@@ -9,861 +12,810 @@ body {
 
 :root {
 
-  --primary-color: #2C82BE; /* Original: #007bff */
-  --light-primary-color: #D7E3EC; /* Original: #ddeeff */
+  --primary-color: #2C82BE; 
+  --light-primary-color: #D7E3EC; 
   --secondary-color: #F2D492;
   --primary-button-color: var(--primary-color);
-  --secondary-button-color: #FBF9F2; /* Original: #f1f1f1 */
-  --primary-button-text-color: #FBF9F2; /* Original: #ffffff */
-  --secondary-button-text-color: #3E3E3E; /* Original: #333333 */
-  --primary-container-color: #FBF9F2; /* Original: #ffffff */
+  --secondary-button-color: #FBF9F2; 
+  --primary-button-text-color: #FBF9F2; 
+  --secondary-button-text-color: #3E3E3E; 
+  --primary-container-color: #FBF9F2; 
   --background-color: #F6F4ED;
-  --primary-text-color: #3E3E3E; /* Original: #343a40 */
+  --primary-text-color: #3E3E3E; 
   --secondary-text-color: #595959; 
-  --border-color: #D8D8D0; /* Original: #dee2e6 */
+  --border-color: #D8D8D0; 
   --border-color-active: var(--primary-color);
-  --form-color: #FBF9F2; /* Original: #ffffff */
-  --divider-color: var(--border-color); /* Original: #e9ecef */
+  --form-color: #FBF9F2;
+  --divider-color: var(--border-color); 
   --border-thickness: 2px;
   --border-radius: 8px;
-  --metric-color-neutral: var(--secondary-text-color); /* Original: #666 */
+  --metric-color-neutral: var(--secondary-text-color); 
   --metric-color-positive: #5E7E1F;
   --metric-color-negative: #B33A3A;
   --box-shadow-color: rgba(0, 0, 0, 0.1);
   --box-shadow: 0 2px 5px var(--box-shadow-color);
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-  
-  html, body {
-    overflow-x: hidden; /* Prevent horizontal scroll */
-    width: 100%;
-    position: relative;
-  }
-  
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
-    -webkit-font-smoothing: antialiased;
-    -webkit-text-size-adjust: 100%; /* Prevent text size adjustment on orientation change */
-  }
-  
-  .app {
-    width: 100%;
-    max-width: 100vw;
-    overflow-x: hidden;
-  }
-  
-  /* Main content */
+/* ---- Resets ---- */
+{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-  .main-content {
-    padding-top: 20px;
-    padding-bottom: 120px;
-    width: 100%;
-    overflow-x: hidden;
-  }
-  
-  /* Login page styles */
-  .login-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    width: 100%;
-    padding: 20px;
-    background-color: var(--background-color);
-  }
-  
-  .login-header {
-    margin-bottom: 30px;
-    text-align: center;
-    width: 100%;
-  }
-  
-  .login-header h1 {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: var(--text-color);
-  }
-  
-  .login-header h3 {
+/* ============== */
+/* Generel Layout */
+/* ============== */
+
+html, body {
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  width: 100%;
+  position: relative;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%; /* Prevent text size adjustment on orientation change */
+}
+
+.app {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.main-content {
+  padding-top: 20px;
+  padding-bottom: 120px;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/* =========== */
+/* UI Elements */
+/* =========== */
+
+/* Warning Styles */
+.warning {
+  background-color: #fff3cd;
+  color: #856404;
+  padding: 15px;
+  border-radius: var(--border-radius);
+  margin: 20px 0;
+}
+
+/* Range Selector Styles */
+.range-selector {
+  margin: 20px 0;
+}
+
+.range-options {
+  display: flex;
+  margin: 10px 0;
+  width: 100%;
+  justify-content: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.range-options button {
+  padding: 8px 16px;
+  border-radius: var(--border-radius);
+  border: var(--border-thickness) solid var(--border-color);
+  background-color: var(--primary-container-color);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.range-options button.selected {
+  background-color: var(--primary-button-color);
+  color: var(--primary-button-text-color);
+  border-color: var(--primary-button-color);
+}
+
+/* ---- Headings ---- */
+.main-content h1,
+.main-content h2,
+.main-content h3 {
+  padding: 2px;
+  text-align: center;
+  color: var(--primary-text-color);
+}
+
+
+@media (max-width: 768px) {
+.main-content h1,
+.main-content h2,
+.main-content h3 {
+  padding: 2px;
+}
+}
+
+/* ---- Dividers ---- */
+hr {
+  border: none;
+  border-top: var(--border-thickness) solid var(--divider-color);
+  margin: 30px 0;
+}
+
+/* ========== */
+/* Login Page */
+/* ========== */
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 20px;
+  background-color: var(--background-color);
+}
+
+/* ---- Login Header ---- */
+.login-header {
+  margin-bottom: 30px;
+  text-align: center;
+  width: 100%;
+}
+
+.login-header h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: var(--text-color);
+}
+
+.login-header h3 {
+  font-size: 1.2rem;
+  font-weight: normal;
+  color: var(--secondary-text-color);
+}
+
+/* ---- Login Form ---- */
+.form-group {
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: block;
+  color: var(--secondary-text-color)
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: var(--border-thickness) solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--form-color);
+}
+
+/* ---- Login Buttons ---- */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+  margin-top: 10px;
+}
+
+.button-group .btn {
+  padding: 14px;
+  font-size: 1rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  border: none;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: var(--primary-button-color);
+  color: var(--primary-button-text-color);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-button-color);
+  color: var(--secondary-button-text-color);
+}
+
+.error-message {
+  color: var(--metric-color-negative);
+  font-size: 1rem;
+  margin: 10px 0;
+  text-align: center;
+  max-width: 320px;
+}
+
+/* ===================== */
+/* Home Page and Calendar */
+/* ===================== */
+
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  text-align: center;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.header {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+/* ---- Greeting ---- */
+.greeting {
+  width: 100%;
+  margin-top: 40px;
+  margin-bottom: 20px;
+  margin: 24 0;
+  text-align: center;
+  flex: 1; 
+  color: var(--primary-text-color);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+/* ---- Calendar ---- */
+.scrollable-calendar {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 10px 0;
+  width: 100%;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  scrollbar-width: none; /* Hide scrollbar Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+}
+
+.scrollable-calendar::-webkit-scrollbar {
+  display: none; /* Hide scrollbar Chrome/Safari/Opera */
+}
+
+.calendar-day {
+  flex: 0 0 auto;
+  padding: 10px 15px;
+  font-size: 0.8rem;
+  border: var(--border-thickness) solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--primary-container-color);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--secondary-button-text-color)
+}
+
+.calendar-day.today {
+  font-weight: bold;
+  border-color: #90B8D4;
+  background-color: var(--light-primary-color);
+}
+
+.calendar-day.selected {
+  background-color: var(--primary-button-color);
+  color: var(--primary-button-text-color);
+  border-color: var(--primary-button-color);
+  box-shadow: var(--box-shadow);
+}
+
+/* ---- Home Box ---- */
+.summary-container {
+  margin-top: 20px;
+  padding: 20px;
+  width: 100%;
+  background-color: var(--primary-container-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  min-height: 180px;
+  font-size: 1.2rem;
+}
+
+.summary-container h3 {
+  font-size: 1.2rem;
+  margin-bottom: 12px;
+  color: var(--primary-text-color);
+  text-align: center;
+}
+
+.home-container .summary-container h3 {
+  text-align: center !important;
+}
+
+.summary-container p {
+  color: var(--secondary-text-color);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* ============ */
+/* Profile Page */
+/* ============ */
+
+.header-profile-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary-text-color);
+  min-width: 40px;
+  min-height: 40px;
+}
+
+.header-profile-button svg {
+  color: var(--primary-text-color);
+  transition: color 0.2s ease;
+  width: 28px;
+  height: 28px;
+}
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: var(--background-color);
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.profile-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--primary-text-color);
+  margin-bottom: 30px;
+  text-align: center;
+  width: 100%;
+}
+
+.profile-options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 90%;
+  max-width: 400px;
+}
+
+/* ---- Profile Button Styles ---- */
+.profile-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  background-color: var(--primary-container-color);
+  border: none;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  text-align: left;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--primary-text-color);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  min-width: 300px; /* Ensure a minimum width */
+  position: relative; /* Ensure proper stacking */
+  margin: 0; /* Reset any margin */
+}
+
+.profile-button-content {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+/* ---- Icon Styles ---- */
+.profile-button-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 12px;
+  stroke-width: 2;
+}
+
+.profile-button-arrow {
+  font-size: 1.2rem;
+  color: var(--primary-text-color);
+}
+
+.profile-button:active {
+  transform: scale(0.98);
+  box-shadow: var(--box-shadow);
+}
+
+/* ============== */
+/* Navigation Bar */
+/* ============== */
+
+.nav-container {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: var(--primary-container-color);
+  box-shadow: 0 -2px 5px var(--box-shadow-color);
+  z-index: 100;
+}
+
+.bottom-nav {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 75px;
+  padding: 10px 0;
+}
+
+.nav-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  color: var(--primary-text-color);
+  text-decoration: none;
+  height: 100%;
+  flex: 1;
+  transition: background-color 0.2s ease, border-radius 0.2s ease;
+}
+
+.nav-button.active {
+  color: var(--primary-button-color);
+  background-color: var(--light-primary-color);
+  border-radius: var(--border-radius);
+}
+
+/* ================= */
+/* Responsive Design */
+/* ================= */
+
+/* ---- Small Screens ---- */
+@media (max-width: 360px) {
+.calendar-day {
+  width: 65px;
+  height: 65px;
+  font-size: 1rem;
+}
+
+.greeting h3 {
+  font-size: 1.2rem;
+}
+
+.summary-container {
+  padding: 16px;
+}
+
+.nav-button svg {
+  width: 20px;
+  height: 20px;
+}
+}
+
+@media (max-width: 768px) {
+.greeting h3 {
     font-size: 1.2rem;
-    font-weight: normal;
-    color: var(--secondary-text-color);
-  }
-  
-  .form-group {
-    width: 100%;
-    max-width: 320px;
-    margin-bottom: 16px;
-  }
-  
-  .form-group label {
+}
+
+.calendar-day {
     font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 6px;
-    display: block;
-    color: var(--secondary-text-color)
-  }
-  
-  .form-group input {
-    width: 100%;
-    padding: 12px;
-    border: var(--border-thickness) solid var(--border-color);
-    border-radius: var(--border-radius);
-    background-color: var(--form-color);
-  }
-  
-  .button-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-    max-width: 320px;
-    margin-top: 10px;
-  }
-  
-  .button-group .btn {
-    padding: 14px;
+    padding: 8px 12px;
+}
+
+.summary-container {
     font-size: 1rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    border: none;
-    font-weight: 500;
-  }
-  
-  .btn-primary {
-    background-color: var(--primary-button-color);
-    color: var(--primary-button-text-color);
-  }
-  
-  .btn-secondary {
-    background-color: var(--secondary-button-color);
-    color: var(--secondary-button-text-color);
-  }
-  
-  .error-message {
-    color: #d9534f;
-    font-size: 1rem;
-    margin: 10px 0;
-    text-align: center;
-    max-width: 320px;
-  }
+}
 
-  /* Home page and Calendar styles and Profile */
-  .home-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    text-align: center;
-    width: 100%;
-    max-width: 100%;
-    overflow-x: hidden;
-  }
-    /* ---- Header and profile ---- */
-    .header {
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      width: 100%;
-      padding: 10px 20px;
-      box-sizing: border-box;
-      position: relative;
-    }
-    
-    .header-profile-button {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--primary-text-color);
-      min-width: 40px;
-      min-height: 40px;
-    }
-
-    .header-profile-button svg {
-      color: var(--primary-text-color);
-      transition: color 0.2s ease;
-      width: 28px;
-      height: 28px;
-    }
-
-
- /* ---- Greeting ---- */
- .greeting {
-    width: 100%;
-    margin-top: 40px;
-    margin-bottom: 20px;
-    margin: 24 0;
-    text-align: center;
-    flex: 1; 
-    color: var(--primary-text-color);
-    font-size: 1.5rem;
-    font-weight: 600;
-  }
-  
- /* ---- Calendar ---- */
-  .scrollable-calendar {
-    margin-bottom: 30px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    overflow-x: auto;
-    padding: 10px 0;
-    width: 100%;
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    scrollbar-width: none; /* Hide scrollbar Firefox */
-    -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
-  }
-  
-  .scrollable-calendar::-webkit-scrollbar {
-    display: none; /* Hide scrollbar Chrome/Safari/Opera */
-  }
-  
-  .calendar-day {
-    flex: 0 0 auto;
-    padding: 10px 15px;
-    font-size: 0.8rem;
-    border: var(--border-thickness) solid var(--border-color);
-    border-radius: var(--border-radius);
-    background-color: var(--primary-container-color);
-    cursor: pointer;
-    transition: background-color 0.2s;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: var(--secondary-button-text-color)
-  }
-  
-  .calendar-day.today {
-    font-weight: bold;
-    border-color: #90B8D4;
-    background-color: var(--light-primary-color);
-  }
-  
-  .calendar-day.selected {
-    background-color: var(--primary-button-color);
-    color: var(--primary-button-text-color);
-    border-color: var(--primary-button-color);
-    box-shadow: var(--box-shadow);
-  }
-
- /* ---- Home box ---- */
- .summary-container {
-    margin-top: 20px;
-    padding: 20px;
-    width: 100%;
-    background-color: var(--primary-container-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    min-height: 180px;
+.nav-button {
     font-size: 1.2rem;
+}
+}
+
+/* ================= */
+/* Create Entry Page */
+/* ================= */
+
+/* ---- Layout ---- */
+.entry-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.75rem;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.entry-title {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--primary-text-color);
+}
+
+/* ---- Sections ---- */
+.question-section {
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  background-color: var(--primary-background-color);
+}
+
+.question-title {
+  font-weight: bold;
+  text-align: center !important;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+  color: var(--primary-text-color);
+}
+
+/* ---- Field Labels ---- */
+.field-label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  color: var(--secondary-text-color);
+}
+
+/* ---- Button Groups ---- */
+.button-group-centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.button-option {
+  background: var(--secondary-button-color);
+  border: var(--border-thickness) solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: bold;
+  color: var(--secondary-button-text-color);
+  min-width: 80px;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.button-option.active {
+  background-color: var(--primary-button-color);
+  border: var(--border-thickness) solid var(--border-color-active);
+  color: var(--primary-button-text-color);
+}
+
+/* ---- Pain Areas ---- */
+.button-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem;
+  margin: 0.5rem 0;
+}
+
+.button-small {
+  background: var(--secondary-button-color);
+  border: var(--border-thickness) solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 0.3rem 0.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  color: var(--secondary-button-text-color)
+}
+
+.button-small.active {
+  background-color: var(--primary-button-color);
+  border: var(--border-thickness) solid var(--border-color-active);
+  color: var(--primary-button-text-color);
+}
+
+/* ---- Scrolling Scale Buttons ---- */
+.treatment-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 1px;
+  margin: 0 auto;
+  max-width: 400px;
+  height: 36px;
+}
+
+
+.treatment-button .pain-scale-button {
+  font-size: 0.6rem; 
+  width: 32px;
+  height: 32px;
+}  
+
+/* ---- Pain Scale Buttons ---- */
+.button-scale, .button-circle, .pain-scale-button {
+  flex: 1;
+  min-width: 28px;
+  max-width: 36px;
+  height: 36px;
+
+  border: var(--border-thickness) solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 0.875rem;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  background-color: var(--secondary-button-color);
+  color: var(--secondary-button-text-color);
+}
+
+.button-circle {
+  border-radius: 50%;
+}
+
+.button-scale.active, 
+.button-circle.active, 
+.pain-scale-button.active {
+  border: var(--border-thickness) solid var(--border-color-active);
+  z-index: 1;
+  transform: scale(1.1);
+}
+
+/* ---- Pain Scale Section ---- */
+.pain-scale-container {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.pain-scale {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.pain-scale-button {
+  height: 30px;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+/* ---- Pain Level Colors ---- */
+.pain-0  { background-color: #DFF5E1; } 
+.pain-1  { background-color: #C9EFC2; }
+.pain-2  { background-color: #B1E1A2; }
+.pain-3  { background-color: #F5E6A6; } 
+.pain-4  { background-color: #F5D88B; }
+.pain-5  { background-color: #F5C16C; } 
+.pain-6  { background-color: #EEA963; }
+.pain-7  { background-color: #E6905A; }
+.pain-8  { background-color: #DC7150; }
+.pain-9  { background-color: #C85249; }
+.pain-10 { background-color: #B33A3A; } 
+
+/* ---- Save Section ---- */
+.save-section-fixed {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  justify-content: center;
+  animation: fadeInUp 0.5s ease;
+  z-index: 200;
+}
+
+.save-section-fixed .button-primary {
+  background-color: var(--secondary-color) !important;
+  color: var(--secondary-button-text-color) !important;
+
+  padding: 0.75rem 2rem;
+  border-radius: 2rem;
+  box-shadow: var(--box-shadow);
+  font-size: 1.1rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 30px);
   }
-  
-  .summary-container h3 {
-    font-size: 1.2rem;
-    margin-bottom: 12px;
-    color: var(--primary-text-color);
-    text-align: center;
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0px);
   }
+}  
 
-  .home-container .summary-container h3 {
-    text-align: center !important;
-  }
-  
-  .summary-container p {
-    color: var(--secondary-text-color);
-    font-size: 1rem;
-    line-height: 1.5;
-  }
-  
-  /* Navbar styling */
-  .nav-container {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background-color: var(--primary-container-color);
-    box-shadow: 0 -2px 5px var(--box-shadow-color);
-    z-index: 100;
-  }
-  
-  .bottom-nav {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 75px;
-    padding: 10px 0;
-  }
-  
-  .nav-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    color: var(--primary-text-color);
-    text-decoration: none;
-    height: 100%;
-    flex: 1;
-    transition: background-color 0.2s ease, border-radius 0.2s ease;
-  }
-  
-  .nav-button.active {
-    color: var(--primary-button-color);
-    background-color: var(--light-primary-color);
-    border-radius: var(--border-radius);
-  }
-  
-  /* Warning styles */
-  .warning {
-    background-color: #fff3cd;
-    color: #856404;
-    padding: 15px;
-    border-radius: var(--border-radius);
-    margin: 20px 0;
-  }
-  
-  /* Range selector styles */
-        .range-selector {
-          margin: 20px 0;
-        }
+/* ---- Success Message ---- */
+.success-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+}
 
-        .range-options {
-          display: flex;
-          margin: 10px 0;
-          width: 100%;
-          justify-content: center;
-          gap: 5px;
-          flex-wrap: wrap;
-        }
+.success-message {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
 
-        .range-options button {
-          padding: 8px 16px;
-          border-radius: var(--border-radius);
-          border: var(--border-thickness) solid var(--border-color);
-          background-color: var(--primary-container-color);
-          cursor: pointer;
-          transition: all 0.2s;
-        }
+.button-primary {
+  background-color: var(--primary-button-color);
+  color: var(--primary-button-text-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--border-radius);
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
 
-        .range-options button.selected {
-          background-color: var(--primary-button-color);
-          color: var(--primary-button-text-color);
-          border-color: var(--primary-button-color);
-        }
+/* ---- Input Field ---- */
+.input-field {
+  width: 100%;
+  padding: 0.5rem;
+  border: var(--border-thickness) solid var(--border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--form-color);
+  margin-top: 0.5rem;
+  margin-bottom: 1.25rem;
+}
 
-        .main-content h1,
-        .main-content h2,
-        .main-content h3 {
-          padding: 2px;
-          text-align: center;
-          color: var(--primary-text-color);
-        }
+/* ---- Bodymap ---- */
+.bodymap-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
 
+.bodymap-svg {
+  width: 275px;
+  height: auto;
+  cursor: pointer;
+}
 
-         @media (max-width: 768px) {
-          .main-content h1,
-          .main-content h2,
-          .main-content h3 {
-            padding: 2px;
-          }
-        }
+/* =============== */
+/* Reports Section */
+/* =============== */
 
-        hr {
-          border: none;
-          border-top: var(--border-thickness) solid var(--divider-color);
-          margin: 30px 0;
-        }
-
-        .metrics-container {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 12px;
-          justify-content: space-between;
-          padding: 0 12px;
-        }
-
-        .metric-card {
-          flex: 1 1 calc(50% - 12px); /* two per row with 20px gap */
-          box-sizing: border-box;
-          padding: 20px;
-          margin: 0;
-          background-color: var(--primary-container-color);
-          border: var(--border-thickness) solid var(--border-color);
-          border-radius: var(--border-radius);
-          box-shadow: var(--box-shadow-color);
-          text-align: center;
-          color: var(--primary-text-color);
-        }
-        
-        .metric-card h3 {
-          font-size: 1.2rem !important;
-          text-align: center !important;
-          margin-bottom: 12px;
-          color: var(--primary-text-color);
-        }
-
-        .metric-value {
-          font-size: 1rem !important;
-          margin: 10px 0;
-          color: var(--primary-text-color);
-        }
-
-        .metric-delta {
-          color: var(--metric-color-neutral);
-        }
-
-        .metric-delta.positive {
-          color: var(--metric-color-positive);
-        }
-
-        .metric-delta.negative {
-          color: var(--metric-color-negative);
-        }
-
-        .no-data {
-          text-align: center;
-          padding: 40px;
-          background-color: var(--primary-container-color); /* XXX What is this color doing? */
-          border-radius: var(--border-radius);
-          color: var(--secondary-text-color);
-        }
-
-        section {
-          margin-bottom: 40px;
-        }
-
-        .treatment-explanation {
-          margin: 20px;
-          padding: 20px;
-          background-color: var(--primary-container-color);
-          border-radius: var(--border-radius);
-          box-shadow: var(--box-shadow);
-          color: var(--primary-text-color);
-        }
-
-        summary {
-          cursor: pointer;
-          font-weight: bold;
-        }
-  
-  /* Media queries for responsiveness */
-  @media (max-width: 360px) {
-    .calendar-day {
-      width: 65px;
-      height: 65px;
-      font-size: 1rem;
-    }
-    
-    .greeting h3 {
-      font-size: 1.2rem;
-    }
-    
-    .summary-container {
-      padding: 16px;
-    }
-
-    .nav-button svg {
-      width: 20px;
-      height: 20px;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .greeting h3 {
-        font-size: 1.2rem;
-    }
-
-    .calendar-day {
-        font-size: 1rem;
-        padding: 8px 12px;
-    }
-
-    .summary-container {
-        font-size: 1rem;
-    }
-
-    .nav-button {
-        font-size: 1.2rem;
-    }
-  }
-
-  /* Profile styles */
-  .profile-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background-color: var(--background-color);
-    min-height: 100vh;
-    width: 100%;
-    box-sizing: border-box;
-  }
-  
-  .profile-heading {
-    font-size: 2rem;
-    font-weight: bold;
-    color: var(--primary-text-color);
-    margin-bottom: 30px;
-    text-align: center;
-    width: 100%;
-  }
-  
-  /* Fix the profile options container */
-  .profile-options {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    width: 90%;
-    max-width: 400px;
-  }
-  
-  /* Fix the profile button styles */
-  .profile-button {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 16px;
-    background-color: var(--primary-container-color);
-    border: none;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    text-align: left;
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--primary-text-color);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    width: 100%;
-    min-width: 300px; /* Ensure a minimum width */
-    position: relative; /* Ensure proper stacking */
-    margin: 0; /* Reset any margin */
-  }
-  
-  /* Button content wrapper for icon and text */
-  .profile-button-content {
-    display: flex;
-    align-items: center;
-    flex: 1;
-  }
-  
-  /* Icon styles */
-  .profile-button-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 12px;
-    stroke-width: 2;
-  }
-  
-  /* Arrow indicator */
-  .profile-button-arrow {
-    font-size: 1.2rem;
-    color: var(--primary-text-color);
-  }
-  
-  .profile-button:active {
-    transform: scale(0.98);
-    box-shadow: var(--box-shadow);
-  }
-  
-  /* Create entry styles */
-  /* ---- Layout ---- */
-  .entry-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0.75rem;
-    max-width: 100%;
-    box-sizing: border-box;
-  }
-
-  .entry-title {
-    text-align: center;
-    font-size: 1.4rem;
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-    color: var(--primary-text-color);
-  }
-
-/* 
-  .entry-date {
-    text-align: center;
-    color: gray;
-    margin-bottom: 1rem;
-    font-size: 0.9rem;
-  }
- */  
- 
- /* ---- Sections ---- */
-  .question-section {
-    width: 100%;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.25rem;
-    background-color: var(--primary-background-color);
-  }
-
-  .question-title {
-    font-weight: bold;
-    text-align: center !important;
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-    color: var(--primary-text-color);
-  }
-
-  /* ---- Field Labels ---- */
-  .field-label {
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-align: center;
-    color: var(--secondary-text-color);
-  }
-
-  /* NÅET HERTIL */
-  /* ---- Button Groups ---- */
-  .button-group-centered {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 0.5rem 0;
-  }
-
-  .button-option {
-    background: var(--secondary-button-color);
-    border: var(--border-thickness) solid var(--border-color);
-    border-radius: var(--border-radius);
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-    font-weight: bold;
-    color: var(--secondary-button-text-color);
-    min-width: 80px;
-    text-align: center;
-    font-size: 0.8rem;
-  }
-
-  .button-option.active {
-    background-color: var(--primary-button-color);
-    border: var(--border-thickness) solid var(--border-color-active);
-    color: var(--primary-button-text-color);
-  }
-
-  /* ---- Pain Areas ---- */
-  .button-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.25rem;
-    margin: 0.5rem 0;
-  }
-
-  .button-small {
-    background: var(--secondary-button-color);
-    border: var(--border-thickness) solid var(--border-color);
-    border-radius: var(--border-radius);
-    padding: 0.3rem 0.5rem;
-    font-size: 1rem;
-    cursor: pointer;
-    color: var(--secondary-button-text-color)
-  }
-
-  .button-small.active {
-    background-color: var(--primary-button-color);
-    border: var(--border-thickness) solid var(--border-color-active);
-    color: var(--primary-button-text-color);
-  }
-
-  /* ---- Scrolling Scale Buttons ---- */
-  .treatment-button {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    gap: 1px;
-    margin: 0 auto;
-    max-width: 400px;
-    height: 36px;
-  }
-
-
-  .treatment-button .pain-scale-button {
-    font-size: 0.6rem; 
-    width: 32px;
-    height: 32px;
-  }  
-
-  /* ---- Pain Scale Buttons ---- */
-  .button-scale, .button-circle, .pain-scale-button {
-    flex: 1;
-    min-width: 28px;
-    max-width: 36px;
-    height: 36px;
-
-    border: var(--border-thickness) solid var(--border-color);
-    border-radius: var(--border-radius);
-    font-size: 0.875rem;
-    font-weight: bold;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0;
-    background-color: var(--secondary-button-color);
-    color: var(--secondary-button-text-color);
-  }
-
-  .button-circle {
-    border-radius: 50%;
-  }
-
-  .button-scale.active, 
-  .button-circle.active, 
-  .pain-scale-button.active {
-    border: var(--border-thickness) solid var(--border-color-active);
-    z-index: 1;
-    transform: scale(1.1);
-  }
-
-  /* ---- Pain Scale Section ---- */
-  .pain-scale-container {
-    margin-bottom: 20px;
-    text-align: center;
-  }
-
-  .pain-scale {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 2px;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-  }
-
-  .pain-scale-button {
-    height: 30px;
-    font-size: 0.875rem;
-    transition: all 0.2s ease;
-  }
-
-  /* ---- Pain Level Colors ---- */
-  .pain-0  { background-color: #DFF5E1; } 
-  .pain-1  { background-color: #C9EFC2; }
-  .pain-2  { background-color: #B1E1A2; }
-  .pain-3  { background-color: #F5E6A6; } 
-  .pain-4  { background-color: #F5D88B; }
-  .pain-5  { background-color: #F5C16C; } 
-  .pain-6  { background-color: #EEA963; }
-  .pain-7  { background-color: #E6905A; }
-  .pain-8  { background-color: #DC7150; }
-  .pain-9  { background-color: #C85249; }
-  .pain-10 { background-color: #B33A3A; } 
-
-  /* ---- Save Section ---- */
-  .save-section-fixed {
-    position: fixed;
-    bottom: 80px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    justify-content: center;
-    animation: fadeInUp 0.5s ease;
-    z-index: 200;
-  }
-
-  .save-section-fixed .button-primary {
-    background-color: var(--secondary-color) !important;
-    color: var(--secondary-button-text-color) !important;
-
-    padding: 0.75rem 2rem;
-    border-radius: 2rem;
-    box-shadow: var(--box-shadow);
-    font-size: 1.1rem;
-  }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translate(-50%, 30px);
-    }
-    to {
-      opacity: 1;
-      transform: translate(-50%, 0px);
-    }
-  }  
-
-  /* ---- Success Message ---- */
-  .success-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 2rem;
-  }
-
-  .success-message {
-    font-size: 1.1rem;
-    margin-bottom: 1rem;
-  }
-
-  .button-primary {
-    background-color: var(--primary-button-color);
-    color: var(--primary-button-text-color);
-    padding: 0.75rem 1.5rem;
-    border-radius: var(--border-radius);
-    font-weight: bold;
-    cursor: pointer;
-    border: none;
-  }
-
-  /* ---- Input Field ---- */
-  .input-field {
-    width: 100%;
-    padding: 0.5rem;
-    border: var(--border-thickness) solid var(--border-color);
-    border-radius: var(--border-radius);
-    background-color: var(--form-color);
-    margin-top: 0.5rem;
-    margin-bottom: 1.25rem;
-  }
-
-  /* ---- Bodymap ---- */
-  .bodymap-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px 0;
-  }
-  
-  .bodymap-svg {
-    width: 275px;
-    height: auto;
-    cursor: pointer;
-  }
-
-/*Reports section*/
 .reports-section {
   padding-bottom: 80px;
 }
 
+/* ---- Warning Elements ---- */
 .reports-section .warning {
   background-color: #fff3cd;
   color: #856404;
@@ -872,6 +824,7 @@ body {
   margin: 20px 0;
 }
 
+/* ---- Range Options ---- */
 .reports-section .range-options {
   display: flex;
   gap: 3px;
@@ -901,6 +854,7 @@ body {
   border-color: var(--secondary-color);
 }
 
+/* ---- Reports Headers ---- */
 .reports-section .main-content h1,
 .reports-section .main-content h2,
 .reports-section .main-content h3 {
@@ -916,6 +870,7 @@ body {
   }
 }
 
+/* ---- Metrics Display ---- */
 .reports-section .metrics-container {
   display: flex;
   flex-wrap: wrap;
@@ -952,6 +907,7 @@ body {
   color: #666;
 }
 
+/* ---- Treatment Explanation ---- */
 .reports-section .treatment-explanation {
   margin-top: 20px;
   padding: 15px;
@@ -965,3 +921,78 @@ body {
   margin-bottom: 10px;
 }
 
+/* ======================== */
+/* Metrics and Data Display */
+/* ======================== */
+
+.metrics-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+.metric-card {
+  flex: 1 1 calc(50% - 12px); /* two per row with 20px gap */
+  box-sizing: border-box;
+  padding: 20px;
+  margin: 0;
+  background-color: var(--primary-container-color);
+  border: var(--border-thickness) solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-color);
+  text-align: center;
+  color: var(--primary-text-color);
+}
+
+.metric-card h3 {
+  font-size: 1.2rem !important;
+  text-align: center !important;
+  margin-bottom: 12px;
+  color: var(--primary-text-color);
+}
+
+.metric-value {
+  font-size: 1rem !important;
+  margin: 10px 0;
+  color: var(--primary-text-color);
+}
+
+.metric-delta {
+  color: var(--metric-color-neutral);
+}
+
+.metric-delta.positive {
+  color: var(--metric-color-positive);
+}
+
+.metric-delta.negative {
+  color: var(--metric-color-negative);
+}
+
+.no-data {
+  text-align: center;
+  padding: 40px;
+  background-color: var(--primary-container-color); /* XXX What is this color doing? */
+  border-radius: var(--border-radius);
+  color: var(--secondary-text-color);
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+.treatment-explanation {
+  margin: 20px;
+  padding: 20px;
+  background-color: var(--primary-container-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  color: var(--primary-text-color);
+}
+
+summary {
+  cursor: pointer;
+  font-weight: bold;
+}
