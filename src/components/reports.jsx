@@ -403,12 +403,10 @@ function Reports() {
                     ></span>
                   </h3>
 
-                  <div className="metric-value">
-                    {averagePain.toFixed(2)} out of 10
-                  </div>
+                  <div className="metric-value">{averagePain.toFixed(2)}</div>
 
                   <div className="metric-subtext">
-                    Compared to previous {periodType.toLowerCase()} score:
+                    Last {getPeriodType_summary().toLowerCase()}:
                   </div>
 
                   <div
@@ -441,7 +439,7 @@ function Reports() {
                     {mostPainfulArea || "No data"}
                   </div>
                   <div className="metric-subtext">
-                    Compared to previous {periodType.toLowerCase()} score:
+                    Last {getPeriodType_summary().toLowerCase()}:
                   </div>
                   {previousMostPainfulArea &&
                   previousMostPainfulArea !== "None" ? (
@@ -558,7 +556,7 @@ function Reports() {
                     <Tooltip
                       formatter={(value) => [value.toFixed(2), "Score"]}
                     />
-                    <Bar dataKey="score" fill="#4D6D89">
+                    <Bar dataKey="score" fill="#4D6D89" barSize={30}>
                       {interferenceData.map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
@@ -579,14 +577,11 @@ function Reports() {
               {treatmentData.length === 0 ? (
                 <div className="no-data">No data available for this range</div>
               ) : (
-                <ResponsiveContainer
-                  width="100%"
-                  height={Math.max(200, treatmentData.length * 35)}
-                >
+                <ResponsiveContainer width="100%" height={400}>
                   <BarChart
                     data={treatmentData}
                     layout="vertical"
-                    margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+                    margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis type="number" domain={[0, 10]} />
@@ -601,7 +596,7 @@ function Reports() {
                         "Average Pain Score",
                       ]}
                     />
-                    <Bar dataKey="averagePain" fill="#5A7D9A">
+                    <Bar dataKey="averagePain" fill="#5A7D9A" barSize={30}>
                       {treatmentData.map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
@@ -619,8 +614,8 @@ function Reports() {
                   This chart shows the average pain on days you used a
                   treatment. It does <em>not</em> mean that the treatment causes
                   more or less pain.
-                </p>
-                <p>
+                  <br />
+                  <br />
                   For example, if you only take painkillers when your pain is
                   high, the chart may show high pain on those days. This just
                   means that you tend to take painkillers only on bad days, not
