@@ -26,6 +26,22 @@ function Reports() {
   const [previousMostPainfulArea, setPreviousMostPainfulArea] =
     useState("None");
 
+  const CustomDot = (props) => {
+    const { cx, cy, stroke } = props;
+    if (cx === null || cy === null) return null;
+
+    return (
+      <circle
+        cx={cx}
+        cy={cy}
+        r={2}
+        fill={stroke}
+        stroke={stroke}
+        strokeWidth={2}
+      />
+    );
+  };
+
   // Load data from localStorage
   useEffect(() => {
     const fetchData = async () => {
@@ -170,9 +186,13 @@ function Reports() {
         case "Last 7 days":
           periodKey = format(entry.date, "yyyy-MM-dd");
           break;
-        case "Last month":
-          periodKey = format(entry.date, "yyyy-MM-w"); // Week-based grouping
+        case "Last month": {
+          // Group by start of the week (Sunday)
+          const startOfWeek = new Date(entry.date);
+          startOfWeek.setDate(entry.date.getDate() - entry.date.getDay()); // Sunday
+          periodKey = format(startOfWeek, "yyyy-MM-dd"); // Use date string as key
           break;
+        }
         case "Last year":
         case "All time":
           periodKey = format(entry.date, "yyyy-MM"); // Month-based grouping
@@ -299,9 +319,42 @@ function Reports() {
       .sort((a, b) => a.averagePain - b.averagePain); // Sort by pain score
   };
 
+  const prepareReliefData = () => {
+    if (filteredData.length === 0) return [];
+
+    const reliefGroups = {};
+
+    filteredData.forEach((entry) => {
+      const treatment = entry.bpi7 || "None";
+
+      if (!reliefGroups[treatment]) {
+        reliefGroups[treatment] = {
+          treatment,
+          reliefScores: [],
+        };
+      }
+
+      if (typeof entry.bpi8 === "number") {
+        reliefGroups[treatment].reliefScores.push(entry.bpi8);
+      }
+    });
+
+    return Object.values(reliefGroups)
+      .map((group) => ({
+        treatment: group.treatment,
+        averageRelief:
+          group.reliefScores.length > 0
+            ? group.reliefScores.reduce((sum, score) => sum + score, 0) /
+              group.reliefScores.length
+            : 0,
+      }))
+      .sort((a, b) => b.averageRelief - a.averageRelief); // Descending order
+  };
+
   const chartData = prepareChartData();
   const interferenceData = prepareInterferenceData();
   const treatmentData = prepareTreatmentData();
+  const reliefData = prepareReliefData();
 
   // Calculate pain score delta for display
   const painDelta = averagePain - previousAveragePain;
@@ -351,7 +404,12 @@ function Reports() {
       case "Last 7 days":
         return (date) => format(date, "MM/dd");
       case "Last month":
-        return (date) => format(date, "w"); // Week number
+        return (date) => {
+          const start = new Date(date);
+          const end = new Date(start);
+          end.setDate(start.getDate() + 6);
+          return `${format(start, "MMM d")}–${format(end, "d")}`;
+        };
       case "Last year":
       case "All time":
         return (date) => format(date, "MMM"); // Month abbreviation
@@ -363,7 +421,7 @@ function Reports() {
   return (
     <div className="reports-section">
       <div className="main-content">
-        <h1>Your Pain Report</h1>
+        <h1>Your Report</h1>
 
         {painData.length === 0 ? (
           <div className="warning">
@@ -475,6 +533,11 @@ function Reports() {
                     />
                     <YAxis domain={[0, 10]} />
                     <Tooltip
+                      contentStyle={{
+                        backgroundColor: "var(--secondary-button-color)",
+                        border: "1px solid var(--border-color)",
+                        borderRadius: "8px",
+                      }}
                       formatter={(value, name) => [
                         value.toFixed(2),
                         name === "bpi3"
@@ -508,27 +571,29 @@ function Reports() {
                       name="Worst"
                       stroke="var(--metric-color-negative)"
                       strokeDasharray="6 6"
-                      strokeWidth={1.5}
-                      dot={rangeOption === "Last 7 days"}
+                      strokeWidth={2}
+                      dot={<CustomDot />}
                       opacity={0.8}
                     />
+
                     <Line
                       type="monotone"
                       dataKey="bpi4"
                       name="Least"
                       stroke="var(--metric-color-positive)"
                       strokeDasharray="6 6"
-                      strokeWidth={1.5}
-                      dot={rangeOption === "Last 7 days"}
+                      strokeWidth={2}
+                      dot={<CustomDot />}
                       opacity={0.8}
                     />
+
                     <Line
                       type="monotone"
                       dataKey="bpi5"
                       name="Average"
                       stroke="#4D6D89"
                       strokeWidth={2}
-                      dot={rangeOption === "Last 7 days"}
+                      dot={<CustomDot />}
                     />
                   </LineChart>
                 </ResponsiveContainer>
@@ -554,7 +619,15 @@ function Reports() {
                     <YAxis dataKey="factor" type="category" />
 
                     <Tooltip
-                      formatter={(value) => [value.toFixed(2), "Score"]}
+                      contentStyle={{
+                        backgroundColor: "var(--secondary-button-color)",
+                        border: "1px solid var(--border-color)",
+                        borderRadius: "8px",
+                      }}
+                      formatter={(value) => [
+                        value.toFixed(2),
+                        "Average Interference Score",
+                      ]}
                     />
                     <Bar dataKey="score" fill="#4D6D89" barSize={30}>
                       {interferenceData.map((entry, index) => (
@@ -572,7 +645,7 @@ function Reports() {
             <hr />
 
             <section>
-              <h2>Treatment Comparison</h2>
+              <h2>{periodType} Pain and Treatments</h2>
 
               {treatmentData.length === 0 ? (
                 <div className="no-data">No data available for this range</div>
@@ -591,6 +664,11 @@ function Reports() {
                       interval={0} // <-- Ensures all labels are shown
                     />
                     <Tooltip
+                      contentStyle={{
+                        backgroundColor: "var(--secondary-button-color)",
+                        border: "1px solid var(--border-color)",
+                        borderRadius: "8px",
+                      }}
                       formatter={(value) => [
                         value.toFixed(2),
                         "Average Pain Score",
@@ -609,17 +687,94 @@ function Reports() {
               )}
 
               <details className="treatment-explanation">
-                <summary>How to interpret treatment comparisons</summary>
+                <summary>How do I interpret this plot?</summary>
                 <p>
-                  This chart shows the average pain on days you used a
+                  This chart answers the question:{" "}
+                  <em>
+                    "On average, how much pain do I have when I use a certain
+                    treatment?"
+                  </em>
+                  <br />
+                  <br />
+                  This chart shows the average pain on days you used a certain
                   treatment. It does <em>not</em> mean that the treatment causes
                   more or less pain.
+                  <br />
+                  <br />
+                  Higher values suggest more pain on days you used that
+                  treatment, but this may reflect when you choose to use it.
                   <br />
                   <br />
                   For example, if you only take painkillers when your pain is
                   high, the chart may show high pain on those days. This just
                   means that you tend to take painkillers only on bad days, not
                   that they cause more pain.
+                </p>
+              </details>
+            </section>
+
+            <hr />
+
+            <section>
+              <h2>{periodType} Relief and Treatments</h2>
+
+              {reliefData.length === 0 ? (
+                <div className="no-data">No data available for this range</div>
+              ) : (
+                <ResponsiveContainer width="100%" height={400}>
+                  <BarChart
+                    data={reliefData}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis type="number" domain={[0, 100]} />
+                    <YAxis dataKey="treatment" type="category" interval={0} />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "var(--secondary-button-color)",
+                        border: "1px solid var(--border-color)",
+                        borderRadius: "8px",
+                      }}
+                      formatter={(value) => [
+                        `${value.toFixed(2)}%`,
+                        "Average Relief",
+                      ]}
+                    />
+                    <Bar dataKey="averageRelief" fill="#5A7D9A" barSize={30}>
+                      {reliefData.map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill="var(--primary-color)"
+                        />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              )}
+
+              <details className="treatment-explanation">
+                <summary>How do I interpret this plot?</summary>
+                <p>
+                  This chart answers the question:
+                  <em>
+                    "On average, how much relief do I feel when I use a certain
+                    treatment?"
+                  </em>
+                  <br />
+                  <br />
+                  This chart shows your average percentage relief (0–100%)
+                  experienced with each treatment based on your reported data.
+                  <br />
+                  <br />
+                  Higher values suggest greater perceived relief, but this may
+                  also reflect when and how you choose to use a treatment.
+                  <br />
+                  <br />
+                  For example, you might experience high relief from meditation
+                  because you tend to use it on days when your pain is mild,
+                  whereas painkillers might show lower relief if you only take
+                  them on your worst days.
                 </p>
               </details>
             </section>
