@@ -11,7 +11,6 @@ body {
 }
 
 :root {
-
   --primary-color: #2C82BE; 
   --light-primary-color: #D7E3EC; 
   --secondary-color: #F2D492;
@@ -37,7 +36,7 @@ body {
 }
 
 /* ---- Resets ---- */
-{
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
