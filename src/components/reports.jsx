@@ -420,6 +420,22 @@ function Reports() {
 
   return (
     <div className="reports-section">
+      <div className="range-selector"></div>
+      <div className="sticky-buttons-wrapper">
+        <div className="range-options">
+          {["Last 7 days", "Last month", "Last year", "All time"].map(
+            (option) => (
+              <button
+                key={option}
+                className={rangeOption === option ? "selected" : ""}
+                onClick={() => setRangeOption(option)}
+              >
+                {option}
+              </button>
+            )
+          )}
+        </div>
+      </div>
       <div className="main-content">
         <h1>Your Report</h1>
 
@@ -430,23 +446,6 @@ function Reports() {
           </div>
         ) : (
           <>
-            <div className="range-selector">
-              <h3>Select time range</h3>
-              <div className="range-options">
-                {["Last 7 days", "Last month", "Last year", "All time"].map(
-                  (option) => (
-                    <button
-                      key={option}
-                      className={rangeOption === option ? "selected" : ""}
-                      onClick={() => setRangeOption(option)}
-                    >
-                      {option}
-                    </button>
-                  )
-                )}
-              </div>
-            </div>
-
             <hr />
 
             <section className="metrics-section">
