@@ -82,7 +82,7 @@ export default function CreateEntry({ selectedDate }) {
         <h2 className="question-title">
           Have you had any pain today other than minor everyday aches?
         </h2>
-        <p >(like headaches or toothaches)</p>
+        <p>(like headaches or toothaches)</p>
         <div className="button-group-centered">
           <button
             onClick={() => updateField("hasPain", "No")}
@@ -110,9 +110,11 @@ export default function CreateEntry({ selectedDate }) {
                 className="bodymap-svg"
                 onClick={(e) => {
                   const id = e.target.id;
-                  if (id) {handleBodyPartClick(id);}
+                  if (id) {
+                    handleBodyPartClick(id);
+                  }
                 }}
-                />
+              />
             </div>
             <div className="button-grid">
               {[
@@ -149,9 +151,7 @@ export default function CreateEntry({ selectedDate }) {
           </div>
 
           <div className="question-section">
-            <h2 className="question-title">
-              Rate your pain today
-            </h2>
+            <h2 className="question-title">Rate your pain today</h2>
 
             {["worstPain", "leastPain", "averagePain", "currentPain"].map(
               (field) => (
@@ -205,11 +205,19 @@ export default function CreateEntry({ selectedDate }) {
             {form.usingTreatment === "Yes" && (
               <>
                 <div className="treatment-options">
-                  {["Paracetamol", "Ibuprofen", "Stretching", "Heat Pad", "Yoga"].map((option) => (
+                  {[
+                    "Paracetamol",
+                    "Ibuprofen",
+                    "Stretching",
+                    "Heat Pad",
+                    "Yoga",
+                  ].map((option) => (
                     <button
                       key={option}
                       type="button"
-                      className={`button-small${form.treatment === option ? " active" : ""}`}
+                      className={`button-small${
+                        form.treatment === option ? " active" : ""
+                      }`}
                       onClick={() => updateField("treatment", option)}
                     >
                       {option}
@@ -219,7 +227,9 @@ export default function CreateEntry({ selectedDate }) {
                 <input
                   type="text"
                   value={form.treatmentOther || ""}
-                  onChange={(e) => updateField("treatmentOther", e.target.value)}
+                  onChange={(e) =>
+                    updateField("treatmentOther", e.target.value)
+                  }
                   placeholder="Other (optional)"
                   className="input-field"
                 />
@@ -247,7 +257,7 @@ export default function CreateEntry({ selectedDate }) {
 
           <div className="question-section">
             <h2 className="question-title">
-              How much did pain interfere today with ...
+              How much did pain interfere today with
             </h2>
             {[
               "GeneralActivity",
@@ -283,7 +293,7 @@ export default function CreateEntry({ selectedDate }) {
 
       {form.hasPain && (
         <div className="save-section-fixed">
-          <button onClick={handleSave} className="save-button">
+          <button onClick={handleSave} className="button-primary">
             Save Entry
           </button>
         </div>
