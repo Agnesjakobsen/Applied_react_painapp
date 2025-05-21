@@ -131,7 +131,7 @@ function Home({ username, selectedDate, setSelectedDate }) {
                 marginRight: "auto",
               }}
             >
-              Create Entry
+              <strong>Create Entry</strong>
             </button>
           </div>
         )}

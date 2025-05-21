@@ -437,7 +437,8 @@ function Reports() {
         </div>
       </div>
       <div className="main-content">
-        <h1>Your Report</h1>
+        <h1 style={{ marginTop: "1rem" }}>Your Report</h1>
+        <br />
 
         {painData.length === 0 ? (
           <div className="warning">
@@ -446,8 +447,6 @@ function Reports() {
           </div>
         ) : (
           <>
-            <hr />
-
             <section className="metrics-section">
               <h2>{periodType} Comparison</h2>
               <div className="metrics-container">
