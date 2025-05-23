@@ -10,12 +10,12 @@ body {
 }
 
 :root {
-  --primary-color: #6FAFDC; 
+  --primary-color: #A9C7E2; 
   --light-primary-color: #D7E3EC; 
   --secondary-color: #F2D492;
   --primary-button-color: var(--primary-color);
   --secondary-button-color: #FBF9F2; 
-  --primary-button-text-color: #FBF9F2; 
+  --primary-button-text-color: #3E3E3E; 
   --secondary-button-text-color: #3E3E3E; 
   --primary-container-color: #FBF9F2; 
   --background-color: #F6F4ED;
@@ -178,20 +178,45 @@ hr {
   min-height: 100vh;
   width: 100%;
   padding: 20px;
-  background-color: var(--background-color);
 }
 
 /* ---- Login Header ---- */
 .login-header {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   text-align: center;
   width: 100%;
+  border-bottom: 1px solid #E8E5DB;
+  padding-bottom: 8px;
+  position: relative;
+}
+
+.login-header::before {
+  content: '';
+  display: block;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 20px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, #8BB5D4 100%);
+  border-radius: 12px;
+  position: relative;
+}
+
+.login-header::after {
+  content: '+';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 35px;
+  font-weight: bold;
+  line-height: 1;
 }
 
 .login-header h1 {
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: var(--text-color);
 }
 
@@ -206,14 +231,15 @@ hr {
   width: 100%;
   max-width: 320px;
   margin-bottom: 16px;
+  position: relative;
 }
 
 .form-group label {
   font-size: 1rem;
   font-weight: 500;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   display: block;
-  color: var(--secondary-text-color)
+  color: var(--primary-text-color)
 }
 
 .form-group input {
@@ -222,16 +248,23 @@ hr {
   border: var(--border-thickness) solid var(--border-color);
   border-radius: var(--border-radius);
   background-color: var(--form-color);
+  font-size: 1rem;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: var(--box-shadow);
 }
 
 /* ---- Login Buttons ---- */
 .button-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   width: 100%;
   max-width: 320px;
-  margin-top: 10px;
+  margin-top: 32px;
 }
 
 .button-group .btn {
@@ -246,11 +279,23 @@ hr {
 .btn-primary {
   background-color: var(--primary-button-color);
   color: var(--primary-button-text-color);
+  box-shadow: var(--box-shadow);
+}
+
+.btn-primary:active {
+  background-color: #7BA5C8;
+  box-shadow: var(--box-shadow);
+  transform: translateY(1px);
 }
 
 .btn-secondary {
-  background-color: var(--secondary-button-color);
+  background-color: transparent;
   color: var(--secondary-button-text-color);
+  border: 1.5px solid var(--primary-color);
+}
+
+.btn-secondary:active {
+  background-color: rgba(169, 199, 226, 0.1);
 }
 
 .error-message {
@@ -259,6 +304,12 @@ hr {
   margin: 10px 0;
   text-align: center;
   max-width: 320px;
+}
+
+.button-group .btn,
+.btn-primary,
+.btn-secondary {
+  box-shadow: var(--box-shadow);
 }
 
 /* ===================== */
@@ -334,8 +385,7 @@ hr {
 }
 
 .calendar-day.today {
-  font-weight: bold;
-  border-color: #90B8D4;
+  border-color: #A0C4DF;
   background-color: var(--light-primary-color);
 }
 
@@ -359,6 +409,7 @@ hr {
 }
 
 .summary-container h3 {
+  margin-top: 20px;
   margin-bottom: 12px;
   color: var(--primary-text-color);
   text-align: center;
@@ -706,7 +757,7 @@ hr {
 
 .pain-scale {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 2px;
   width: 100%;
@@ -806,12 +857,33 @@ hr {
   justify-content: center;
   align-items: center;
   margin: 20px 0;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .bodymap-svg {
   width: 275px;
   height: auto;
   cursor: pointer;
+}
+
+.bodymap-svg [id] {
+  cursor: pointer;
+  transition: fill 0.2s, opacity 0.2s;
+  pointer-events: all;
+  touch-action: manipulation; /* Prevents zoom on double tap */
+  -webkit-tap-highlight-color: transparent;
+}
+
+.svg-area-active {
+  fill: #4A8BB5;
+  stroke: var(--primary-text-color);
+  stroke-width: 3;
+  opacity: 1;
+  cursor: pointer;
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.2));
 }
 
 /* =============== */
@@ -837,7 +909,7 @@ hr {
 /* ---- Range Options ---- */
 .reports-section .range-options {
   display: flex;
-  gap: 3px;
+  gap: 5px;
   flex-wrap: wrap;
 }
 
@@ -848,12 +920,12 @@ hr {
 }
 
 .reports-section .range-options button {
-  padding: 8px 16px;
+  padding: 8px 10px;
   border-radius: var(--border-radius);
   border: var(--border-thickness) solid var(--border-color);
   background-color: var(--secondary-button-color);
   cursor: pointer;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   transition: all 0.2s;
   color: var(--secondary-button-text-color);
 }

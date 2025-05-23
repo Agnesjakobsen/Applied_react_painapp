@@ -437,7 +437,7 @@ function Reports() {
         </div>
       </div>
       <div className="main-content">
-        <h1 style={{ marginTop: "1rem" }}>Your Report</h1>
+        <h1 style={{ marginTop: "1rem" }}>Health Insights</h1>
         <br />
 
         {painData.length === 0 ? (
@@ -638,77 +638,6 @@ function Reports() {
                   </BarChart>
                 </ResponsiveContainer>
               )}
-            </section>
-
-            <hr />
-
-            <section>
-              <h2>{periodType} Pain and Treatments</h2>
-
-              {treatmentData.length === 0 ? (
-                <div className="no-data">No data available for this range</div>
-              ) : (
-                <ResponsiveContainer width="100%" height={400}>
-                  <BarChart
-                    data={treatmentData}
-                    layout="vertical"
-                    margin={{ top: 5, right: 30, left: 30, bottom: 5 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis type="number" domain={[0, 10]} />
-                    <YAxis
-                      dataKey="treatment"
-                      type="category"
-                      interval={0} // <-- Ensures all labels are shown
-                    />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: "var(--secondary-button-color)",
-                        border: "1px solid var(--border-color)",
-                        borderRadius: "8px",
-                      }}
-                      formatter={(value) => [
-                        value.toFixed(2),
-                        "Average Pain Score",
-                      ]}
-                    />
-                    <Bar dataKey="averagePain" fill="#5A7D9A" barSize={30}>
-                      {treatmentData.map((entry, index) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          fill="var(--primary-color)"
-                        />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              )}
-
-              <details className="treatment-explanation">
-                <summary>How do I interpret this plot?</summary>
-                <p>
-                  This chart answers the question:{" "}
-                  <em>
-                    "On average, how much pain do I have when I use a certain
-                    treatment?"
-                  </em>
-                  <br />
-                  <br />
-                  This chart shows the average pain on days you used a certain
-                  treatment. It does <em>not</em> mean that the treatment causes
-                  more or less pain.
-                  <br />
-                  <br />
-                  Higher values suggest more pain on days you used that
-                  treatment, but this may reflect when you choose to use it.
-                  <br />
-                  <br />
-                  For example, if you only take painkillers when your pain is
-                  high, the chart may show high pain on those days. This just
-                  means that you tend to take painkillers only on bad days, not
-                  that they cause more pain.
-                </p>
-              </details>
             </section>
 
             <hr />

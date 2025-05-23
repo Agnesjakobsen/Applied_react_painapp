@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { supabase } from "../utils/supabase";
 import { useNavigate } from "react-router-dom";
-import BodyMap from "../assets/bodymap.svg";
 
 export default function CreateEntry({ selectedDate }) {
   const [form, setForm] = useState({
@@ -25,16 +24,134 @@ export default function CreateEntry({ selectedDate }) {
   });
 
   const [success, setSuccess] = useState(false);
+  const [svgContent, setSvgContent] = useState("");
 
   const painScale = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-  // Use the useNavigate hook to navigate
   const navigate = useNavigate();
 
-  // Save the form data to Supabase
+  // Body map areas - grouped left/right parts
+  const svgArea = {
+    head: "Head",
+    head_2: "Head",
+    neck: "Neck",
+    neck_2: "Neck",
+    "left-shoulder": "Shoulder",
+    "left-shoulder_2": "Shoulder",
+    "right-shoulder": "Shoulder",
+    "right-shoulder_2": "Shoulder",
+    chest: "Chest",
+    chest_2: "Chest",
+    abdomen: "Abdomen",
+    abdomen_2: "Abdomen",
+    "left-hip": "Hip",
+    "left-hip_2": "Hip",
+    "right-hip": "Hip",
+    "right-hip_2": "Hip",
+    "left-arm": "Arm",
+    "left-arm_2": "Arm",
+    "right-arm": "Arm",
+    "right-arm 2": "Arm",
+    "left-hand": "Hand",
+    "left-hand_2": "Hand",
+    "right-hand": "Hand",
+    "right-hand_2": "Hand",
+    "left-leg": "Leg",
+    "left-leg_2": "Leg",
+    "right-leg": "Leg",
+    "right-leg_2": "Leg",
+    "left-knee": "Knee",
+    "left-knee_2": "Knee",
+    "right-knee": "Knee",
+    "right-knee_2": "Knee",
+    "left-foot": "Foot",
+    "left-foot_2": "Foot",
+    "right-foot": "Foot",
+    "right-foot_2": "Foot",
+  };
+
+  const areaToSvg = {};
+  Object.entries(svgArea).forEach(([svgId, areaName]) => {
+    if (!areaToSvg[areaName]) {
+      areaToSvg[areaName] = [];
+    }
+    areaToSvg[areaName].push(svgId);
+  });
+
+  const togglePainArea = (area) => {
+    setForm((prev) => ({
+      ...prev,
+      painAreas: prev.painAreas.includes(area)
+        ? prev.painAreas.filter((a) => a !== area)
+        : [...prev.painAreas, area],
+    }));
+  };
+
+  // Load SVG content
+  useEffect(() => {
+    const loadSvg = async () => {
+      try {
+        const response = await fetch('/assets/bodymap.svg');
+        if (response.ok) {
+          const svgText = await response.text();
+          setSvgContent(svgText);
+        }
+      } catch (error) {
+        console.error('Error loading SVG:', error);
+      }
+    };
+    loadSvg();
+  }, []);
+
+  // Highlight selected SVG areas
+  useEffect(() => {
+    const SvgHighlighting = () => {
+      const svgElements = document.querySelectorAll(".bodymap-svg [id]");
+      svgElements.forEach((el) => {
+        el.classList.remove("svg-area-active");
+      });
+      form.painAreas.forEach((area) => {
+        const svgIds = areaToSvg[area];
+        if (svgIds) {
+          svgIds.forEach(svgId => {
+            const el = document.querySelector(`.bodymap-svg [id="${svgId}"]`);
+            if (el) {
+              el.classList.add("svg-area-active");
+            }
+          });
+        }
+      });
+    };
+    SvgHighlighting();
+    const timeout = setTimeout(SvgHighlighting, 100);
+    return () => clearTimeout(timeout);
+  }, [form.painAreas, areaToSvg]);
+
+  const handleSvgClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    let target = e.target;
+    while (target && !target.id && target !== e.currentTarget) {
+      target = target.parentNode;
+    }
+    if (target && target.id && svgArea[target.id]) {
+      togglePainArea(svgArea[target.id]);
+    }
+  };
+
+  const handleBodyPartClick = (id) => {
+    const area = svgArea[id];
+    if (!area) return;
+    togglePainArea(area);
+  };
+
+  const updateField = (field, value) => {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const isAreaActive = (area) => form.painAreas.includes(area);
+
   const handleSave = async () => {
     const noPain = form.hasPain === "No";
-
     const data = {
       date: format(selectedDate, "yyyy-MM-dd"),
       bpi1: form.hasPain || null,
@@ -70,10 +187,6 @@ export default function CreateEntry({ selectedDate }) {
     }
   };
 
-  const updateField = (field, value) => {
-    setForm((prev) => ({ ...prev, [field]: value }));
-  };
-
   return (
     <div className="entry-container">
       <h1 className="entry-title">Create Entry</h1>
@@ -106,43 +219,32 @@ export default function CreateEntry({ selectedDate }) {
           <div className="question-section">
             <h2 className="question-title">Mark where it hurts most</h2>
             <div className="bodymap-container">
-              <BodyMap
-                className="bodymap-svg"
-                onClick={(e) => {
-                  const id = e.target.id;
-                  if (id) {
-                    handleBodyPartClick(id);
-                  }
-                }}
-              />
+              {svgContent ? (
+                <div 
+                  className="bodymap-svg"
+                  onClick={handleSvgClick}
+                  dangerouslySetInnerHTML={{ __html: svgContent }}
+                />
+              ) : (
+                <div className="bodymap-svg" style={{
+                  width: '275px',
+                  height: '400px',
+                  border: '2px dashed #ccc',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#666'
+                }}>
+                  Loading body map...
+                </div>
+              )}
             </div>
             <div className="button-grid">
-              {[
-                "Head",
-                "Neck",
-                "Shoulder",
-                "Arm",
-                "Hand",
-                "Back",
-                "Chest",
-                "Abdomen",
-                "Hip",
-                "Leg",
-                "Foot",
-              ].map((area) => (
+              {[...new Set(Object.values(svgArea)), "Back"].map((area) => (
                 <button
                   key={area}
-                  onClick={() =>
-                    updateField(
-                      "painAreas",
-                      form.painAreas.includes(area)
-                        ? form.painAreas.filter((a) => a !== area)
-                        : [...form.painAreas, area]
-                    )
-                  }
-                  className={`button-small ${
-                    form.painAreas.includes(area) ? "active" : ""
-                  }`}
+                  onClick={() => togglePainArea(area)}
+                  className={`button-small ${isAreaActive(area) ? "active" : ""}`}
                 >
                   {area}
                 </button>
@@ -152,7 +254,6 @@ export default function CreateEntry({ selectedDate }) {
 
           <div className="question-section">
             <h2 className="question-title">Rate your pain today</h2>
-
             {["worstPain", "leastPain", "averagePain", "currentPain"].map(
               (field) => (
                 <div key={field} className="pain-scale-container">

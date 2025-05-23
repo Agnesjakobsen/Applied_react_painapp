@@ -100,20 +100,20 @@ function Home({ username, selectedDate, setSelectedDate }) {
                 }}
               >
                 Average pain score:{" "}
-                <span style={{ color: "var(--primary-button-color)" }}>
+                <span>
                   {Math.round(todayPainScore)}
                 </span>
               </strong>
             </p>
             <p>
               Highest pain score:{" "}
-              <strong className="metric-delta negative">
+              <strong>
                 {highestPainScore}
               </strong>
             </p>
             <p>
               Lowest pain score:{" "}
-              <strong className="metric-delta positive">
+              <strong>
                 {lowestPainScore}
               </strong>
             </p>{" "}
@@ -125,13 +125,13 @@ function Home({ username, selectedDate, setSelectedDate }) {
               className="calendar-day selected"
               onClick={() => navigate("/create-entry")}
               style={{
-                marginTop: "1rem",
+                marginTop: "3.5rem",
                 display: "block",
                 marginLeft: "auto",
                 marginRight: "auto",
               }}
             >
-              <strong>Create Entry</strong>
+              Create Entry
             </button>
           </div>
         )}
