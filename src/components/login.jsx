@@ -24,7 +24,7 @@ function Login({ authenticate }) {
   return (
     <div className="login-container">
       <div className="login-header">
-        <h1>Pain Tracker</h1>
+        <h1>Chronic Pain Tracker</h1>
         <h3>Please login</h3>
       </div>
       
