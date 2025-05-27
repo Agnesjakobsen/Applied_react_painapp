@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-  useLocation,
+BrowserRouter as Router,
+Route,
+Routes,
+Navigate,
+useLocation,
 } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import Home from "./components/home";
 import CreateEntry from "./components/create_entry";
 import Reports from "./components/reports";
-import Profile from "./components/Profile";
-import Login from "./components/login";
+import Profile from "./components/profile";
+import Login from "./components/Login"; 
 import NavBar from "./components/navbar";
 import "./styles.css";
-import PageTransition from "./components/PageTransition";
+import PageTransition from "./components/PageTransition"; 
 
 function AppContent({ loggedIn, username, selectedDate, setSelectedDate, authenticate, logout }) {
   const location = useLocation();
