@@ -11,7 +11,7 @@ import Home from "./components/home";
 import CreateEntry from "./components/create_entry";
 import Reports from "./components/reports";
 import Profile from "./components/profile";
-import Login from "./components/Login"; 
+import Login from "./components/login"; 
 import NavBar from "./components/navbar";
 import "./styles.css";
 import PageTransition from "./components/PageTransition"; 
